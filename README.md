@@ -9,11 +9,11 @@ To be filled...
 ## First steps
 - Start your MySQL database
 	- If on Mac, run `sudo mysql.server start`
-	
+
 - Set up the frontend Environment
-	- In terminal run: ｀npm install & bower install｀
-	- Once that's done run: ｀grunt ｀
-						  ｀grunt serve｀
+	- In terminal run: `npm install & bower install`
+	- Once that's done run: `grunt `
+						  `grunt serve`
 
 	You should see that a port is open for you to access your front-end app
 

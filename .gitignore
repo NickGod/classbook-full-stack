@@ -1,0 +1,18 @@
+
+# backend 
+
+/classbook/log/*
+/classbook/!/log/.keep
+/classbook/tmp
+
+# frontend
+
+/classbook-frontend/node_modules
+/classbook-frontend/dist
+/classbook-frontend/.tmp
+/classbook-frontend/.sass-cache
+/classbook-frontend/bower_components
+
+# global 
+.tmp
+.DS_Store

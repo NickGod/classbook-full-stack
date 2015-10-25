@@ -25,3 +25,6 @@ To be filled...
 ##Package used and reference
 [AngularJS & Rails tutorial](http://www.angularonrails.com/ruby-on-rails-angularjs-single-page-application/) to understand and see what packages are used in this app.
 
+##RESTful API Documentation
+Please refer to [this page](http://seas.ucla.edu/~xih/api-doc/index.html)
+

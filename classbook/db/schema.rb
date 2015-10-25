@@ -11,10 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151020070128) do
+ActiveRecord::Schema.define(version: 20151025065218) do
+
+  create_table "discussions", force: :cascade do |t|
+    t.integer  "lectureId",  limit: 4
+    t.string   "begTime",    limit: 255
+    t.string   "endTime",    limit: 255
+    t.string   "days",       limit: 255
+    t.string   "location",   limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "groups", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "groups", ["name"], name: "index_groups_on_name", unique: true, using: :btree
+
+  create_table "lectures", force: :cascade do |t|
     t.string   "name",       limit: 255
+    t.string   "begTime",    limit: 255
+    t.string   "endTime",    limit: 255
+    t.string   "days",       limit: 255
+    t.string   "location",   limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end

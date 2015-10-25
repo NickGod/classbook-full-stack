@@ -15,8 +15,10 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ng-token-auth'
   ])
+  .constant('FRONTEND_MOCKING', true)
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

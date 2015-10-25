@@ -30,7 +30,7 @@ angular.module('classbookApp')
          * @returns {Object} The object representing the signed in user,
          *                   null if no user is currently signed in.
          */
-        currentUser: function() {
+        currentUser: function () {
           return _currentUser;
         },
 
@@ -44,9 +44,9 @@ angular.module('classbookApp')
          *                    by the server will be passed to
          *                    the handlers.
          */
-        login: function(username, password) {
-          return $auth.submitLogin({ email: username, password: password })
-            .then(function(user) {
+        login: function (username, password) {
+          return $auth.submitLogin({email: username, password: password})
+            .then(function (user) {
               _currentUser = user;
             });
         },
@@ -61,7 +61,7 @@ angular.module('classbookApp')
          */
         logout: function () {
           return $auth.signOut()
-            .then(function() {
+            .then(function () {
               _currentUser = null;
             });
         },
@@ -78,9 +78,9 @@ angular.module('classbookApp')
          *                    by the server will be passed to
          *                    the handlers.
          */
-        register: function(params) {
+        register: function (params) {
           return $auth.submitRegistration(params)
-            .then(function(user) {
+            .then(function (user) {
               _currentUser = user;
             });
         }
@@ -91,11 +91,11 @@ angular.module('classbookApp')
           return true;
         },
 
-        currentUser: function() {
+        currentUser: function () {
           return {username: "xihan94"};
         },
 
-        login: function(username, password) {
+        login: function (username, password) {
           _currentUser = {
             username: username,
             password: password
@@ -108,7 +108,7 @@ angular.module('classbookApp')
           return $q.when(_currentUser);
         },
 
-        register: function(params) {
+        register: function (params) {
           return this.login(params.username, params.password);
         }
       };

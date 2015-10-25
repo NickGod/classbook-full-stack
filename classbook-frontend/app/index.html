@@ -46,7 +46,7 @@
 
             <div ng-switch on="auth.isAuthenticated()">
               <ul ng-switch-when="false" class="nav navbar-nav navbar-right">
-                <li><a ng-href="#/sign-up">Sign Up</a></li>
+                <li><a ng-click="auth.register({email: 'xihan94@ucla.edu', password: 'BABA', password_confirmation: 'BABA'})">Sign Up</a></li>
                 <li><a ng-href="#/log-in">Sign In</a></li>
               </ul>
 

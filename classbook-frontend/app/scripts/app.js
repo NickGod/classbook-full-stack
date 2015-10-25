@@ -18,8 +18,8 @@ angular
     'ngTouch',
     'ng-token-auth'
   ])
-  .constant('FRONTEND_MOCKING', true)
-  .config(function ($routeProvider) {
+  .constant('FRONTEND_MOCKING', false)
+  .config(function($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -39,4 +39,9 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function($authProvider) {
+    $authProvider.configure({
+      apiUrl: '/user'
+    });
   });

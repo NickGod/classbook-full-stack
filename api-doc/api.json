@@ -1,0 +1,102 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "classbook API",
+        "description": "The classbook API.",
+        "version": "0.0.1"
+    },
+    "host": "localhost:3000",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/v1",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/user/auth": {
+            "post": {
+                "summary": "Sign up for a new user.",
+                "description": "This endpoint sends a request for registration to the server.",
+                "responses": {
+                    "201": {
+                        "description": "The new user has been created successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "422": {
+                        "description": "The server failed to create the new user because the form has ill data.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/auth/sign_in": {
+            "post": {
+                "summary": "Log in as a returning user.",
+                "description": "This endpoint sends a login request to the server.",
+                "responses": {
+                    "200": {
+                        "description": "The new user has been created successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "The login fails because the password is not correct.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "422": {
+                        "description": "The server fails to create the new user because the form has ill data.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/auth/sign_out": {
+            "delete": {
+                "summary": "Log out from current session.",
+                "description": "This endpoints sends a logout request to the server.",
+                "responses": {
+                    "200": {
+                        "description": "The user has signed out from the current session."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "The unique id of a user."
+                },
+                "username": {
+                    "type": "string",
+                    "description": "The name of the user."
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

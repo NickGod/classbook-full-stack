@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :discussions, except: [:new, :edit]
-  resources :lectures, except: [:new, :edit]
+    mount_devise_token_auth_for 'User', at: 'user/auth'
   scope '/api' do
     resources :groups, except: [:new, :edit]
     resources :discussions, except: [:new, :edit]

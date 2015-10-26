@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :discussions, except: [:new, :edit]
+  resources :lectures, except: [:new, :edit]
   scope '/api' do
     resources :groups, except: [:new, :edit]
     resources :discussions, except: [:new, :edit]

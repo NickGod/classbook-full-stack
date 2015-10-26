@@ -15,9 +15,11 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ng-token-auth'
   ])
-  .config(function ($routeProvider) {
+  .constant('FRONTEND_MOCKING', false)
+  .config(function($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -37,4 +39,9 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function($authProvider) {
+    $authProvider.configure({
+      apiUrl: 'http://localhost:3000'
+    });
   });

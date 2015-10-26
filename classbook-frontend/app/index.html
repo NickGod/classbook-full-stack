@@ -21,7 +21,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header">
+    <div ng-controller="HeaderCtrl" class="header">
       <div class="navbar navbar-default" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -43,6 +43,17 @@
               <li><a ng-href="#/about">About</a></li>
               <li><a ng-href="#/">Contact</a></li>
             </ul>
+
+            <div ng-switch on="auth.isAuthenticated()">
+              <ul ng-switch-when="false" class="nav navbar-nav navbar-right">
+                <li><a ng-click="auth.register({email: 'xihan94@ucla.edu', password: 'BABA', password_confirmation: 'BABA'})">Sign Up</a></li>
+                <li><a ng-href="#/log-in">Sign In</a></li>
+              </ul>
+
+              <ul ng-switch-when="true" class="nav navbar-nav navbar-right">
+                <li><a>Welcome, {{auth.currentUser().username || "my friend"}}.</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -81,6 +92,9 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-devise/lib/devise.js"></script>
+    <script src="bower_components/angular-cookie/angular-cookie.js"></script>
+    <script src="bower_components/ng-token-auth/dist/ng-token-auth.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -89,7 +103,9 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/groups.js"></script>
+        <script src="scripts/controllers/header.js"></script>
         <script src="scripts/services/groups.js"></script>
+        <script src="scripts/services/authservice.js"></script>
         <!-- endbuild -->
 </body>
 </html>

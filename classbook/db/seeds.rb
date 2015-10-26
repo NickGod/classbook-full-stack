@@ -14,3 +14,12 @@ Group.create([
   { name: 'GloboChem' },
   { name: 'TechCorp' },
 ])
+
+
+Lecture.create([
+	{ name: 'CS130', begTime: '12:00P', endTime: '1:50P', days:'MW', location: 'BOELTER'}
+])
+
+Discussion.create([
+	{ lectureId: 1, begTime: '10:00A', endTime: '11:50P', days:'F', location: 'BOELTER'}
+])

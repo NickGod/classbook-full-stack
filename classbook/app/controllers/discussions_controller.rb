@@ -47,6 +47,12 @@ class DiscussionsController < ApplicationController
     head :no_content
   end
 
+  def get_all_discussion
+    @user = User.find(params[:id])
+    render json: @user.discussions
+  end
+
+
   private
 
     def set_discussion

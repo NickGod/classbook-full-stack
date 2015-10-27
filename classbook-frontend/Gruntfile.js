@@ -514,4 +514,5 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-connect-proxy');
 
+  grunt.loadNpmTasks('grunt-karma');
 };

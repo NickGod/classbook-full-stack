@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ng-token-auth'
+    'ng-token-auth',
+    'ui.calendar'
   ])
   .constant('FRONTEND_MOCKING', false)
   .config(function($routeProvider) {

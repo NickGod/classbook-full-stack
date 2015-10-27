@@ -38,7 +38,6 @@ angular
         controller: 'GroupsCtrl',
         controllerAs: 'groups',
         requireLogin: true
-
       })
       .when('/user_info', {
         templateUrl: 'views/user_info.html',
@@ -50,7 +49,7 @@ angular
         templateUrl: 'views/class_info.html',
         controller: 'ClassInfoCtrl',
         controllerAs: 'classInfo',
-        requireLogin: true
+        //requireLogin: true
       })
       .when('/class_swapping', {
         templateUrl: 'views/class_swapping.html',

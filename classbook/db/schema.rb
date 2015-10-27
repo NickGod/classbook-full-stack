@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20151026055202) do
     t.datetime "updated_at",             null: false
   end
 
+  add_index "groups", ["name"], name: "index_groups_on_name", unique: true, using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "provider",               limit: 255,   default: "email", null: false
     t.string   "uid",                    limit: 255,   default: "",      null: false

@@ -42,6 +42,6 @@ angular
   })
   .config(function($authProvider) {
     $authProvider.configure({
-      apiUrl: '/user'
+      apiUrl: 'api/user'
     });
   });

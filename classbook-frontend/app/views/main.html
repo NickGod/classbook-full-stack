@@ -1,23 +1,71 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+<div class="row">
+  <div class="jumbotron col-xs-8 brand-jumb">
+    <h1>classbook</h1>
+    <p class="lead">
+      Love classes, from now.
+    </p>
+  </div>
+
+  <div class="col-xs-4" ng-switch on="isFormSignUp">
+    <form ng-switch-when="false" class="form-signin">
+      <h2 class="form-signin-heading">Sign in</h2>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block sign-in-button" type="submit">Sign in</button>
+    </form>
+
+    <form ng-switch-when="true" class="form-signup">
+      <h2 class="form-signup-heading">ign up</h2>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <label for="inputPasswordConfirmation" class="sr-only">Password Confirmation</label>
+      <input type="password" id="inputPasswordConfirmation" class="form-control" placeholder="Password Confirmation" required>
+      <!--<div class="checkbox">-->
+        <!--<label>-->
+          <!--<input type="checkbox" value="remember-me"> Remember me-->
+        <!--</label>-->
+      <!--</div>-->
+      <button class="btn btn-lg btn-primary btn-block sign-up-button" type="submit">Sign up</button>
+    </form>
+  </div>
+
+
+
+
 </div>
 
+
 <div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
+  <h4>Next Generation Smart Class Planner</h4>
   <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   </p>
 
-  <h4>Angular</h4>
+  <h4>Swap Classes and Sections with Friends!</h4>
   <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   </p>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+  <h4>Know Your Classmates</h4>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </p>
 </div>

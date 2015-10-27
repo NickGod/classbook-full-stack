@@ -40,18 +40,17 @@
 
             <ul class="nav navbar-nav">
               <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
             </ul>
 
             <div ng-switch on="auth.isAuthenticated()">
               <ul ng-switch-when="false" class="nav navbar-nav navbar-right">
-                <li><a ng-click="auth.register({email: 'xihan94@ucla.edu', password: 'BABA', password_confirmation: 'BABA'})">Sign Up</a></li>
-                <li><a ng-href="#/log-in">Sign In</a></li>
+                <li><a ng-click="onSignUpButtonClick()" ng-href="#/">Sign Up</a></li>
+                <li><a ng-click="onSignInButtonClick()" ng-href="#/">Sign In</a></li>
               </ul>
 
               <ul ng-switch-when="true" class="nav navbar-nav navbar-right">
                 <li><a>Welcome, {{auth.currentUser().username || "my friend"}}.</a></li>
+                <li><button ng-click="auth.signOut()">Sign Out</button></li>
               </ul>
             </div>
           </div>
@@ -60,12 +59,12 @@
     </div>
 
     <div class="container">
-    <div ng-view=""></div>
+      <div ng-view=""></div>
     </div>
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <p>Presented by Team <span class="glyphicon glyphicon-font"></span><sup>9</sup></p>
       </div>
     </div>
 

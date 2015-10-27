@@ -70,8 +70,8 @@ body {
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
-    max-width: 730px;
-  }
+/*    max-width: 730px;
+*/  }
 
   /* Remove the padding we set earlier */
   .header,
@@ -100,3 +100,8 @@ body {
 .sign-in-button {
   margin-top: 14px;
 }
+
+.intro-title {
+  margin-top: 60px;
+}
+

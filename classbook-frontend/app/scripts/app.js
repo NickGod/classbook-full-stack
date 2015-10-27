@@ -34,6 +34,21 @@ angular
         controller: 'GroupsCtrl',
         controllerAs: 'groups'
       })
+      .when('/user_info', {
+        templateUrl: 'views/user_info.html',
+        controller: 'UserInfoCtrl',
+        controllerAs: 'userInfo'
+      })
+      .when('/class_info', {
+        templateUrl: 'views/class_info.html',
+        controller: 'ClassInfoCtrl',
+        controllerAs: 'classInfo'
+      })
+      .when('/class_swapping', {
+        templateUrl: 'views/class_swapping.html',
+        controller: 'ClassSwappingCtrl',
+        controllerAs: 'classSwapping'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -48,6 +48,7 @@ angular.module('classbookApp')
           return $auth.submitLogin({email: username, password: password})
             .then(function (user) {
               _currentUser = user;
+              return user;
             });
         },
 
@@ -80,8 +81,9 @@ angular.module('classbookApp')
          */
         register: function (params) {
           return $auth.submitRegistration(params)
-            .then(function (user) {
-              _currentUser = user;
+            .then(function (resp) {
+              _currentUser = resp.data.data;
+              return resp;
             });
         }
       };

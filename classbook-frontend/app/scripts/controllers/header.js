@@ -8,7 +8,8 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('HeaderCtrl', ['$rootScope', '$scope', 'AuthService', function ($rootScope, $scope, AuthService) {
+  .controller('HeaderCtrl', ['$rootScope', '$scope', '$location','AuthService',
+    function ($rootScope, $scope, $location, AuthService) {
     $scope.auth = AuthService;
 
     $scope.onSignUpButtonClick = function() {
@@ -17,5 +18,11 @@ angular.module('classbookApp')
 
     $scope.onSignInButtonClick = function() {
       $rootScope.$broadcast("HeaderCtrl:SignInButtonClickedEvent", {});
+    };
+
+    $scope.onSignOutButtonClick = function() {
+      AuthService.logout().then(function() {
+        $location.path('/');
+      });
     };
   }]);

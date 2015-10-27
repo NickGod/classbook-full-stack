@@ -49,8 +49,8 @@
               </ul>
 
               <ul ng-switch-when="true" class="nav navbar-nav navbar-right">
-                <li><a>Welcome, {{auth.currentUser().username || "my friend"}}.</a></li>
-                <li><button ng-click="auth.signOut()">Sign Out</button></li>
+                <li><a>Welcome, {{auth.currentUser().uid || "my friend"}}.</a></li>
+                <li><a ng-click="onSignOutButtonClick()">Sign Out</a></li>
               </ul>
             </div>
           </div>
@@ -97,17 +97,17 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
-        <script src="scripts/controllers/groups.js"></script>
-        <script src="scripts/controllers/header.js"></script>
-        <script src="scripts/services/groups.js"></script>
-        <script src="scripts/services/authservice.js"></script>
-        <script src="scripts/controllers/user_info.js"></script>
-        <script src="scripts/controllers/class_info.js"></script>
-        <script src="scripts/controllers/class_swapping.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/controllers/groups.js"></script>
+    <script src="scripts/controllers/header.js"></script>
+    <script src="scripts/services/groups.js"></script>
+    <script src="scripts/services/authservice.js"></script>
+    <script src="scripts/controllers/user_info.js"></script>
+    <script src="scripts/controllers/class_info.js"></script>
+    <script src="scripts/controllers/class_swapping.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

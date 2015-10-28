@@ -59,6 +59,9 @@ angular.module('classbookApp')
           .then(function(resp) {
             $location.path('/class_info');
             console.log(resp);
+            AuthService.currentUser().getAllEnrolledClasses().then(function(list) {
+              console.log(list);
+            });
           })
           .catch(function(resp) {
             $('#inputEmail-sign-in-form-group').addClass('has-error');
@@ -91,9 +94,9 @@ angular.module('classbookApp')
       // TODO: we can do better; add verbal explanation of the error.
       if (valid) {
         AuthService.register($scope.signUpForm)
-          .then(function(resp) {
+          .then(function(user) {
             $location.path('/class_info');
-            console.log(resp);
+            console.log(user);
           })
           .catch(function(resp) {
             $('#inputEmail-sign-up-form-group').addClass('has-error');

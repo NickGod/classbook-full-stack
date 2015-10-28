@@ -7,9 +7,30 @@
  * # ClassInfoCtrl
  * Controller of the classbookApp
  */
+
+/**
+ * Note to Shuo:
+ * You need to change the program to an asynchronous style,
+ * because getEventData(), in reality, will not immediately return.
+ *
+ * Now you may inject the service 'AuthService' and call AuthService.currentUser()
+ * to get the object for the current user. The structure of the User object is:
+ * {
+ *   uid: String // user id.
+ *   email: String // user email.
+ *   getAllEnrolledClass: Promise // this method returns an Angular Promise.
+ *                                   On success it will pass the list you want
+ *                                   to your handler; on failure, it will pass
+ *                                   whatever response from the server to your
+ *                                   handler.
+ * }
+ *
+ * xih
+ */
+
 angular.module('classbookApp')
   .controller('ClassInfoCtrl', function($scope,$compile,uiCalendarConfig) {
-    
+
     function getEventData() {
       return [
         {className: 'CS 130', startTime: '10:00:00', endTime: '11:50:00', days: [1, 3]},
@@ -20,15 +41,15 @@ angular.module('classbookApp')
         // {className: 'MATH 131A', startTime: '09:00:00', endTime: '10:00:00', days: [2, 4]},
       ];
     }
-    
+
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
-    
+
     function getEvents() {
       var data = getEventData();
       var events = [];
       var date;
-      
+
       for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
         var course, i;
         for (i = 0; i < data.length; i++) {
@@ -36,7 +57,7 @@ angular.module('classbookApp')
           if (course.days.indexOf(date.getDay()) != -1) {
             var timeBegin = date.toDateString() + ' ' + course.startTime;
             var timeEnd = date.toDateString() + ' ' + course.endTime;
-            
+
             events.push({
               title: course.className,
               start: new Date(timeBegin),
@@ -47,13 +68,13 @@ angular.module('classbookApp')
           }
         }
       }
-      
+
       return events;
     }
-    
+
     /* event source that pulls from url */
     $scope.eventSource = {};
-    
+
     /* event source that contains custom events on the scope */
     $scope.events = getEvents();
 
@@ -106,7 +127,7 @@ angular.module('classbookApp')
       }
     };
      /* Render Tooltip */
-    $scope.eventRender = function( event, element, view ) { 
+    $scope.eventRender = function( event, element, view ) {
         element.attr({'tooltip': event.title,
                      'tooltip-append-to-body': true});
         $compile(element)($scope);

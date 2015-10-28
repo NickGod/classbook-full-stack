@@ -112,7 +112,7 @@
                 </ul>
 
                 <ul ng-switch-when="true" class="nav navbar-nav navbar-right">
-                  <li><a>Welcome, {{auth.currentUser().uid || "my friend"}}.</a></li>
+                  <li><a>Welcome, {{auth.currentUser().email || "my friend"}}.</a></li>
                   <li><a ng-click="onSignOutButtonClick()">Sign Out</a></li>
                 </ul>
               </div>
@@ -122,7 +122,7 @@
         <!-- /.container-fluid -->
     </nav>
 
-      <div ng-view=""></div>
+      <div ng-view="" onload="onload"></div>
 
     <footer>
       <div class="container">
@@ -195,6 +195,8 @@
     <script src="scripts/controllers/user_info.js"></script>
     <script src="scripts/controllers/class_info.js"></script>
     <script src="scripts/controllers/class_swapping.js"></script>
+    <script src="scripts/services/user.js"></script>
+    <script src="scripts/services/utilservice.js"></script>
     <!-- endbuild -->
 
     <!-- CUSTOM JQUERY PLUGIN FOR ANIMATION -->

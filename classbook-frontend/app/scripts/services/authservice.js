@@ -9,7 +9,7 @@
  * Service in the classbookApp.
  */
 angular.module('classbookApp')
-  .service('AuthService', ['$q', '$auth', 'FRONTEND_MOCKING', function ($q, $auth, FRONTEND_MOCKING) {
+  .service('AuthService', ['$q', '$auth', 'FRONTEND_MOCKING', 'User', function ($q, $auth, FRONTEND_MOCKING, User) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     console.log(FRONTEND_MOCKING);
     if (!FRONTEND_MOCKING) {
@@ -47,8 +47,9 @@ angular.module('classbookApp')
         login: function (username, password) {
           return $auth.submitLogin({email: username, password: password})
             .then(function (user) {
-              _currentUser = user;
-              return user;
+              _currentUser = new User(user.id, user.email);
+              console.log(_currentUser);
+              return _currentUser;
             });
         },
 
@@ -82,8 +83,8 @@ angular.module('classbookApp')
         register: function (params) {
           return $auth.submitRegistration(params)
             .then(function (resp) {
-              _currentUser = resp.data.data;
-              return resp;
+              _currentUser = new User(resp.data.data.id, resp.data.data.email);
+              return _currentUser;
             });
         }
       };

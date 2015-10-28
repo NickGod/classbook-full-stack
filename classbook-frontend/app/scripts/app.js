@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ng-token-auth'
+    'ng-token-auth',
+    'ui.calendar'
   ])
   .constant('FRONTEND_MOCKING', false)
   .config(function($routeProvider) {
@@ -37,7 +38,6 @@ angular
         controller: 'GroupsCtrl',
         controllerAs: 'groups',
         requireLogin: true
-
       })
       .when('/user_info', {
         templateUrl: 'views/user_info.html',
@@ -49,7 +49,7 @@ angular
         templateUrl: 'views/class_info.html',
         controller: 'ClassInfoCtrl',
         controllerAs: 'classInfo',
-        requireLogin: true
+        // requireLogin: true
       })
       .when('/class_swapping', {
         templateUrl: 'views/class_swapping.html',

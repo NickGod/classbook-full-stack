@@ -1,0 +1,24 @@
+{
+  "name": "classbook-full-stack",
+  "description": "## Project Description CS130 Course Project. Use Mysql+Ruby on rails+AngularJS Stack. You can find the backend code in classbook, the frontend in classbook-frontend",
+  "main": "index.js",
+  "authors": [
+    "shuo-sun <shuosun.thomas@gmail.com>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "classbook"
+  ],
+  "homepage": "https://github.com/NickGod/classbook-full-stack",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

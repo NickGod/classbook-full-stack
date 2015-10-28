@@ -8,7 +8,8 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
+    <link rel='stylesheet' href='bower_components/fullcalendar/dist/fullcalendar.css' />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -111,7 +112,7 @@
                 </ul>
 
                 <ul ng-switch-when="true" class="nav navbar-nav navbar-right">
-                  <li><a>Welcome, {{auth.currentUser().uid || "my friend"}}.</a></li>
+                  <li><a>Welcome, {{auth.currentUser().email || "my friend"}}.</a></li>
                   <li><a ng-click="onSignOutButtonClick()">Sign Out</a></li>
                 </ul>
               </div>
@@ -121,7 +122,7 @@
         <!-- /.container-fluid -->
     </nav>
 
-      <div ng-view=""></div>
+      <div ng-view="" onload="onload"></div>
 
     <footer>
       <div class="container">
@@ -177,6 +178,9 @@
     <script src="bower_components/angular-devise/lib/devise.js"></script>
     <script src="bower_components/angular-cookie/angular-cookie.js"></script>
     <script src="bower_components/ng-token-auth/dist/ng-token-auth.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+    <script src="bower_components/angular-ui-calendar/src/calendar.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -191,6 +195,8 @@
     <script src="scripts/controllers/user_info.js"></script>
     <script src="scripts/controllers/class_info.js"></script>
     <script src="scripts/controllers/class_swapping.js"></script>
+    <script src="scripts/services/user.js"></script>
+    <script src="scripts/services/utilservice.js"></script>
     <!-- endbuild -->
 
     <!-- CUSTOM JQUERY PLUGIN FOR ANIMATION -->

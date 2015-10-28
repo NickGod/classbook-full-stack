@@ -4,6 +4,7 @@
 /classbook/log/*
 /classbook/!/log/.keep
 /classbook/tmp
+/classbook/config/database.yml
 
 # frontend
 
@@ -16,3 +17,4 @@
 # global 
 .tmp
 .DS_Store
+.idea

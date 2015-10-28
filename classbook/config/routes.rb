@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-    mount_devise_token_auth_for 'User', at: 'user/auth'
+  mount_devise_token_auth_for 'User', at: '/api/user/auth'
   scope '/api' do
     resources :groups, except: [:new, :edit]
     resources :discussions, except: [:new, :edit]
     resources :lectures, except: [:new, :edit]
 
-    get 'test_get_dis/:id' => 'discussions#get_all_discussion'
+    get 'enrollment/:id' => 'enrollments#get_all_discussion'
+    post 'enrollment/enroll' => 'enrollments#enroll'
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

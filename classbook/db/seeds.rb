@@ -17,9 +17,9 @@ Group.create([
 
 
 Lecture.create([
-	{ name: 'CS130', begTime: '12:00P', endTime: '1:50P', days:'MW', location: 'BOELTER'}
+	{ name: 'CS130', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER'}
 ])
 
 Discussion.create([
-	{ lectureId: 1, begTime: '10:00A', endTime: '11:50P', days:'F', location: 'BOELTER'}
+	{ lectureId: 1, begTime: '10:00A', endTime: '11:50A', days:'5', location: 'BOELTER'}
 ])

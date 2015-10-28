@@ -67,4 +67,3 @@ Discussion.all.each do |dis|
 		guanshen.discussions << dis
 	end
 end
-

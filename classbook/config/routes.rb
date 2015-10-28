@@ -5,7 +5,8 @@ Rails.application.routes.draw do
     resources :discussions, except: [:new, :edit]
     resources :lectures, except: [:new, :edit]
 
-    get 'test_get_dis/:id' => 'discussions#get_all_discussion'
+    get 'enrollment/:id' => 'enrollments#get_all_discussion'
+    post 'enrollment/enroll' => 'enrollments#enroll'
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

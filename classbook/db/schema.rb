@@ -69,5 +69,8 @@ ActiveRecord::Schema.define(version: 20151026055202) do
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
+=======
+  add_index "groups", ["name"], name: "index_groups_on_name", unique: true, using: :btree
+>>>>>>> Stashed changes
 
 end

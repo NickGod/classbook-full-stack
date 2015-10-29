@@ -26,7 +26,7 @@
  * }
  *
  * Example usage of a Promise:
- * user.getAllEnrolledClass().then(function(user) {...}) // success handler
+ * user.getAllEnrolledClass().then(function(list) {...}) // success handler
  *                           .catch(function(resp) {...}) // error handler
  *
  * xih

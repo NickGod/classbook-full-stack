@@ -43,9 +43,9 @@ class EnrollmentsController < ApplicationController
 	end
 
 	def formatTime (rawTime)
-	
+		index = rawTime.index(':')
 		lastChar = rawTime[-1]
-		hours = rawTime[-6,2].to_i
+		hours = rawTime[0,index].to_i
 		mins = rawTime[-3,2]
 		if(lastChar == 'A' && hours == 12)
 			hours = 0

@@ -8,7 +8,8 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('ClassInfoCtrl', function($scope,$compile,uiCalendarConfig) {
+  .controller('ClassInfoCtrl',
+    ['$scope', '$compile', 'uiCalendarConfig', function($scope, $compile, uiCalendarConfig) {
     
     function getEventData() {
       return [
@@ -17,7 +18,6 @@ angular.module('classbookApp')
         {className: 'ECON 106V', startTime: '13:00:00', endTime: '14:15:00', days: [2, 4]},
         {className: 'HIST 1C', startTime: '14:00:00', endTime: '15:00:00', days: [1, 3, 5]},
         {className: 'MGMT 120A', startTime: '08:00:00', endTime: '09:00:00', days: [1, 3, 5]},
-        // {className: 'MATH 131A', startTime: '09:00:00', endTime: '10:00:00', days: [2, 4]},
       ];
     }
     
@@ -82,17 +82,14 @@ angular.module('classbookApp')
         sources.push(source);
       }
     };
+    
     /* add custom event*/
     $scope.addEvent = function() {
-      $scope.events.push({
-        title: 'Open Sesame',
-        start: new Date(y, m, 28),
-        end: new Date(y, m, 29),
-        className: ['openSesame']
-      });
+      return;
     };
     /* remove event */
     $scope.remove = function(index) {
+      // console.log(index.name);
       $scope.events.splice(index,1);
     };
     /* Change View */
@@ -106,32 +103,43 @@ angular.module('classbookApp')
       }
     };
      /* Render Tooltip */
-    $scope.eventRender = function( event, element, view ) { 
+    $scope.eventRender = function(event, element, view) { 
         element.attr({'tooltip': event.title,
                      'tooltip-append-to-body': true});
         $compile(element)($scope);
     };
+    
+    $scope.addClass = function(course) {
+      console.log(course.name);
+    };
+    
+    $scope.test = function() {
+      alert('test function called');
+    };
+    
     /* config object */
     $scope.uiConfig = {
       calendar:{
         height: 450,
         editable: true,
-        header:{
+        header: {
           left: 'title',
           center: '',
           right: 'today prev,next'
         },
+        defaultView: 'agendaWeek',
         eventClick: $scope.alertOnEventClick,
         eventDrop: $scope.alertOnDrop,
         eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender
+        eventRender: $scope.eventRender,
       }
     };
+    
 
     $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
+    
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
-});
+}]);
 

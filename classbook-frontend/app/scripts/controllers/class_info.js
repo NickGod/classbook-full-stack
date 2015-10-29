@@ -18,7 +18,7 @@
  * {
  *   uid: String // user id.
  *   email: String // user email.
- *   getAllEnrolledClass: void -> Promise // this method returns an Angular Promise.
+ *   getAllEnrolledClasses: void -> Promise // this method returns an Angular Promise.
  *                                           On success it will pass the list you want
  *                                           to your handler; on failure, it will pass
  *                                           whatever response from the server to your
@@ -26,7 +26,7 @@
  * }
  *
  * Example usage of a Promise:
- * user.getAllEnrolledClass().then(function(list) {...}) // success handler
+ * user.getAllEnrolledClasses().then(function(list) {...}) // success handler
  *                           .catch(function(resp) {...}) // error handler
  *
  * xih
@@ -49,37 +49,45 @@ angular.module('classbookApp')
     var quarterEnds = new Date('2015-12-12');
 
     function getEvents() {
-      var data = getEventData();
-      var events = [];
-      var date;
-
-      for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
-        var course, i;
-        for (i = 0; i < data.length; i++) {
-          course = data[i];
-          if (course.days.indexOf(date.getDay()) != -1) {
-            var timeBegin = date.toDateString() + ' ' + course.startTime;
-            var timeEnd = date.toDateString() + ' ' + course.endTime;
-
-            events.push({
-              title: course.className,
-              start: new Date(timeBegin),
-              end: new Date(timeEnd),
-              allDay: false,
-              editable: false
-            });
+      var user = AuthService.currentUser();
+      
+      user.getAllEnrolledClasses().then(function(resp) {
+        var data = resp.data;
+        var events = [];
+        var date;
+  
+        for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
+          var course, i;
+          for (i = 0; i < data.length; i++) {
+            course = data[i];
+            if (course.days.indexOf(date.getDay()) != -1) {
+              var timeBegin = date.toDateString() + ' ' + course.startTime;
+              var timeEnd = date.toDateString() + ' ' + course.endTime;
+  
+              events.push({
+                title: course.className,
+                start: new Date(timeBegin),
+                end: new Date(timeEnd),
+                allDay: false,
+                editable: false
+              });
+            }
           }
         }
-      }
-
-      return events;
+        
+        $scope.events.push.apply($scope.events, events);
+      })
+      .catch(function(resp) {
+        alert("Error in getting user data!");
+      });
+      
     }
 
     /* event source that pulls from url */
     $scope.eventSource = {};
 
     /* event source that contains custom events on the scope */
-    $scope.events = getEvents();
+    $scope.events = [];
 
     /* alert on eventClick */
     $scope.alertOnEventClick = function(course, jsEvent, view){
@@ -165,5 +173,6 @@ angular.module('classbookApp')
 
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
-}]);
-
+    getEvents();
+  }
+]);

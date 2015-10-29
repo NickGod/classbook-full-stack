@@ -6,10 +6,10 @@ class EnrollmentsController < ApplicationController
 
 		@disList = @discussions.map do |d|
   		{ 
-  			:className => Lecture.find(d.id).name + "DIS",
+  			:className => Lecture.find(d.lectureId).name + "DIS",
   			:startTime => formatTime(d.begTime), 
   			:endTime => formatTime(d.endTime), 
-  			:days => d.days.split("")
+  			:days => processDays(d.days)
   		}
 		end
 
@@ -18,7 +18,7 @@ class EnrollmentsController < ApplicationController
   			:className => l.name,
   			:startTime => formatTime(l.begTime), 
   			:endTime => formatTime(l.endTime), 
-  			:days => l.days.split("")
+  			:days => processDays(l.days)  		
   		}
 		end
 
@@ -43,9 +43,9 @@ class EnrollmentsController < ApplicationController
 	end
 
 	def formatTime (rawTime)
-	
+		index = rawTime.index(':')
 		lastChar = rawTime[-1]
-		hours = rawTime[-6,2].to_i
+		hours = rawTime[0,index].to_i
 		mins = rawTime[-3,2]
 		if(lastChar == 'A' && hours == 12)
 			hours = 0
@@ -56,8 +56,12 @@ class EnrollmentsController < ApplicationController
 		end
 
 		return hours.to_s + ':' + mins + ":00"
-
 	end
 
+	def processDays(days)
+		array = days.split("")
+		array.map!(&:to_i)
+		return array
+	end
 
 end

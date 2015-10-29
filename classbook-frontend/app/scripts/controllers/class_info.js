@@ -18,18 +18,22 @@
  * {
  *   uid: String // user id.
  *   email: String // user email.
- *   getAllEnrolledClass: Promise // this method returns an Angular Promise.
- *                                   On success it will pass the list you want
- *                                   to your handler; on failure, it will pass
- *                                   whatever response from the server to your
- *                                   handler.
+ *   getAllEnrolledClass: void -> Promise // this method returns an Angular Promise.
+ *                                           On success it will pass the list you want
+ *                                           to your handler; on failure, it will pass
+ *                                           whatever response from the server to your
+ *                                           handler.
  * }
+ *
+ * Example usage of a Promise:
+ * user.getAllEnrolledClass().then(function(user) {...}) // success handler
+ *                           .catch(function(resp) {...}) // error handler
  *
  * xih
  */
 
 angular.module('classbookApp')
-  .controller('ClassInfoCtrl', function($scope,$compile,uiCalendarConfig) {
+  .controller('ClassInfoCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService', function($scope, $compile, uiCalendarConfig, AuthService) {
 
     function getEventData() {
       return [
@@ -154,5 +158,5 @@ angular.module('classbookApp')
 
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
-});
+}]);
 

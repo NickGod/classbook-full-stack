@@ -68,11 +68,9 @@ angular
   })
   .run(['$rootScope', '$location', "AuthService", function($rootScope, $location, AuthService) {
     $rootScope.$on("$routeChangeStart", function(event, next, current) {
-      console.log('hello');
       if(next.requireLogin) {
         // Auth/session check here
         if (!AuthService.isAuthenticated()) {
-          console.log('hi');
           event.preventDefault();
           $location.path('/');
         }

@@ -27,7 +27,7 @@
  *
  * Example usage of a Promise:
  * user.getAllEnrolledClasses().then(function(list) {...}) // success handler
- *                           .catch(function(resp) {...}) // error handler
+ *                             .catch(function(resp) {...}) // error handler
  *
  * xih
  */
@@ -69,7 +69,8 @@ angular.module('classbookApp')
                 start: new Date(timeBegin),
                 end: new Date(timeEnd),
                 allDay: false,
-                editable: false
+                editable: false,
+                stick: true,
               });
             }
           }

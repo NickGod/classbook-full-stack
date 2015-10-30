@@ -11,7 +11,6 @@
 angular.module('classbookApp')
   .service('AuthService', ['$q', '$auth', 'FRONTEND_MOCKING', 'User', function ($q, $auth, FRONTEND_MOCKING, User) {
     // AngularJS will instantiate a singleton by calling "new" on this function
-    console.log(FRONTEND_MOCKING);
     if (!FRONTEND_MOCKING) {
       var _currentUser = null;
       return {

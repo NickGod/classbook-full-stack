@@ -66,8 +66,6 @@
                 <input type="text" ng-model="course.end" class="form-control" placeholder="End Time *" required data-validation-required-message="Please enter the end time.">
                 <p class="help-block text-danger"></p>
               </div>
-            </div>
-            <div class="col-md-6">
               <div class="form-group">
                 <label>
                   <input type="checkbox" ng-model="course.mon"> Monday
@@ -83,6 +81,37 @@
                 </label>
                 <label>
                   <input type="checkbox" ng-model="course.fri"> Friday
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" ng-model="course.dis.name" class="form-control" placeholder="Discussion Name *" required data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <input type="text" ng-model="course.dis.start" class="form-control" placeholder="Discussion Start Time *" required data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <input type="text" ng-model="course.dis.end" class="form-control" placeholder="Discussion End Time *" required data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" ng-model="course.dis.mon"> Monday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.tue"> Tuesday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.wed"> Wednesday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.thur"> Thursday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.fri"> Friday
                 </label>
               </div>
             </div>

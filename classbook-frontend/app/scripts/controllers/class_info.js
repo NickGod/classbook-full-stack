@@ -27,7 +27,7 @@
  *
  * Example usage of a Promise:
  * user.getAllEnrolledClasses().then(function(list) {...}) // success handler
- *                           .catch(function(resp) {...}) // error handler
+ *                             .catch(function(resp) {...}) // error handler
  *
  * xih
  */
@@ -85,6 +85,30 @@ angular.module('classbookApp')
       var user = AuthService.currentUser();
       
       user.getAllEnrolledClasses().then(function(resp) {
+        var data = resp.data;
+        var events = [];
+        var date;
+  
+        for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
+          var course, i;
+          for (i = 0; i < data.length; i++) {
+            course = data[i];
+            if (course.days.indexOf(date.getDay()) != -1) {
+              var timeBegin = date.toDateString() + ' ' + course.startTime;
+              var timeEnd = date.toDateString() + ' ' + course.endTime;
+  
+              events.push({
+                title: course.className,
+                start: new Date(timeBegin),
+                end: new Date(timeEnd),
+                allDay: false,
+                editable: false,
+                stick: true,
+              });
+            }
+          }
+        }
+        
         var events = parseData(resp.data);
         $scope.events.push.apply($scope.events, events);
       })

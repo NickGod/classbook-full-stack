@@ -1,0 +1,128 @@
+<!-- <header id='class-calendar'>
+  <div class="row intro-text">
+    <div class="intro-lead-in">
+      Calendar:
+    </div>
+    <div class="intro-heading">
+        Plan for your quarter
+    </div>
+  </div>
+</header>
+ -->
+<section id="calendar" class="bg-light-gray">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading">Class Calendar</h2>
+        <h3 class="section-subheading text-muted">Know your schedule</h3>
+        <tabset>
+          <tab select="renderCalender('classbookCal1');">
+            <!--<tab-heading>
+              <i class="glyphicon glyphicon-bell"></i> Calendar
+            </tab-heading>-->
+            <div class="btn-toolbar">
+              <p class="pull-right lead">Calendar View Options</p>
+              <div class="btn-group">
+                  <button class="btn btn-success" ng-click="changeView('agendaDay', 'classbookCal1')">AgendaDay</button>
+                  <button class="btn btn-success" ng-click="changeView('agendaWeek', 'classbookCal1')">AgendaWeek</button>
+                  <button class="btn btn-success" ng-click="changeView('month', 'classbookCal1')">Month</button>
+              </div>
+            </div>
+            <div class="span8 calendar" ng-model="eventSources" calendar="classbookCal1" ui-calendar="uiConfig.calendar"></div>
+            <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+              <h4>{{alertMessage}}</h4>
+            </div>
+          </tab>
+        </tabset>
+        <!--<div calendar="cal" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>-->
+        <!--<div><button ng-click="addEvent()">Add Event</button></div>-->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="add-class">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading">Add Class</h2>
+        <h3 class="section-subheading text-muted">Plan it, Share it</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <form name="addClassForm" id="addClassForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" ng-model="course.name" class="form-control" placeholder="Class Name *" required data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <input type="text" ng-model="course.start" class="form-control" placeholder="Start Time *" required data-validation-required-message="Please enter the start time.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <input type="text" ng-model="course.end" class="form-control" placeholder="End Time *" required data-validation-required-message="Please enter the end time.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" ng-model="course.mon"> Monday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.tue"> Tuesday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.wed"> Wednesday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.thur"> Thursday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.fri"> Friday
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" ng-model="course.dis.name" class="form-control" placeholder="Discussion Name *" required data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <input type="text" ng-model="course.dis.start" class="form-control" placeholder="Discussion Start Time *" required data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <input type="text" ng-model="course.dis.end" class="form-control" placeholder="Discussion End Time *" required data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" ng-model="course.dis.mon"> Monday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.tue"> Tuesday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.wed"> Wednesday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.thur"> Thursday
+                </label>
+                <label>
+                  <input type="checkbox" ng-model="course.dis.fri"> Friday
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <button class="btn btn-xl" type="submit" ng-click="addClass(course)">Add Class</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

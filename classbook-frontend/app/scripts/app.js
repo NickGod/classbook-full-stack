@@ -45,9 +45,9 @@ angular
         controllerAs: 'userInfo',
         requireLogin: true
       })
-      .when('/class_info', {
-        templateUrl: 'views/class_info.html',
-        controller: 'ClassInfoCtrl',
+      .when('/class_calendar', {
+        templateUrl: 'views/class_calendar.html',
+        controller: 'ClassCldrCtrl',
         controllerAs: 'classInfo',
         requireLogin: true
       })
@@ -57,23 +57,33 @@ angular
         controllerAs: 'classSwapping',
         requireLogin: true
       })
+      .when('/class_info', {
+        templateUrl: 'views/class_info.html',
+        controller: 'ClassInfoCtrl',
+        controllerAs: 'classInfo'
+      })
+      .when('/class_search', {
+        templateUrl: 'views/class_search.html',
+        controller: 'ClassSearchCtrl',
+        controllerAs: 'classSearch'
+      })
       .otherwise({
         redirectTo: '/'
       });
   })
-  .config(function($authProvider) {
-    $authProvider.configure({
-      apiUrl: 'api/user'
-    });
-  })
-  .run(['$rootScope', '$location', "AuthService", function($rootScope, $location, AuthService) {
-    $rootScope.$on("$routeChangeStart", function(event, next, current) {
-      if(next.requireLogin) {
-        // Auth/session check here
-        if (!AuthService.isAuthenticated()) {
-          event.preventDefault();
-          $location.path('/');
-        }
-      }
-    });
-  }]);
+  // .config(function($authProvider) {
+  //   $authProvider.configure({
+  //     apiUrl: 'api/user'
+  //   });
+  // })
+  // .run(['$rootScope', '$location', "AuthService", function($rootScope, $location, AuthService) {
+  //   $rootScope.$on("$routeChangeStart", function(event, next, current) {
+  //     if(next.requireLogin) {
+  //       // Auth/session check here
+  //       if (!AuthService.isAuthenticated()) {
+  //         event.preventDefault();
+  //         $location.path('/');
+  //       }
+  //     }
+  //   });
+  // }]);

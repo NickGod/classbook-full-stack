@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name classbookApp.controller:ClassInfoCtrl
+ * @name classbookApp.controller:ClassSearchCtrl
  * @description
- * # ClassInfoCtrl
+ * # ClassSearchCtrl
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('ClassInfoCtrl', function () {
+  .controller('ClassSearchCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

@@ -40,7 +40,6 @@ Discussion.create([
 	{ lectureId: 1, begTime: '4:00P', endTime: '5:50P', days:'5', location: 'BOELTER'},
 	{ lectureId: 2, begTime: '10:00A', endTime: '11:50A', days:'5', location: 'BOELTER'},
 	{ lectureId: 2, begTime: '2:00P', endTime: '3:50P', days:'5', location: 'BOELTER'}
-
 ])
 
 User.create([

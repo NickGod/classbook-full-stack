@@ -55,7 +55,7 @@ angular.module('classbookApp')
       if (valid) {
         AuthService.login($scope.signInForm.email, $scope.signInForm.password)
           .then(function(resp) {
-            $location.path('/class_calendar');
+            $location.path('/user_info');
           })
           .catch(function(resp) {
             $('#inputEmail-sign-in-form-group').addClass('has-error');
@@ -89,7 +89,7 @@ angular.module('classbookApp')
       if (valid) {
         AuthService.register($scope.signUpForm)
           .then(function(user) {
-            $location.path('/class_calendar');
+            $location.path('/user_info');
           })
           .catch(function(resp) {
             $('#inputEmail-sign-up-form-group').addClass('has-error');

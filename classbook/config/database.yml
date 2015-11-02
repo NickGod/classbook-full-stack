@@ -17,7 +17,6 @@ default: &default
   password: 123
   socket: /tmp/mysql.sock
 
-
 development:
   <<: *default
   database: classbook_development

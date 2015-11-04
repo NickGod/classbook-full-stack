@@ -5,6 +5,11 @@ Rails.application.routes.draw do
     resources :discussions, except: [:new, :edit]
     resources :lectures, except: [:new, :edit]
 
+    get 'user/:id/get_friends' => 'users#get_friends'
+    get 'user/:id/get_pending_friends' => 'users#get_pending_friends'
+    post 'user/request_friend' => 'users#request_friend'
+    post 'user/accept_friend_request' => 'users#accept_friend_request'
+
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
   end

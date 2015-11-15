@@ -1,2 +1,27 @@
-<p>This is the class_swapping view.</p>
-<p> this is a page that manages class swapping requests. </p>
+<div class="container">
+
+<h1>Swap your class with your friend</h1>
+<p> This is where you share the classes you want to swap with, and see what classes your peers want to swap. </p>
+
+<hr>
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a ng-click="ChooseTab()">Home</a></li>
+  <li role="presentation"><a ng-click="ChooseTab()">Search for class to swap with</a></li>
+  <li role="presentation"><a ng-click="ChooseTab()">Swap requests</a></li>
+</ul>
+
+<div class="container">
+	<ng-include src="'views/class_calendar.html'" scope="" onload=""></ng-include>
+	Swapping Center
+</div>
+
+<div class="container">
+	Class to swap with
+</div>
+
+<div class="container">
+	Swap requests
+</div>
+
+
+</div>

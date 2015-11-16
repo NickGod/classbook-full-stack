@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
+
+    get '/search' => 'application#searchClass'
+
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

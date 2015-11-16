@@ -28,7 +28,7 @@ class ApplicationController < ActionController::API
 
   	disList = discussions.map do |d|
   		{ 
-  			:discussionId => d.id
+  			:discussionId => d.id,
   			:className => d.className,
   			:startTime => formatTime(d.begTime), 
   			:endTime => formatTime(d.endTime), 
@@ -39,13 +39,13 @@ class ApplicationController < ActionController::API
 
 	lectureList = lectures.map do |l|
 		{ 
-			:lectureId => l.id
+			:lectureId => l.id,
 			:className => l.name,
 			:department => l.department,
 			:startTime => formatTime(l.begTime), 
 			:endTime => formatTime(l.endTime), 
 			:days => processDays(l.days),
-			:discussions => disList	
+			:discussions => disList,
 			:term => 'FALL'
 		}
 	end

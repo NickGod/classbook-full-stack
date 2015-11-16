@@ -88,7 +88,7 @@ angular.module('classbookApp')
         var data = resp.data;
         var events = [];
         var date;
-  
+
         for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
           var course, i;
           for (i = 0; i < data.length; i++) {
@@ -96,7 +96,7 @@ angular.module('classbookApp')
             if (course.days.indexOf(date.getDay()) != -1) {
               var timeBegin = date.toDateString() + ' ' + course.startTime;
               var timeEnd = date.toDateString() + ' ' + course.endTime;
-  
+
               events.push({
                 title: course.className,
                 start: new Date(timeBegin),
@@ -170,65 +170,6 @@ angular.module('classbookApp')
         $compile(element)($scope);
     };
 
-    $scope.addClass = function(course) {
-      alert('Class ' + course.name + ' and discussion ' + course.dis.name + ' have been added');
-      var newEvents = [];
-      var days = [];
-      if (course.mon) {
-        days.push(1);
-      }
-      if (course.tue) {
-        days.push(2);
-      }
-      if (course.wed) {
-        days.push(3);
-      }
-      if (course.thur) {
-        days.push(4);
-      }
-      if (course.fri) {
-        days.push(5);
-      }
-      
-      newEvents.push({
-        className: course.name,
-        startTime: course.start,
-        endTime: course.end,
-        days: days,
-      });
-      
-      var disDays = [];
-      if (course.dis.mon) {
-        disDays.push(1);
-      }
-      if (course.dis.tue) {
-        disDays.push(2);
-      }
-      if (course.dis.wed) {
-        disDays.push(3);
-      }
-      if (course.dis.thur) {
-        disDays.push(4);
-      }
-      if (course.dis.fri) {
-        disDays.push(5);
-      }
-      
-      newEvents.push({
-        className: course.dis.name,
-        startTime: course.dis.start,
-        endTime: course.dis.end,
-        days: disDays,
-      });
-      
-      var events = parseData(newEvents);
-      $scope.events.push.apply($scope.events, events);
-    };
-
-    $scope.test = function() {
-      alert('test function called');
-    };
-    
     $scope.viewRender = function(view, element) {
       // $('#calendar').fullCalendar('updateEvent', $scope.events);
     };
@@ -256,7 +197,7 @@ angular.module('classbookApp')
 
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
-
+    
     getEvents();
   }
 ]);

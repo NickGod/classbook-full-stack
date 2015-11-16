@@ -12,6 +12,12 @@ Rails.application.routes.draw do
 
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
+
+    post 'swap_request/create/' => 'swap_requests#create'
+
+    # to be changed to get 'message/userMessages' => 'messages#get_user_message'
+    get 'message/:user_id/userMessages' => 'messages#get_user_message'
+    get 'message/:id/read' => 'messages#read'
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

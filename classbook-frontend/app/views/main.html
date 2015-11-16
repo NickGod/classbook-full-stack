@@ -1,23 +1,53 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
-
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
+<!-- Header -->
+<header>
+  <div class="row intro-text">
+    <div class="intro-title col-xs-7">
+      <div class="intro-lead-in">CLASSBOOK</div>
+      <div class="intro-heading">
+        Love classes, from now.
+      </div>
+    </div>
+    <div class="col-xs-offset-1 col-xs-3" ng-switch on="isFormSignUp">
+      <form ng-switch-when="false" class="form-signin">
+        <h2 class="form-signin-heading">Sign in</h2>
+        <div class="form-group" id="inputEmail-sign-in-form-group">
+          <label for="inputEmail-sign-in" class="sr-only">Email address</label>
+          <input type="email" id="inputEmail-sign-in" class="form-control" placeholder="Email address" ng-model="signInForm.email" required autofocus>
+        </div>
+        <div class="form-group" id="inputPassword-sign-in-form-group">
+          <label for="inputPassword-sign-in" class="sr-only">Password</label>
+          <input type="password" id="inputPassword-sign-in" class="form-control" placeholder="Password" ng-model="signInForm.password" required>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block sign-in-button" type="submit" ng-click="signIn()">Sign in</button>
+      </form>
+      <form ng-switch-when="true" class="form-signup">
+        <h2 class="form-signup-heading">Sign up</h2>
+        <div class="form-group" id="inputEmail-sign-up-form-group">
+          <label for="inputEmail-sign-up" class="sr-only">Email address</label>
+          <input type="email" id="inputEmail-sign-up" class="form-control" placeholder="Email address" ng-model="signUpForm.email" required autofocus>
+        </div>
+        <div class="form-group" id="inputPassword-sign-up-form-group">
+          <label for="inputPassword-sign-up" class="sr-only">Password</label>
+          <input type="password" id="inputPassword-sign-up" class="form-control" placeholder="Password" ng-model="signUpForm.password" required>
+        </div>
+        <div class="form-group" id="inputPasswordConfirmation-sign-in-form-group">
+          <label for="inputPasswordConfirmation-sign-up" class="sr-only">Password Confirmation</label>
+          <input type="password" id="inputPasswordConfirmation-sign-up" class="form-control" placeholder="Password Confirmation" ng-model="signUpForm.password_confirmation" required>
+        </div>
+        <!--<div class="checkbox">-->
+        <!--<label>-->
+        <!--<input type="checkbox" value="remember-me"> Remember me-->
+        <!--</label>-->
+        <!--</div>-->
+        <button class="btn btn-lg btn-primary btn-block sign-up-button" type="submit" ng-click="signUp()">
+          Sign up
+        </button>
+      </form>
+    </div>
+  </div>
+</header>

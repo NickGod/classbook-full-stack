@@ -63,13 +63,15 @@ body {
   p + h4 {
     margin-top: 28px;
   }
+
+
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
-    max-width: 730px;
-  }
+/*    max-width: 730px;
+*/  }
 
   /* Remove the padding we set earlier */
   .header,
@@ -87,3 +89,19 @@ body {
     border-bottom: 0;
   }
 }
+
+.brand-jumb {
+  padding-bottom: 66px;
+}
+
+.sign-up-button {
+  margin-top: 10px;
+}
+.sign-in-button {
+  margin-top: 14px;
+}
+
+.intro-title {
+  margin-top: 60px;
+}
+

@@ -5,8 +5,19 @@ Rails.application.routes.draw do
     resources :discussions, except: [:new, :edit]
     resources :lectures, except: [:new, :edit]
 
-    get 'enrollment/:id' => 'enrollments#get_all_discussion'
+    get 'user/:id/get_friends' => 'users#get_friends'
+    get 'user/:id/get_pending_friends' => 'users#get_pending_friends'
+    post 'user/request_friend' => 'users#request_friend'
+    post 'user/accept_friend_request' => 'users#accept_friend_request'
+
+    get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
+
+    post 'swap_request/create/' => 'swap_requests#create'
+
+    # to be changed to get 'message/userMessages' => 'messages#get_user_message'
+    get 'message/:user_id/userMessages' => 'messages#get_user_message'
+    get 'message/:id/read' => 'messages#read'
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

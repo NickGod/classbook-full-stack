@@ -18,6 +18,8 @@ class LecturesController < ApplicationController
   # POST /lectures
   # POST /lectures.json
   def create
+        render json: params
+        return
     @lecture = Lecture.new(lecture_params)
 
     if @lecture.save

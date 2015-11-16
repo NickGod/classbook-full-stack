@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151113233826) do
+ActiveRecord::Schema.define(version: 20151116080844) do
 
   create_table "discussions", force: :cascade do |t|
     t.integer  "lectureId",  limit: 4
@@ -106,6 +106,9 @@ ActiveRecord::Schema.define(version: 20151113233826) do
     t.text     "tokens",                 limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "year",                   limit: 4
+    t.string   "major",                  limit: 255
+    t.string   "sex",                    limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     post 'user/request_friend' => 'users#request_friend'
     post 'user/accept_friend_request' => 'users#accept_friend_request'
 
+    # api for getting user infomation
+    get 'user/:id/info' => 'users#get_user_info'
+
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
 
@@ -19,6 +22,7 @@ Rails.application.routes.draw do
     # to be changed to get 'message/userMessages' => 'messages#get_user_message'
     get 'message/:user_id/userMessages' => 'messages#get_user_message'
     get 'message/:id/read' => 'messages#read'
+
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

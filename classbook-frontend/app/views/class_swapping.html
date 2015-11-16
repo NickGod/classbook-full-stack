@@ -1,27 +1,41 @@
 <div class="container">
+	<h1>Swap your class with your friend</h1>
+	<p> This is where you share the classes you want to swap with, and see what classes your peers want to swap. </p>
 
-<h1>Swap your class with your friend</h1>
-<p> This is where you share the classes you want to swap with, and see what classes your peers want to swap. </p>
+	<hr>
+	<ul class="nav nav-pills">
+	  <li role="presentation" class="active"><a ng-click="chooseTab(1)">Home</a></li>
+	  <li role="presentation"><a ng-click="chooseTab(2)">Search</a></li>
+	  <li role="presentation"><a ng-click="chooseTab(3)">Swap requests</a></li>
+	</ul>
 
-<hr>
-<ul class="nav nav-pills">
-  <li role="presentation" class="active"><a ng-click="ChooseTab()">Home</a></li>
-  <li role="presentation"><a ng-click="ChooseTab()">Search for class to swap with</a></li>
-  <li role="presentation"><a ng-click="ChooseTab()">Swap requests</a></li>
-</ul>
+	<br>
+</div>
 
-<div class="container">
-	<ng-include src="'views/class_calendar.html'" scope="" onload=""></ng-include>
+
+<div ng-show="tab1">
+	<div ng-include="'views/class_calendar.html'"></div>
 	Swapping Center
 </div>
 
-<div class="container">
+<div ng-show="tab2" class="container">
 	Class to swap with
 </div>
 
-<div class="container">
+<div ng-show="tab3" class="container">
 	Swap requests
+	<irontec-simple-chat
+	  messages="vm.messages"
+	  username="vm.username"
+	  input-placeholder-text="You can write here"
+	  submit-button-text="Send your message"
+	  title="Swap request"
+	  theme="material"
+	  submit-function="vm.sendMessage"
+	  visible="vm.visible"
+	  expand-on-new="vm.expandOnNew">
+
+	</irontec-simple-chat>
 </div>
 
 
-</div>

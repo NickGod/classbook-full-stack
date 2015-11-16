@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ng-token-auth',
-    'ui.calendar'
+    'ui.calendar',
+    'irontec.simpleChat'
   ])
   .constant('FRONTEND_MOCKING', false)
   .config(function($routeProvider) {

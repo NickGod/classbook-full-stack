@@ -15,7 +15,7 @@
               <p class="help-block text-danger"></p>
             </div>
             <div class="form-group">
-              <input type="text" ng-model="course.depart" class="form-control" placeholder="Class Department">
+              <input type="text" ng-model="course.department" class="form-control" placeholder="Class Department">
               <p class="help-block text-danger"></p>
             </div>
             <!--<div class="form-group">
@@ -46,7 +46,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <input type="text" ng-model="course.dis.name" class="form-control" placeholder="Discussion Name">
+              <input type="text" ng-model="course.discussionName" class="form-control" placeholder="Discussion Name">
               <p class="help-block text-danger"></p>
             </div>
             <div class="form-group">
@@ -82,7 +82,7 @@
         </div>
         <div class="row">
           <div class="col-lg-12 text-center">
-            <button class="btn btn-xl" type="submit" ng-click="addClass(course)">Search</button>
+            <button class="btn btn-xl" type="submit" ng-click="searchClass(course)">Search</button>
           </div>
         </div>
       </form>
@@ -99,17 +99,21 @@
       <thead>
         <tr>
           <th></th>
-          <th>ClassName</th>
-          <th>Time</th>
+          <th>Class Name</th>
+          <th>Lecture Time</th>
+          <th>Discussion</th>
+          <th>Discussion Time</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="class in searchResults">
           <td style="width: 100px; text-align: center">
-            <button class="btn btn-sm" ng-click="test()">Enroll</button>
+            <button class="btn btn-sm" ng-click="enroll(class.id, class.discussion)">Enroll</button>
           </td>
           <td>{{class.className}}</td>
-          <td>1</td>
+          <td>{{class.lectureTime}}</td>
+          <td>{{class.discussion}}</td>
+          <td>{{class.discussionTime}}</td>
         </tr>
       </tbody>
     </table>

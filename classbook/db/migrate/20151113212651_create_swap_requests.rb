@@ -1,9 +1,9 @@
 class CreateSwapRequests < ActiveRecord::Migration
   def change
     create_table :swap_requests do |t|
-      t.integer :user_id    null: false
-      t.integer :has_dis    null: false
-      t.integer :want_dis   null: false
+      t.integer :user_id    ,null: false
+      t.integer :has_dis    ,null: false
+      t.integer :want_dis   ,null: false
       t.integer :current_match_user_id
       t.string :black_list_user_id
 

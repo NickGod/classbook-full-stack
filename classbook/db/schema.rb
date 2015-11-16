@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151113212651) do
+ActiveRecord::Schema.define(version: 20151113233826) do
 
   create_table "discussions", force: :cascade do |t|
     t.integer  "lectureId",  limit: 4
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 20151113212651) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.string   "category",   limit: 255
+    t.string   "context",    limit: 255
+    t.boolean  "read",                   default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer  "follower_id", limit: 4
     t.integer  "followed_id", limit: 4
@@ -63,9 +72,9 @@ ActiveRecord::Schema.define(version: 20151113212651) do
   add_index "relationships", ["follower_id"], name: "index_relationships_on_follower_id", using: :btree
 
   create_table "swap_requests", force: :cascade do |t|
-    t.integer  "user_id",               limit: 4
-    t.integer  "has_dis",               limit: 4
-    t.integer  "want_dis",              limit: 4
+    t.integer  "user_id",               limit: 4,   null: false
+    t.integer  "has_dis",               limit: 4,   null: false
+    t.integer  "want_dis",              limit: 4,   null: false
     t.integer  "current_match_user_id", limit: 4
     t.string   "black_list_user_id",    limit: 255
     t.datetime "created_at",                        null: false

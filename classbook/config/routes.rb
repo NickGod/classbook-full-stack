@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
 
+    # post params: user_id, has_dis,want_dis (discussion id)
     post 'swap_request/create/' => 'swap_requests#create'
 
     # to be changed to get 'message/userMessages' => 'messages#get_user_message'

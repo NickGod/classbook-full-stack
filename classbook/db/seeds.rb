@@ -50,7 +50,6 @@ Discussion.create([
 	{ lectureId: 17, begTime: '3:00P', endTime: '3:50P', days:'5', location: 'BOELTER'},
 	{ lectureId: 19, begTime: '8:00A', endTime: '8:50A', days:'5', location: 'BOELTER'},
 	{ lectureId: 20, begTime: '6:00P', endTime: '6:50P', days:'2', location: 'MATH&SCIENCE'},
-
 ])
 
 User.create([
@@ -65,6 +64,7 @@ User.create([
 	{uid: 9, email: 'xiaobai@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now},
 ])
 
+
 # i = 1
 # for user in User.all do 
 # 	user.discussions << Discussion.find(i%5+1)
@@ -77,6 +77,7 @@ Discussion.first(6).each do |dis|
 		guanshen.discussions << dis
 	end
 end
+
 
 hanshen = User.find(2)
 Discussion.find([7,8]).each do |dis|

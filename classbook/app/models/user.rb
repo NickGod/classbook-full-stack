@@ -13,11 +13,15 @@ class User < ActiveRecord::Base
                                    dependent:   :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
-
+  has_many :swap_requests
+  has_many :messages
+  validates :year, numericality: true
+  validates :sex, inclusion: { in: %w(male female),
+    message: "%{value} is not a valid sex" }
 
   # Follows a user.
   def follow(other_user)
-    active_relationships.create(followed_id: other_user.id)
+    active_relationships.create(followed_d: other_user.id)
   end
 
   # Unfollows a user.

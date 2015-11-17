@@ -33,4 +33,14 @@ class UsersController < ApplicationController
     requests = current_user.followers - current_user.following
     render json: requests
   end
+
+  def get_user_info
+      user = User.find_by_id(params[:id])
+      if(user.nil?)
+          render json: {error: true, errormsg: "invalid user id"}, status: 400
+      else
+          render json: {error: false, id: user.id, email: user.email, name: user.name,
+                        year: user.year, major: user.major, sex: user.sex}
+      end
+  end
 end

@@ -53,6 +53,15 @@ ActiveRecord::Schema.define(version: 20151116051131) do
     t.string   "department", limit: 255
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.string   "category",   limit: 255
+    t.string   "context",    limit: 255
+    t.boolean  "read",                   default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer  "follower_id", limit: 4
     t.integer  "followed_id", limit: 4
@@ -64,6 +73,18 @@ ActiveRecord::Schema.define(version: 20151116051131) do
   add_index "relationships", ["followed_id"], name: "index_relationships_on_followed_id", using: :btree
   add_index "relationships", ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true, using: :btree
   add_index "relationships", ["follower_id"], name: "index_relationships_on_follower_id", using: :btree
+
+  create_table "swap_requests", force: :cascade do |t|
+    t.integer  "user_id",               limit: 4,   null: false
+    t.integer  "has_dis",               limit: 4,   null: false
+    t.integer  "want_dis",              limit: 4,   null: false
+    t.integer  "current_match_user_id", limit: 4
+    t.string   "black_list_user_id",    limit: 255
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "swap_requests", ["user_id", "has_dis", "want_dis"], name: "index_swap_requests_on_user_id_and_has_dis_and_want_dis", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               limit: 255,   default: "email", null: false
@@ -88,6 +109,9 @@ ActiveRecord::Schema.define(version: 20151116051131) do
     t.text     "tokens",                 limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "year",                   limit: 4
+    t.string   "major",                  limit: 255
+    t.string   "sex",                    limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

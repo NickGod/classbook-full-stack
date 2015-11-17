@@ -62,7 +62,7 @@ angular.module('classbookApp')
             $('#inputPassword-sign-in-form-group').addClass('has-error');
         });
       }
-    }
+    };
 
     $scope.signUp = function() {
 

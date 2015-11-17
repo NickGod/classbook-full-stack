@@ -1,0 +1,30 @@
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name classbookApp.Class
+ * @description
+ * # Class
+ * Factory in the classbookApp.
+ */
+angular.module('classbookApp')
+  .factory('Class', '$http', function ($http) {
+
+    return function(lectureId, department, className, term) {
+
+      if (lectureId == null || lectureId == undefined) {
+        return null;
+      }
+
+      return {
+        lectureId: lectureId,
+        department: department,
+        className: className,
+        term: term,
+        discussions: [],
+        addDiscussions: function (discussions) {
+          this.discussions.concat(discussions);
+        }
+      };
+    };
+  });

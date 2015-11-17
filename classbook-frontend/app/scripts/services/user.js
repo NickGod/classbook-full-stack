@@ -25,6 +25,9 @@ angular.module('classbookApp')
       return {
         uid: uid,
         email: email,
+        firstName: "Joe",
+        lastName: "Bruin",
+        year: 1970,
         getAllEnrolledClasses: function() {
           console.log('/api/user/' + this.uid + '/getEnrolledClasses');
           return $http.get('/api/user/' + this.uid + '/getEnrolledClasses').then(function(resp) {

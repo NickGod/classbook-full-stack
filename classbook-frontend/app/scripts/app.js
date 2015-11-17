@@ -65,19 +65,19 @@ angular
         redirectTo: '/'
       });
   })
-  // .config(function($authProvider) {
-  //   $authProvider.configure({
-  //     apiUrl: 'api/user'
-  //   });
-  // })
-  // .run(['$rootScope', '$location', "AuthService", function($rootScope, $location, AuthService) {
-  //   $rootScope.$on("$routeChangeStart", function(event, next, current) {
-  //     if(next.requireLogin) {
-  //       // Auth/session check here
-  //       if (!AuthService.isAuthenticated()) {
-  //         event.preventDefault();
-  //         $location.path('/');
-  //       }
-  //     }
-  //   });
-  // }]);
+   .config(function($authProvider) {
+     $authProvider.configure({
+       apiUrl: 'api/user'
+     });
+   })
+   .run(['$rootScope', '$location', "AuthService", function($rootScope, $location, AuthService) {
+     $rootScope.$on("$routeChangeStart", function(event, next, current) {
+       if(next.requireLogin) {
+         // Auth/session check here
+         if (!AuthService.isAuthenticated()) {
+           event.preventDefault();
+           $location.path('/');
+         }
+       }
+     });
+   }]);

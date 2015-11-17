@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151116051131) do
+ActiveRecord::Schema.define(version: 20151116080844) do
 
   create_table "discussions", force: :cascade do |t|
     t.integer  "lectureId",  limit: 4

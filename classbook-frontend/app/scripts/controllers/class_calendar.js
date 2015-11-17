@@ -33,21 +33,12 @@
  */
 
 angular.module('classbookApp')
-  .controller('ClassCldrCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService', function($scope, $compile, uiCalendarConfig, AuthService) {
+  .controller('ClassCldrCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService',
+  function($scope, $compile, uiCalendarConfig, AuthService) {
 
-    function getEventData() {
-      return [
-        {className: 'CS 130', startTime: '10:00:00', endTime: '11:50:00', days: [1, 3]},
-        {className: 'CS 145', startTime: '10:00:00', endTime: '11:50:00', days: [2, 4]},
-        {className: 'ECON 106V', startTime: '13:00:00', endTime: '14:15:00', days: [2, 4]},
-        {className: 'HIST 1C', startTime: '14:00:00', endTime: '15:00:00', days: [1, 3, 5]},
-        {className: 'MGMT 120A', startTime: '08:00:00', endTime: '09:00:00', days: [1, 3, 5]},
-      ];
-    }
-    
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
-    
+
     function parseData(data) {
       var events = [];
       var date;
@@ -71,10 +62,10 @@ angular.module('classbookApp')
           }
         }
       }
-      
+
       return events;
     }
-    
+
     /* event source that pulls from url */
     $scope.eventSource = {};
 
@@ -83,7 +74,7 @@ angular.module('classbookApp')
 
     function getEvents() {
       var user = AuthService.currentUser();
-      
+
       user.getAllEnrolledClasses().then(function(resp) {
         var data = resp.data;
         var events = [];
@@ -108,14 +99,14 @@ angular.module('classbookApp')
             }
           }
         }
-        
+
         var events = parseData(resp.data);
         $scope.events.push.apply($scope.events, events);
       })
       .catch(function(resp) {
         alert("Error in getting user data!");
       });
-      
+
     }
 
     /* alert on eventClick */
@@ -197,7 +188,7 @@ angular.module('classbookApp')
 
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
-    
+
     getEvents();
   }
 ]);

@@ -106,14 +106,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="class in searchResults">
+        <tr ng-repeat="course in searchResults">
           <td style="width: 100px; text-align: center">
-            <button class="btn btn-sm" ng-click="enroll(class.id, class.discussion)">Enroll</button>
+            <button class="btn btn-sm" ng-click="enroll(course)">Enroll</button>
           </td>
-          <td>{{class.className}}</td>
-          <td>{{class.lectureTime}}</td>
-          <td>{{class.discussion}}</td>
-          <td>{{class.discussionTime}}</td>
+          <td>{{course.className}}</td>
+          <td>{{course.lectureTime}}</td>
+          <td>{{course.discussionName}}</td>
+          <td>{{course.discussionTime}}</td>
         </tr>
       </tbody>
     </table>

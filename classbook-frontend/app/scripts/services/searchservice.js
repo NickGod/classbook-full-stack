@@ -8,7 +8,7 @@
  * Service in the classbookApp.
  */
 angular.module('classbookApp')
-  .service('SearchService', 'Class', function (Class) {
+  .service('SearchService', 'Class', 'Discussion', 'User', function (Class, Discussion, User) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     return {
 
@@ -18,7 +18,7 @@ angular.module('classbookApp')
        *
        * @returns {Promise} The argument of the success callback will be a list of classes.
        */
-      searchClasses: function(params) {
+      searchClasses: function (params) {
         var url = "/api/search?";
         var first = true;
         for (var key in params) {
@@ -30,18 +30,19 @@ angular.module('classbookApp')
           }
         }
         return $http.get(url)
-          .then(function(resp) {
+          .then(function (resp) {
             var ret = [];
             for (var lec in resp) {
               var clss = null;
               if (lec.hasOwnProperty("lectureId") &&
-                  lec.hasOwnProperty("department") &&
-                  lec.hasOwnProperty("className") &&
-                  lec.hasOwnProperty("term") &&
-                  lec.hasOwnProperty("discussions"))
-              {
+                lec.hasOwnProperty("department") &&
+                lec.hasOwnProperty("className") &&
+                lec.hasOwnProperty("term") &&
+                lec.hasOwnProperty("discussions")) {
                 clss = new Class(lec.lectureId, lec.department, lec.className, lec.term);
-                clss.addDiscussions(lec.discussions);
+                for (var discussion in lec.discussions) {
+                  clss.addDiscussions([new Discussion(discussion.discussionId, discussion.discussionName, discussion)]);
+                }
               }
               if (clss != null) {
                 ret.push(clss);
@@ -49,6 +50,11 @@ angular.module('classbookApp')
             }
             return ret;
           });
+      },
+
+      getUserById: function(uid) {
+        var user = new User(uid);
+        return user.getInfo();
       }
     }
   });

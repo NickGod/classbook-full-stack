@@ -10,13 +10,13 @@
 angular.module('classbookApp')
   .factory('Class', '$http', function ($http) {
 
-    return function(lectureId, department, className, term) {
+    return function(lectureId, department, className, term, opts) {
 
       if (lectureId == null || lectureId == undefined) {
         return null;
       }
 
-      return {
+      var ret =  {
         lectureId: lectureId,
         department: department,
         className: className,
@@ -26,5 +26,13 @@ angular.module('classbookApp')
           this.discussions.concat(discussions);
         }
       };
+
+      for (var key in opts) {
+        if (!(key in ret)) {
+          ret[key] = opts[key];
+        }
+      }
+
+      return ret;
     };
   });

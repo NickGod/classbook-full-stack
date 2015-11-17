@@ -870,3 +870,10 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #4D8FAC;
 }
+
+.width-150 {
+    width: 150px;
+}
+.width-80 {
+    width: 80px;
+}

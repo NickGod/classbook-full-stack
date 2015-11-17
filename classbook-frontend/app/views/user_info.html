@@ -1,4 +1,11 @@
-<div class="container"> 
+<html>
+  <head>
+	<title>User Information</title>
+	<script src="user_info.js"></script>
+	<script src="scripts/services/authservice.js"></script>
+</head>
+<body ng-app="classbookApp" ng-controller="UserInfoCtrl">
+<!-- <div class="container"> 
 	<div class="row">
 	  <div class="col-md-4">
 		<h1> Your User Name </h1> 
@@ -13,11 +20,235 @@
 	  			<li> Your Friends </li>
 	  			<li> Swapping request </li>
 	  		</ul>
-	  </div>
+	  </div> 
 
-	</div>
+	  
+	   </div>
+</div> -->
+
+<div class="container"> 
+<div class="panel panel-default">
+	<!-- <div class="well"> -->
+	<!-- <div class="row">	
+	</div> -->
+	 <div class="panel-body">
+	<div class="row">
+	  <div class="col-xs-12 col-sm-4 text-center">
+		<img style="width:250px;" src="images/yeoman.png" alt="Your Profile Pic" class="center-block img-circle img-responsive">
+		<p> Your Description </p>
+	  </div><!-- col -->
+
+	  <div class="col-sm-6 "> 
+	   <h2> {{auth.currentUser().email}} </h2> 
+	  		<br>
+	  		
+	  			<p><strong> Name:  </strong> PUT NAME HERE </p>
+	  			<p><strong> Year: </strong> PUT NAME HERE </p>
+	  			<p><strong> Major: </strong> PUT NAME HERE </p>	  			
+	  			<p><strong> Swapping request </strong> PUT NAME HERE </p>
+	  </div><!-- col -->
+
+	<div class="col-sm-2 "> 
+	  		<!-- <button type="button" class="btn btn-default" aria-label="Left Align">
+			<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Edit Profile	  
+			</button> -->
+	  <!-- col -->
+
+	 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" aria-label="Left Align">
+  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>Edit Profile
+</button>
+<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">User Profile</h4>
+		      </div>
+		      <div class="modal-body">
+		      		<div class="fileinput fileinput-new" data-provides="fileinput">
+ 					 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; vertical-align: middle;"></div>
+ 					 <div>
+    				<span class="btn btn-default btn-file"><span class="fileinput-new">Upload</span></span>
+<!--     				<span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+ --> 					</div>
+					    <div class="form-group">
+			            <label for="user-name" class="control-label">Name:</label>
+			            <input type="text" class="form-control" id="user-name" placeholder="Name">
+			            </div>
+			          </div>
+
+			        <div class="form-group">
+			        <label for="user-gender" class="control-label">Gender: &nbsp</label>
+			        <span class="vd_radio radio-info">
+                    <input type="radio" checked="" value="option3" id="optionsRadios3" name="optionsRadios2">
+                    <label for="optionsRadios3"> Male &nbsp &nbsp</label>
+                    </span>
+                    <span class="vd_radio radio-info">
+                    <input type="radio" checked="" value="option3" id="optionsRadios3" name="optionsRadios2">
+                    <label for="optionsRadios3"> Female </label>
+                    </span>
+			        </div>
+
+						<div class="row">
+
+				        <div class="col-sm-6 form-group">
+				        <label for="user-year" class="control-label">Year: &nbsp</label>
+				        <select class="width-80">
+	                        <option>2012</option>
+	                        <option>2013</option>
+	                        <option>2014</option>
+	                        <option>2015</option>
+	                        <option>2016</option>
+	                    </select>
+	                    </div>
+
+	                    <div class="col-sm-6 form-group">
+				        <label for="user-major" class="control-label">Major: &nbsp</label>
+				        <select class="width-150">
+						<option>African American Studies</option>
+						<option>African and Middle Eastern Studies</option>
+						<option>American Indian Studies</option>
+						<option>American Literature and Culture</option>
+						<option>Anthropology</option>
+						<option>Anthropology</option>
+						<option>Arabic</option>
+						<option>Art History</option>
+						<option>Asian American Studies</option>
+						<option>Asian Humanities</option>
+						<option>Asian Religions</option>
+						<option>Asian Studies</option>
+						<option>Astrophysics</option>
+						<option>Atmospheric, Oceanic and Environmental Sciences</option>
+						<option>Biochemistry</option>
+						<option>Biology</option>
+						<option>Biophysics</option>
+						<option>Business Economics</option>
+						<option>Central and East European Languages and Cultures</option>
+						<option>Chemistry</option>
+						<option>Chemistry, General</option>
+						<option>Chemistry/Materials Science</option>
+						<option>Chicana and Chicano Studies</option>
+						<option>Chinese</option>
+						<option>Classical Civilization</option>
+						<option>Cognitive Science</option>
+						<option>Communication Studies</option>
+						<option>Comparative Literature</option>
+						<option>Computational and Systems Biology</option>
+						<option>Earth and Environmental Science</option>
+						<option>Ecology, Behavior, and Evolution</option>
+						<option>Economics</option>
+						<option>Engineering Geology</option>
+						<option>English</option>
+						<option>Environmental Science</option>
+						<option>European Studies</option>
+						<option>French</option>
+						<option>French and Linguistics</option>
+						<option>Gender Studies</option>
+						<option>Geography</option>
+						<option>Geography/Environmental Studies</option>
+						<option>Geology</option>
+						<option>Geophysics</option>
+						<option>German</option>
+						<option>Global Studies</option>
+						<option>Greek</option>
+						<option>Greek and Latin</option>
+						<option>History</option>
+						<option>Human Biology and  Society</option>
+						<option>Human Biology and  Society</option>
+						<option>International Development Studies</option>
+						<option>Iranian Studies</option>
+						<option>Italian</option>
+						<option>Italian and Special Fields</option>
+						<option>Japanese</option>
+						<option>Jewish Studies</option>
+						<option>Korean</option>
+						<option>ubcategory="subcategory">Latin</option>
+						<option>Latin American Studies</option>
+						<option>Linguistics</option>
+						<option>Linguistics and Anthropology</option>
+						<option>Linguistics and Asian Languages and Cultures</option>
+						<option>Linguistics and Computer Science</option>
+						<option>Linguistics and English</option>
+						<option>Linguistics and French</option>
+						<option>Linguistics and Italian</option>
+						<option>Linguistics and Philosophy</option>
+						<option>Linguistics and Psychology</option>
+						<option>Linguistics and Scandinavian Languages</option>
+						<option>Linguistics and Spanish</option>
+						<option>Linguistics, Applied</option>
+						<option>Marine Biology</option>
+						<option>Mathematics</option>
+						<option>Mathematics, Applied</option>
+						<option>Mathematics/Applied Science</option>
+						<option>Mathematics/Atmosphericand Oceanic Sciences</option>
+						<option>Mathematics/Economics</option>
+						<option>Mathematics, Financial Actuarial</option>
+						<option>Mathematics for Teaching</option>
+						<option>Mathematics of Computation</option>
+						<option>Microbiology, Immunology, and Molecular Genetics</option>
+						<option>Molecular, Cell, and Developmental Biology</option>
+						<option>Music History</option>
+						<option>Neuroscience</option>
+						<option>Philosophy</option>
+						<option>Physics</option>
+						<option>Physiological Science</option>
+						<option>Political Science</option>
+						<option>Portuguese</option>
+						<option>Psychobiology</option>
+						<option>Psychology</option>
+						<option>Religion, Study of</option>
+						<option>Russian Language and Literature</option>
+						<option>Russian Studies</option>
+						<option>Scandinavian Languages and Cultures</option>
+						<option>Sociology</option>
+						<option>Spanish</option>
+						<option>Spanish and Community and Culture</option>
+						<option>Spanish and Linguistics</option>
+						<option>Spanish and Portuguese</option>
+						<option>Statistics</option>
+	                    </select>
+						</div>
+
+	                    </div>
+
+						
+
+				        <div class="form-group">
+		            	<label for="message-text" class="control-label">About:</label>
+		            	<textarea class="form-control" id="message-text" placeholder="Describe yourself :)"></textarea>
+		          		</div>
+
+		            
 
 
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</div>
+
+	 </div><!-- row -->
+   </div> <!-- panel body -->
+   </div>
+	   </div>
 </div>
 
-<div ng-include="'views/class_calendar.html'"> </div>
+<div class="container"> 
+<ul class="nav nav-tabs">
+  <li><a href ng-click="tab=1">My Classes</a></li>
+  <li><a href ng-click="tab=2">Friends</a></li>
+  <li><a href ng-click="tab=3">Messages</a></li>
+</ul>
+<div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-hide="tab!=1"> </div>
+<div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-hide="tab!=2"> </div>
+</div>
+</body>
+</html>
+
+
+

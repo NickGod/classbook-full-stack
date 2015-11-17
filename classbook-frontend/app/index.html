@@ -104,6 +104,12 @@
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
                 </ul> -->
+              <ul class="nav navbar-nav navbar-right">
+              <li> <a ng-href="#/add_class"> Add Class </a> </li>
+              <li> <a ng-href="#/class_swapping"> Swap Class </a> </li>
+              <li> <a ng-href="#/user_info"> Your Info </a> </li>
+              </ul>
+
 
               <div ng-switch on="auth.isAuthenticated()">
                 <ul ng-switch-when="false" class="nav navbar-nav navbar-right">
@@ -199,6 +205,7 @@
     <script src="scripts/services/utilservice.js"></script>
     <script src="scripts/controllers/class_info.js"></script>
     <script src="scripts/controllers/class_search.js"></script>
+    <script src="scripts/controllers/add_class.js"></script>
     <!-- endbuild -->
 
     <!-- CUSTOM JQUERY PLUGIN FOR ANIMATION -->

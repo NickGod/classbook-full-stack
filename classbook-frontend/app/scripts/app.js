@@ -45,12 +45,6 @@ angular
         controllerAs: 'userInfo',
         requireLogin: true
       })
-      .when('/class_calendar', {
-        templateUrl: 'views/class_calendar.html',
-        controller: 'ClassCldrCtrl',
-        controllerAs: 'classInfo',
-        requireLogin: true
-      })
       .when('/class_swapping', {
         templateUrl: 'views/class_swapping.html',
         controller: 'ClassSwappingCtrl',
@@ -62,10 +56,10 @@ angular
         controller: 'ClassInfoCtrl',
         controllerAs: 'classInfo'
       })
-      .when('/class_search', {
-        templateUrl: 'views/class_search.html',
-        controller: 'ClassSearchCtrl',
-        controllerAs: 'classSearch'
+      .when('/add_class', {
+        templateUrl: 'views/add_class.html',
+        controller: 'AddClassCtrl',
+        controllerAs: 'addClass'
       })
       .otherwise({
         redirectTo: '/'

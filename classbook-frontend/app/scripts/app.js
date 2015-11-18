@@ -43,7 +43,7 @@ angular
         templateUrl: 'views/user_info.html',
         controller: 'UserInfoCtrl',
         controllerAs: 'userInfo',
-        requireLogin: true
+        requireLogin: false
       })
       .when('/class_swapping', {
         templateUrl: 'views/class_swapping.html',

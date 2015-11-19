@@ -87,7 +87,14 @@ end
 
 sunshen = User.find(3)
 Discussion.find([9,10]).each do |dis|
-	if(! hanshen.discussions.exists? dis)
+	if(! sunshen.discussions.exists? dis)
 		sunshen.discussions << dis
+	end
+end
+
+yushen = User.find(5)
+Discussion.find([7,8,9,10]).each do |dis|
+	if(! yushen.discussions.exists? dis)
+		yushen.discussions << dis
 	end
 end

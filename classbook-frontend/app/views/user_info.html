@@ -1,23 +1,152 @@
-<div class="container"> 
-	<div class="row">
-	  <div class="col-md-4">
-		<h1> Your User Name </h1> 
-		<img src="images/yeoman.png" alt="Your Profile Pic">
-		<p> Your Description </p>
-	  </div>
+<head>
+  <title>User Information</title>
+</head>
+<body ng-app="classbookApp" ng-controller="UserInfoCtrl">
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4 text-center">
+            <img style="width:250px;" src="images/yeoman.png" alt="Your Profile Pic" class="center-block img-circle img-responsive">
+            <p> Your Description </p>
+          </div>
+          <div class="col-sm-6">
+            <div class="row">
+              <h2 class="user-info-heading">{{currentUser ? currentUser.email : "example@example.com"}}</h2>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Name: <span class="user-info-body">{{user ? user.userName : "example name"}}</span></h4>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Gender: <span class="user-info-body">{{user ? user.gender : "example gender"}}</span></h4>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Year: <span class="user-info-body">{{user ? user.year : "example year"}}</span></h4>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Major: <span class="user-info-body">{{user ? user.major : "example major"}}</span></h4>
+            </div>
+            <!--<p><strong> Swapping request ?? Shouldn't this be in message? </strong> PUT NAME HERE </p>-->
+          </div>
 
-	  <div class="col-md-offset-4 col-md-4"> 
-	  		<br>
-	  		<ul>
-	  			<li> Your Classes </li>
-	  			<li> Your Friends </li>
-	  			<li> Swapping request </li>
-	  		</ul>
-	  </div>
+          <div class="col-sm-2 ">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" aria-label="Left Align">
+              <span class="glyphicon glyphicon-star" aria-hidden="true"></span>Edit Profile
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">User Profile</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                      <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; vertical-align: middle;"></div>
+                      <div>
+                        <span class="btn btn-default btn-file"><span class="fileinput-new">Upload</span>
+                      </div>
+                      <div class="form-group">
+                        <label for="user-name" class="control-label user-info-edit-heading">Name:</label>
+                        <input type="text" class="form-control" id="user-name" placeholder="Name" ng-model="user.userName">
+                      </div>
+                    </div>
 
-	</div>
+                    <div class="form-group">
+                      <label for="user-gender" class="user-info-edit-heading">Gender:</label>
+                      <span class="vd_radio radio-info">
+                        <input type="radio" value="Male" name="optionsGenderMale" ng-model="user.gender">
+                        <label for="optionsGenderMale" class="radio-with-margin">Male</label>
+                      </span>
+                      <span class="vd_radio radio-info">
+                      <input type="radio" value="Female" name="optionsGenderFemale" ng-model="user.gender">
+                      <label for="optionsGenderFemale" class="radio-with-margin">Female</label>
+                    </span>
+                    </div>
 
+                    <div class="row">
+                      <div class="col-sm-6 form-group">
+                        <label for="user-year" class="user-info-edit-heading">Class: &nbsp</label>
+                        <select class="width-80" ng-model="user.year">
+                          <option ng-repeat="year in range(2012,10)" ng-value="year">{{year}}</option>
+                        </select>
+                      </div>
 
-</div>
+                      <div class="col-sm-6 form-group">
+                        <label for="user-major" class="user-info-edit-heading">Major: &nbsp</label>
+                        <select class="width-150" ng-model="user.major">
+                          <option ng-repeat="major in uclaMajors" ng-value="major">{{major}}</option>
+                        </select>
+                      </div>
+                    </div>
 
-<div ng-include="'views/class_calendar.html'"> </div>
+                    <div class="form-group">
+                      <label for="message-text" class="user-info-edit-heading">About:</label>
+                      <textarea class="form-control" id="message-text" placeholder="Describe yourself :)"></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li><a href ng-click="tab=1">My Classes</a></li>
+      <li><a href ng-click="tab=2;getFriends();">Friends</a></li>
+      <li><a href ng-click="tab=3;getMessages();">Messages</a></li>
+    </ul>
+    <div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-hide="tab!=1"></div>
+    <div id="friend_list" ng-hide="tab!=2">
+      <div class="row">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Major</th>
+              <th>Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="friend in friends">
+              <td></td>
+              <td>{{friend.userName}}</td>
+              <td>{{friend.major}}</td>
+              <td>{{friend.year}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="message_list" ng-hide="tab!=3">
+      <div class="row">
+        <table class="table table-hover">
+          <col width="80%">
+          <col width="20%">
+          <thead>
+            <tr>
+              <th width="80%">Message</th>
+              <th>From</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="message in messages">
+              <td>{{message.content}}</td>
+              <td>{{message.sender}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>

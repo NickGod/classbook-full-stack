@@ -48,7 +48,9 @@ angular.module('classbookApp')
             .then(function (user) {
               _currentUser = new User(user.id, user.email);
               console.log(_currentUser);
-              return _currentUser;
+              return _currentUser.getInfo().then(function(resp) {
+                return _currentUser;
+              });
             });
         },
 
@@ -83,7 +85,9 @@ angular.module('classbookApp')
           return $auth.submitRegistration(params)
             .then(function (resp) {
               _currentUser = new User(resp.data.data.id, resp.data.data.email);
-              return _currentUser;
+              return _currentUser.getInfo().then(function(resp) {
+                return _currentUser;
+              });
             });
         }
       };

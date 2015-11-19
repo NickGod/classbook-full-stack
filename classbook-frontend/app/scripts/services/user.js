@@ -8,8 +8,8 @@
  * Factory in the classbookApp.
  */
 angular.module('classbookApp')
-  .factory('User', ['UtilService', '$http', '$q', 'User', 'SwapRequest', 'Class', 'Discussion',
-    function (UtilService, $http, $q, User, SwapRequest, Class, Discussion) {
+  .factory('User', ['UtilService', '$http', '$q', 'SwapRequest', 'Class', 'Discussion',
+    function (UtilService, $http, $q, SwapRequest, Class, Discussion) {
     // Public API here
     return function(uid, email, opts) {
       // Validate parameters.

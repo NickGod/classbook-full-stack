@@ -8,7 +8,7 @@
  * Service in the classbookApp.
  */
 angular.module('classbookApp')
-  .service('SearchService', 'Class', 'Discussion', 'User', function (Class, Discussion, User) {
+  .service('SearchService', [ 'Class', 'Discussion', 'User', function (Class, Discussion, User) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     return {
 
@@ -57,4 +57,4 @@ angular.module('classbookApp')
         return user.getInfo();
       }
     }
-  });
+  }]);

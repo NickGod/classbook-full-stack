@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     current_user = User.find(params[:my_id])
     wantFriend = User.find(params[:other_id])
     if wantFriend == current_user || current_user.following.include?(wantFriend)
-      render json: {"error":true,"errormsg":"either not valid, or request already sent"} , status: :bad_request
+      render json: {error:true, errormsg:"either not valid, or request already sent"} , status: :bad_request
       return
     end
     current_user.following << wantFriend
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     current_user = User.find(params[:my_id])
     futureFriend = User.find(params[:other_id])
     if futureFriend.following.include?(current_user)
-      render json: {"error":true,"errormsg":"You made a mistake, he/she is not requesting a friendship"} , status: :bad_request
+      render json: {error:true, errormsg: "You made a mistake, he/she is not requesting a friendship"} , status: :bad_request
       return
     end
     current_user.following << futureFriend

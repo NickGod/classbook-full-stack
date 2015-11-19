@@ -2,10 +2,10 @@ class EnrollmentsController < ApplicationController
 	def get_all_discussion
 		@user = User.find_by_id(params[:id])
 		if @user.nil?
-			render json: {"error":true,"errormsg":"invalid user"} , status: :bad_request
+			render json: {error: true, errormsg: "invalid user"} , status: :bad_request
 			return
 		end
-		
+
 		@discussions = @user.discussions 
 		@lectures = Lecture.select{ |l| l.id.in? @discussions.map{|d| d.lectureId} }
 

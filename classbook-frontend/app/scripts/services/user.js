@@ -30,13 +30,13 @@ angular.module('classbookApp')
         getAllEnrolledClasses: function() {
           console.log('/api/user/' + this.uid + '/getEnrolledClasses');
           return $http.get('/api/user/' + this.uid + '/getEnrolledClasses').then(function (resp) {
-            console.log(resp.data);
+            // console.log(resp.data);
             var ret = [];
             if (resp.data instanceof Array) {
-              console.log('response is array');
+              // console.log('response is array');
               for (var lec in resp.data) {
                 var clss = null;
-                console.log(lec);
+                // console.log(lec);
                 // if (resp.data[lec].hasOwnProperty("lectureId") &&
                 //   resp.data[lec].hasOwnProperty("department") &&
                 //   resp.data[lec].hasOwnProperty("className") &&

@@ -8,7 +8,7 @@
  * Service in the classbookApp.
  */
 angular.module('classbookApp')
-  .service('SearchService', [ 'Class', 'Discussion', 'User', function (Class, Discussion, User) {
+  .service('SearchService', [ 'Class', 'Discussion', 'User', '$http', function (Class, Discussion, User, $http) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     return {
 
@@ -19,14 +19,15 @@ angular.module('classbookApp')
        * @returns {Promise} The argument of the success callback will be a list of classes.
        */
       searchClasses: function (params) {
+        console.log(params);
         var url = "/api/search?";
         var first = true;
         for (var key in params) {
           if (first) {
-            url = url + key + "=" + value;
+            url = url + key + "=" + params[key];
             first = false;
           } else {
-            url = url + "&" + key + "=" + value;
+            url = url + "&" + key + "=" + params[key];
           }
         }
         return $http.get(url)

@@ -14,16 +14,17 @@
 
 
 <div ng-show="tab1">
-	<div ng-include="'views/class_calendar.html'"></div>
-	Swapping Center
+	<p> get a list of classes you want to swap and display it on the calendar </p>
+	<div ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
 </div>
 
 <div ng-show="tab2" class="container">
-	Class to swap with
+	<p> get a list of classes your friend want to swap </p>
+	<div ng-include="'views/class_search.html'"> </div>
 </div>
 
 <div ng-show="tab3" class="container">
-	Swap requests
+	<p> Manage swap requests </p>
 	<irontec-simple-chat
 	  messages="vm.messages"
 	  username="vm.username"

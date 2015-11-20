@@ -39,6 +39,8 @@ angular.module('classbookApp')
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
 
+
+    //helper function
     function parseData(data) {
       var events = [];
       var date;
@@ -72,18 +74,27 @@ angular.module('classbookApp')
     /* event source that contains custom events on the scope */
     $scope.events = [];
 
-    function getEvents() {
-      var user = AuthService.currentUser();
+    //save user to the scope
+    $scope.user = AuthService.currentUser();
 
-      user.getAllEnrolledClasses().then(function(resp) {
-        var data = resp.data;
+    //get events when calendar is loaded
+    function getEvents() {
+      console.log($scope.user);
+      $scope.user.getAllEnrolledClasses().then(function(classes) {
+        if (!classes)
+        {
+          throw new Error('The response is NULL ');
+        }
+
+        console.log(classes);
+        // var data = resp.data;
         var events = [];
         var date;
 
         for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
           var course, i;
-          for (i = 0; i < data.length; i++) {
-            course = data[i];
+          for (i = 0; i < classes.length; i++) {
+            course = classes[i];
             if (course.days.indexOf(date.getDay()) != -1) {
               var timeBegin = date.toDateString() + ' ' + course.startTime;
               var timeEnd = date.toDateString() + ' ' + course.endTime;
@@ -100,11 +111,13 @@ angular.module('classbookApp')
           }
         }
 
-        var events = parseData(resp.data);
+        var events = parseData(classes);
         $scope.events.push.apply($scope.events, events);
       })
-      .catch(function(resp) {
-        alert("Error in getting user data!");
+      .catch(function(e) {
+        if (e)
+          console.log(e);
+        // alert("Error in getting user data!");
       });
 
     }
@@ -189,6 +202,14 @@ angular.module('classbookApp')
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
 
-    getEvents();
+
+    /* watch for user */
+   $scope.$watch('user', function() {
+      console.log('user loaded');
+      if ($scope.user != null)
+        getEvents();
+      else
+        console.log('User is invalid');
+   });
   }
 ]);

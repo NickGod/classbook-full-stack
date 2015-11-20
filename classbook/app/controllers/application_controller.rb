@@ -7,7 +7,7 @@ class ApplicationController < ActionController::API
   	discussion = params['discussion']
 
   	if name.nil? && department.nil? || name.nil? && !discussion.nil?
-  		render json: {"error":true,"errormsg":"invalid parameters"} , status: :bad_request
+  		render json: {error: true, errormsg: "invalid parameters"} , status: :bad_request
   		return
   	end
 

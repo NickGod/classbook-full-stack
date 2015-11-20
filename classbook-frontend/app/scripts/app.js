@@ -50,7 +50,7 @@ angular
         templateUrl: 'views/class_swapping.html',
         controller: 'ClassSwappingCtrl',
         controllerAs: 'classSwapping',
-        requireLogin: true
+        requireLogin: false
       })
       .when('/class_info', {
         templateUrl: 'views/class_info.html',

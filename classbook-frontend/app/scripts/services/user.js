@@ -59,6 +59,7 @@ angular.module('classbookApp')
         },
 
         enroll: function(discussion) {
+          // alert(discussion);
           var discussionId;
           if (typeof discussion === "number") {
             discussionId = discussion;

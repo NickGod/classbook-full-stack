@@ -23,6 +23,38 @@ angular.module('classbookApp')
     // console.log("controller loaded");
     // console.log(User);
 
+    //helper function
+    function parseData(cls) {
+      var events = [];
+      var date;
+      var data = [cls];
+      console.log(data);
+      for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
+        var course, i;
+        for (i = 0; i < data.length; i++) {
+          course = data[i];
+          console.log(course);
+
+          //TODO: DAY PARSING
+          // if (course.days.indexOf(date.getDay()) != -1) {
+          //   var timeBegin = date.toDateString() + ' ' + course.startTime;
+          //   var timeEnd = date.toDateString() + ' ' + course.endTime;
+
+          //   events.push({
+          //     title: course.className,
+          //     start: new Date(timeBegin),
+          //     end: new Date(timeEnd),
+          //     allDay: false,
+          //     editable: false,
+          //     stick: true,
+          //   });
+          }
+        }
+      }
+
+      return events;
+    }
+
     // Helper function used for creating formatted time string
     function formatTime(days, startTime, endTime) {
       var i;
@@ -84,7 +116,7 @@ angular.module('classbookApp')
         };
 
         for(j = 0; j < clsData.discussions.length; j++) {
-          var dis = clsData.discussions[i];
+          var dis = clsData.discussions[j];
           var clsDis = JSON.parse(JSON.stringify(cls));
 
           clsDis.discussionId = dis.discussionId;
@@ -98,18 +130,22 @@ angular.module('classbookApp')
     }
 
     $scope.searchClass = function(course) {
-      if (!course.name && !course.department) {
-        window.alert("Please enter at least one of class name or department name");
+      if (!course) {
+        window.alert("You didn't fill in anything yet");
         return;
       }
 
-      SearchService.searchClasses(course).then(function(resp) {
-        var data = resp.data;
-
-        $scope.searchResults = parseSearchData(data);
+      SearchService.searchClasses(course).then(function(classes) {
+        // var data = resp.data;
+        if (!classes){
+          throw new Error('Cannot get the classes object back');
+        }
+        $scope.searchResults = parseSearchData(classes);
       })
-      .catch(function(resp) {
-        alert("Error in searching classes!\n" + resp.error);
+      .catch(function(e) {
+        if(e)
+          console.log(e);
+        // alert("Error in searching classes!\n" + e);
       });
 
       // $scope.searchResults = [
@@ -131,14 +167,34 @@ angular.module('classbookApp')
     };
 
     $scope.enroll = function(course) {
-      $scope.user.enroll(course.discussionId).then(function(resp) {
-        var calData = course.concat(course.discussions);
+      $scope.user.enroll(course.discussionId).then(function(res) {
+        console.log(res);
+        if(res.status != '200')
+          throw new Error('Enroll failed');
 
-        var events = parseCalendarData(calData);
+        console.log(course);
+        // var calData = course.concat(course.discussions);
+
+        var events = parseData(course);
+        console.log(events);
         $scope.events.push.apply($scope.events, events);
-        window.alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);
-      }).catch(function(resp) {
-        window.alert("Error!");
+        console.log($scope.events);
+        alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);
+
+        //remove the corresponding class from the view
+        for (var i = 0; i < $scope.searchResults.length; i++) {
+          if($scope.searchResults[i] == course)
+          {
+            //note 
+            //if we splice the array inside the for loop
+            //there might be problem with it (boundary)
+            alert('Found the right class to remove');
+            $scope.searchResults.splice(i, 1);
+            break;
+          }
+        }
+      }).catch(function(e) {
+        if(e) {console.log('Error when enrolling: ' + e)};
       });
     }
 
@@ -149,33 +205,7 @@ angular.module('classbookApp')
     var quarterEnds = new Date('2015-12-12');
 
 
-    //helper function
-    function parseData(data) {
-      var events = [];
-      var date;
 
-      for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
-        var course, i;
-        for (i = 0; i < data.length; i++) {
-          course = data[i];
-          if (course.days.indexOf(date.getDay()) != -1) {
-            var timeBegin = date.toDateString() + ' ' + course.startTime;
-            var timeEnd = date.toDateString() + ' ' + course.endTime;
-
-            events.push({
-              title: course.className,
-              start: new Date(timeBegin),
-              end: new Date(timeEnd),
-              allDay: false,
-              editable: false,
-              stick: true,
-            });
-          }
-        }
-      }
-
-      return events;
-    }
 
     /* event source that pulls from url */
     $scope.eventSource = {};
@@ -195,7 +225,7 @@ angular.module('classbookApp')
           throw new Error('The response is NULL ');
         }
 
-        console.log(classes);
+        // console.log(classes);
         // var data = resp.data;
         var events = [];
         var date;
@@ -220,8 +250,8 @@ angular.module('classbookApp')
           }
         }
 
-        var events = parseData(classes);
-        $scope.events.push.apply($scope.events, events);
+        // var events = parseData(classes);
+        // $scope.events.push.apply($scope.events, events);
       })
       .catch(function(e) {
         if (e)
@@ -318,8 +348,14 @@ angular.module('classbookApp')
       if ($scope.user != null)
         getEvents();
       else
-        console.log('User is invalid');
+        $scope.user = AuthService.currentUser();
    });
+
+   /* watch for scope events */
+   $scope.$watch('events', function() {
+      console.log($scope.events);
+      $scope.eventSources = [$scope.events, $scope.eventSource];
+   })
   }
 
 ]);

@@ -32,23 +32,30 @@ angular.module('classbookApp')
         }
         return $http.get(url)
           .then(function (resp) {
-            var ret = [];
-            for (var lec in resp) {
-              var clss = null;
-              if (lec.hasOwnProperty("lectureId") &&
-                lec.hasOwnProperty("department") &&
-                lec.hasOwnProperty("className") &&
-                lec.hasOwnProperty("term") &&
-                lec.hasOwnProperty("discussions")) {
-                clss = new Class(lec.lectureId, lec.department, lec.className, lec.term);
-                for (var discussion in lec.discussions) {
-                  clss.addDiscussions([new Discussion(discussion.discussionId, discussion.discussionName, discussion)]);
-                }
-              }
-              if (clss != null) {
-                ret.push(clss);
-              }
+            if (!resp){ 
+              throw new Error('Response is NULL.');
+              return; 
             }
+
+            var ret = resp.data;
+
+            // for (var lec in resp.data) {
+            //   console.log(lec);
+            //   var clss = null;
+            //   if (lec.hasOwnProperty("lectureId") &&
+            //     lec.hasOwnProperty("department") &&
+            //     lec.hasOwnProperty("className") &&
+            //     lec.hasOwnProperty("term") &&
+            //     lec.hasOwnProperty("discussions")) {
+            //     clss = new Class(lec.lectureId, lec.department, lec.className, lec.term);
+            //     for (var discussion in lec.discussions) {
+            //       clss.addDiscussions([new Discussion(discussion.discussionId, discussion.discussionName, discussion)]);
+            //     }
+            //   }
+              // if (clss != null) {
+              //   ret.push(clss);
+              // }
+            // }
             return ret;
           });
       },

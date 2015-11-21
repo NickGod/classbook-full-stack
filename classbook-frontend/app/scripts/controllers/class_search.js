@@ -91,7 +91,7 @@ angular.module('classbookApp')
       }
 
       $scope.searchClass = function(course) {
-        if (!course.name && !course.department) {
+        if (!course) {
           window.alert("Please enter at least one of class name or department name");
           return;
         }

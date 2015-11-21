@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ng-token-auth',
-    'ui.calendar'
+    'ui.calendar',
+    'irontec.simpleChat'
   ])
   .constant('FRONTEND_MOCKING', false)
   .config(function($routeProvider) {
@@ -43,13 +44,13 @@ angular
         templateUrl: 'views/user_info.html',
         controller: 'UserInfoCtrl',
         controllerAs: 'userInfo',
-        requireLogin: true
+        requireLogin: false
       })
       .when('/class_swapping', {
         templateUrl: 'views/class_swapping.html',
         controller: 'ClassSwappingCtrl',
         controllerAs: 'classSwapping',
-        requireLogin: true
+        requireLogin: false
       })
       .when('/class_info', {
         templateUrl: 'views/class_info.html',

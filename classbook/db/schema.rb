@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20151116080844) do
     t.string   "location",   limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "className",  limit: 255
   end
 
   create_table "discussions_users", id: false, force: :cascade do |t|
@@ -48,6 +49,8 @@ ActiveRecord::Schema.define(version: 20151116080844) do
     t.string   "location",   limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "term",       limit: 255
+    t.string   "department", limit: 255
   end
 
   create_table "messages", force: :cascade do |t|

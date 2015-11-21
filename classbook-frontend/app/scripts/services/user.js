@@ -8,8 +8,8 @@
  * Factory in the classbookApp.
  */
 angular.module('classbookApp')
-  .factory('User', ['UtilService', '$http', '$q', 'User', 'SwapRequest', 'Class', 'Discussion',
-    function (UtilService, $http, $q, User, SwapRequest, Class, Discussion) {
+  .factory('User', ['UtilService', '$http', '$q', 'SwapRequest', 'Class', 'Discussion',
+    function (UtilService, $http, $q, SwapRequest, Class, Discussion) {
     // Public API here
     return function(uid, email, opts) {
       // Validate parameters.
@@ -30,29 +30,36 @@ angular.module('classbookApp')
         getAllEnrolledClasses: function() {
           console.log('/api/user/' + this.uid + '/getEnrolledClasses');
           return $http.get('/api/user/' + this.uid + '/getEnrolledClasses').then(function (resp) {
+            // console.log(resp.data);
             var ret = [];
-            if (typeof resp === 'array') {
-              for (var lec in resp) {
+            if (resp.data instanceof Array) {
+              // console.log('response is array');
+              for (var lec in resp.data) {
                 var clss = null;
-                if (lec.hasOwnProperty("lectureId") &&
-                  lec.hasOwnProperty("department") &&
-                  lec.hasOwnProperty("className") &&
-                  lec.hasOwnProperty("term") &&
-                  lec.hasOwnProperty("discussions")) {
-                  clss = new Class(lec.lectureId, lec.department, lec.className, lec.term);
-                  for (var discussion in lec.discussions) {
-                    clss.addDiscussions([new Discussion(discussion.discussionId, discussion.discussionName, discussion)]);
-                  }
-                }
-                if (clss != null) {
-                  ret.push(clss);
+                // console.log(lec);
+                // if (resp.data[lec].hasOwnProperty("lectureId") &&
+                //   resp.data[lec].hasOwnProperty("department") &&
+                //   resp.data[lec].hasOwnProperty("className") &&
+                //   resp.data[lec].hasOwnProperty("term") &&
+                //   resp.data[lec].hasOwnProperty("discussions")) {
+                //   clss = new Class(resp.data[lec].lectureId, resp.data[lec].department, resp.data[lec].className, resp.data[lec].term);
+                //   for (var discussion in resp.data.lec.discussions) {
+                //     clss.addDiscussions([new Discussion(discussion.discussionId, discussion.discussionName, discussion)]);
+                //   }
+                // }
+                if (resp.data[lec] != null) {
+                  ret.push(resp.data[lec]);
+                  // console.log (ret);
                 }
               }
             }
+            // console.log(ret);
+            return ret;
           });
         },
 
         enroll: function(discussion) {
+          // alert(discussion);
           var discussionId;
           if (typeof discussion === "number") {
             discussionId = discussion;

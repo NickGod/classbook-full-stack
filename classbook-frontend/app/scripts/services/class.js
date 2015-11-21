@@ -8,7 +8,7 @@
  * Factory in the classbookApp.
  */
 angular.module('classbookApp')
-  .factory('Class', '$http', function ($http) {
+  .factory('Class', ['$http', function ($http) {
 
     return function(lectureId, department, className, term, opts) {
 
@@ -35,4 +35,4 @@ angular.module('classbookApp')
 
       return ret;
     };
-  });
+  }]);

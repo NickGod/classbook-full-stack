@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
 
+
+    get '/search' => 'application#searchClass'
+
     # post params: user_id, has_dis,want_dis (discussion id)
     post 'swap_request/create/' => 'swap_requests#create'
 

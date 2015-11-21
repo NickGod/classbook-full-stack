@@ -1,2 +1,42 @@
-<p>This is the class_swapping view.</p>
-<p> this is a page that manages class swapping requests. </p>
+<div class="container">
+	<h1>Swap your class with your friend</h1>
+	<p> This is where you share the classes you want to swap with, and see what classes your peers want to swap. </p>
+
+	<hr>
+	<ul class="nav nav-pills">
+	  <li role="presentation" class="active"><a ng-click="chooseTab(1)">Home</a></li>
+	  <li role="presentation"><a ng-click="chooseTab(2)">Search</a></li>
+	  <li role="presentation"><a ng-click="chooseTab(3)">Swap requests</a></li>
+	</ul>
+
+	<br>
+</div>
+
+
+<div ng-show="tab1">
+	<p> get a list of classes you want to swap and display it on the calendar </p>
+	<div ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
+</div>
+
+<div ng-show="tab2" class="container">
+	<p> get a list of classes your friend want to swap </p>
+	<div ng-include="'views/class_search.html'"> </div>
+</div>
+
+<div ng-show="tab3" class="container">
+	<p> Manage swap requests </p>
+	<irontec-simple-chat
+	  messages="vm.messages"
+	  username="vm.username"
+	  input-placeholder-text="You can write here"
+	  submit-button-text="Send your message"
+	  title="Swap request"
+	  theme="material"
+	  submit-function="vm.sendMessage"
+	  visible="vm.visible"
+	  expand-on-new="vm.expandOnNew">
+
+	</irontec-simple-chat>
+</div>
+
+

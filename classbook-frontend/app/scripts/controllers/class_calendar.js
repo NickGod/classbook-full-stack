@@ -33,21 +33,14 @@
  */
 
 angular.module('classbookApp')
-  .controller('ClassCldrCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService', function($scope, $compile, uiCalendarConfig, AuthService) {
+  .controller('ClassCldrCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService',
+  function($scope, $compile, uiCalendarConfig, AuthService) {
 
-    function getEventData() {
-      return [
-        {className: 'CS 130', startTime: '10:00:00', endTime: '11:50:00', days: [1, 3]},
-        {className: 'CS 145', startTime: '10:00:00', endTime: '11:50:00', days: [2, 4]},
-        {className: 'ECON 106V', startTime: '13:00:00', endTime: '14:15:00', days: [2, 4]},
-        {className: 'HIST 1C', startTime: '14:00:00', endTime: '15:00:00', days: [1, 3, 5]},
-        {className: 'MGMT 120A', startTime: '08:00:00', endTime: '09:00:00', days: [1, 3, 5]},
-      ];
-    }
-    
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
-    
+
+
+    //helper function
     function parseData(data) {
       var events = [];
       var date;
@@ -71,32 +64,41 @@ angular.module('classbookApp')
           }
         }
       }
-      
+
       return events;
     }
-    
+
     /* event source that pulls from url */
     $scope.eventSource = {};
 
     /* event source that contains custom events on the scope */
     $scope.events = [];
 
+    //save user to the scope
+    $scope.user = AuthService.currentUser();
+
+    //get events when calendar is loaded
     function getEvents() {
-      var user = AuthService.currentUser();
-      
-      user.getAllEnrolledClasses().then(function(resp) {
-        var data = resp.data;
+      console.log($scope.user);
+      $scope.user.getAllEnrolledClasses().then(function(classes) {
+        if (!classes)
+        {
+          throw new Error('The response is NULL ');
+        }
+
+        console.log(classes);
+        // var data = resp.data;
         var events = [];
         var date;
-  
+
         for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
           var course, i;
-          for (i = 0; i < data.length; i++) {
-            course = data[i];
+          for (i = 0; i < classes.length; i++) {
+            course = classes[i];
             if (course.days.indexOf(date.getDay()) != -1) {
               var timeBegin = date.toDateString() + ' ' + course.startTime;
               var timeEnd = date.toDateString() + ' ' + course.endTime;
-  
+
               events.push({
                 title: course.className,
                 start: new Date(timeBegin),
@@ -108,14 +110,16 @@ angular.module('classbookApp')
             }
           }
         }
-        
-        var events = parseData(resp.data);
+
+        var events = parseData(classes);
         $scope.events.push.apply($scope.events, events);
       })
-      .catch(function(resp) {
-        alert("Error in getting user data!");
+      .catch(function(e) {
+        if (e)
+          console.log(e);
+        // alert("Error in getting user data!");
       });
-      
+
     }
 
     /* alert on eventClick */
@@ -170,65 +174,6 @@ angular.module('classbookApp')
         $compile(element)($scope);
     };
 
-    $scope.addClass = function(course) {
-      alert('Class ' + course.name + ' and discussion ' + course.dis.name + ' have been added');
-      var newEvents = [];
-      var days = [];
-      if (course.mon) {
-        days.push(1);
-      }
-      if (course.tue) {
-        days.push(2);
-      }
-      if (course.wed) {
-        days.push(3);
-      }
-      if (course.thur) {
-        days.push(4);
-      }
-      if (course.fri) {
-        days.push(5);
-      }
-      
-      newEvents.push({
-        className: course.name,
-        startTime: course.start,
-        endTime: course.end,
-        days: days,
-      });
-      
-      var disDays = [];
-      if (course.dis.mon) {
-        disDays.push(1);
-      }
-      if (course.dis.tue) {
-        disDays.push(2);
-      }
-      if (course.dis.wed) {
-        disDays.push(3);
-      }
-      if (course.dis.thur) {
-        disDays.push(4);
-      }
-      if (course.dis.fri) {
-        disDays.push(5);
-      }
-      
-      newEvents.push({
-        className: course.dis.name,
-        startTime: course.dis.start,
-        endTime: course.dis.end,
-        days: disDays,
-      });
-      
-      var events = parseData(newEvents);
-      $scope.events.push.apply($scope.events, events);
-    };
-
-    $scope.test = function() {
-      alert('test function called');
-    };
-    
     $scope.viewRender = function(view, element) {
       // $('#calendar').fullCalendar('updateEvent', $scope.events);
     };
@@ -257,6 +202,14 @@ angular.module('classbookApp')
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
 
-    getEvents();
+
+    /* watch for user */
+   $scope.$watch('user', function() {
+      console.log('user loaded');
+      if ($scope.user != null)
+        getEvents();
+      else
+        console.log('User is invalid');
+   });
   }
 ]);

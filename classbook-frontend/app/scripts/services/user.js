@@ -11,7 +11,7 @@ angular.module('classbookApp')
   .factory('User', ['UtilService', '$http', '$q', 'SwapRequest', 'Class', 'Discussion',
     function (UtilService, $http, $q, SwapRequest, Class, Discussion) {
     // Public API here
-    return function(uid, email, opts) {
+    var User = function(uid, email, opts) {
       // Validate parameters.
       if (parseInt(uid).toString() != uid) {
         console.log("DEBUG: user.js: uid is not valid.");
@@ -170,4 +170,5 @@ angular.module('classbookApp')
         }
       };
     };
-  }]);
+    return User;
+    }]);

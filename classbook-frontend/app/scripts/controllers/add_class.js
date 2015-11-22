@@ -12,46 +12,37 @@ angular.module('classbookApp')
   function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User) {
 
     $scope.tab = 1;
-
-    // CONTROLLER for search
-    $scope.searchResults = [];
-
     $scope.user = AuthService.currentUser();
-    // User.uid = $scope.user.uid;
-    // User.email = $scope.user.email;
 
-    // console.log("controller loaded");
-    // console.log(User);
+    // CONTROLLER for calendar
+    var quarterBegins = new Date('2015-09-22');
+    var quarterEnds = new Date('2015-12-12');
 
-    //helper function
-    function parseData(cls) {
+    // helper function
+    function parseCalendarData(data) {
       var events = [];
       var date;
-      var data = [cls];
-      console.log(data);
+
       for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
         var course, i;
         for (i = 0; i < data.length; i++) {
           course = data[i];
-          console.log(course);
 
-          //TODO: DAY PARSING
-          // if (course.days.indexOf(date.getDay()) != -1) {
-          //   var timeBegin = date.toDateString() + ' ' + course.startTime;
-          //   var timeEnd = date.toDateString() + ' ' + course.endTime;
+          if (course.days.indexOf(date.getDay()) != -1) {
+            var timeBegin = date.toDateString() + ' ' + course.startTime;
+            var timeEnd = date.toDateString() + ' ' + course.endTime;
 
-          //   events.push({
-          //     title: course.className,
-          //     start: new Date(timeBegin),
-          //     end: new Date(timeEnd),
-          //     allDay: false,
-          //     editable: false,
-          //     stick: true,
-          //   });
+            events.push({
+              title: course.className,
+              start: new Date(timeBegin),
+              end: new Date(timeEnd),
+              allDay: false,
+              editable: false,
+              stick: true,
+            });
           }
         }
       }
-
       return events;
     }
 
@@ -122,6 +113,17 @@ angular.module('classbookApp')
           clsDis.discussionId = dis.discussionId;
           clsDis.discussionName = dis.discussionName;
           clsDis.discussionTime = formatTime(dis.days, dis.startTime, dis.endTime);
+          clsDis.rawData = [{
+            className: clsDis.className,
+            startTime: clsData.startTime,
+            endTime: clsData.endTime,
+            days: clsData.days
+          }, {
+            className: dis.discussionName,
+            startTime: dis.startTime,
+            endTime: dis.endTime,
+            days: dis.days
+          }];
           classes.push(clsDis);
         }
       }
@@ -129,83 +131,66 @@ angular.module('classbookApp')
       return classes;
     }
 
+    $scope.searchResults = [];
+
     $scope.searchClass = function(course) {
       if (!course) {
         window.alert("You didn't fill in anything yet");
         return;
+      } else if (!course.className && !course.department) {
+        window.alert("Please enter at least one of class name or department name");
+        return;
       }
 
+      // Sample Search Result:
+      //
+      // {
+      //   id: 102,
+      //   className: "ART 10",
+      //   lectureTime: "MWF 10:00am-10:50am",
+      //   discussion: "1A",
+      //   discussionTime: "T 2:00pm-2:50pm",
+      // }
+
       SearchService.searchClasses(course).then(function(classes) {
-        // var data = resp.data;
         if (!classes){
           throw new Error('Cannot get the classes object back');
+        } else if (classes.length == 0) {
+          alert("No matching class");
+        } else {
+          $scope.searchResults = parseSearchData(classes);
         }
-        $scope.searchResults = parseSearchData(classes);
       })
       .catch(function(e) {
         if(e)
-          console.log(e);
+          console.log("ERROR: " + e);
         // alert("Error in searching classes!\n" + e);
       });
-
-      // $scope.searchResults = [
-      //   {
-      //     id: 102,
-      //     className: "ART 10",
-      //     lectureTime: "MWF 10:00am-10:50am",
-      //     discussion: "1A",
-      //     discussionTime: "T 2:00pm-2:50pm",
-      //   },
-      //   {
-      //     id: 211,
-      //     className: "CS 130",
-      //     lectureTime: "MW 12:00pm-1:50pm",
-      //     discussion: "1B",
-      //     discussionTime: "F 10:00am-11:50am",
-      //   }
-      // ];
     };
 
     $scope.enroll = function(course) {
       $scope.user.enroll(course.discussionId).then(function(res) {
-        console.log(res);
+        console.log("LOGGING: result from enroll()\n" + res);
+        console.log(course);
+
         if(res.status != '200')
           throw new Error('Enroll failed');
 
-        console.log(course);
-        // var calData = course.concat(course.discussions);
-
-        var events = parseData(course);
-        console.log(events);
+        var events = parseCalendarData(course.rawData);
         $scope.events.push.apply($scope.events, events);
-        console.log($scope.events);
+
         alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);
 
         //remove the corresponding class from the view
-        for (var i = 0; i < $scope.searchResults.length; i++) {
-          if($scope.searchResults[i] == course)
-          {
-            //note 
-            //if we splice the array inside the for loop
-            //there might be problem with it (boundary)
-            alert('Found the right class to remove');
-            $scope.searchResults.splice(i, 1);
-            break;
-          }
-        }
+        var i = $scope.searchResults.indexOf(course);
+        if (i > -1)
+          $scope.searchResults.splice(i, 1);
       }).catch(function(e) {
-        if(e) {console.log('Error when enrolling: ' + e)};
+        if(e) {
+          console.log('Error when enrolling: ' + e);
+        }
       });
     }
-
-
-
-    // CONTROLLER for calendar
-    var quarterBegins = new Date('2015-09-22');
-    var quarterEnds = new Date('2015-12-12');
-
-
-
 
     /* event source that pulls from url */
     $scope.eventSource = {};
@@ -213,52 +198,21 @@ angular.module('classbookApp')
     /* event source that contains custom events on the scope */
     $scope.events = [];
 
-    //save user to the scope
-    // $scope.user = AuthService.currentUser();
-
-    //get events when calendar is loaded
+    // get events when calendar is loaded
     function getEvents() {
-      console.log($scope.user);
       $scope.user.getAllEnrolledClasses().then(function(classes) {
-        if (!classes)
-        {
+        if (!classes) {
           throw new Error('The response is NULL ');
         }
 
-        // console.log(classes);
-        // var data = resp.data;
-        var events = [];
-        var date;
-
-        for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
-          var course, i;
-          for (i = 0; i < classes.length; i++) {
-            course = classes[i];
-            if (course.days.indexOf(date.getDay()) != -1) {
-              var timeBegin = date.toDateString() + ' ' + course.startTime;
-              var timeEnd = date.toDateString() + ' ' + course.endTime;
-
-              events.push({
-                title: course.className,
-                start: new Date(timeBegin),
-                end: new Date(timeEnd),
-                allDay: false,
-                editable: false,
-                stick: true,
-              });
-            }
-          }
-        }
-
-        // var events = parseData(classes);
-        // $scope.events.push.apply($scope.events, events);
+        var events = parseCalendarData(classes);
+        $scope.events.push.apply($scope.events, events);
       })
       .catch(function(e) {
         if (e)
           console.log(e);
         // alert("Error in getting user data!");
       });
-
     }
 
     /* alert on eventClick */
@@ -341,7 +295,6 @@ angular.module('classbookApp')
     /* event sources array*/
     $scope.eventSources = [$scope.events, $scope.eventSource];
 
-
     /* watch for user */
    $scope.$watch('user', function() {
       console.log('user loaded');
@@ -352,10 +305,8 @@ angular.module('classbookApp')
    });
 
    /* watch for scope events */
-   $scope.$watch('events', function() {
-      console.log($scope.events);
-      $scope.eventSources = [$scope.events, $scope.eventSource];
-   })
+  //  $scope.$watch('events', function() {
+  //     $scope.eventSources = [$scope.events, $scope.eventSource];
+  //  });
   }
-
 ]);

@@ -137,12 +137,19 @@ angular.module('classbookApp')
     };
 
     $scope.getFriends = function() {
-      $scope.friends = [{
-        uid: 2,
-        userName: "Shuo Sun",
-        major: "Computer Science",
-        year: "2016",
-      }]
+      // $scope.friends = [{
+      //   uid: 2,
+      //   userName: "Shuo Sun",
+      //   major: "Computer Science",
+      //   year: "2016",
+      // }]
+
+      $scope.currentUser.getFriends().then(function(friends) {
+        console.log(friends);
+        $scope.friends = friends;
+      }).catch(function(e) {
+        console.log("ERROR: " + e);
+      });
     }
 
     $scope.getMessages = function() {

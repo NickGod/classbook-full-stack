@@ -8,8 +8,8 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('AddClassCtrl', ['$scope', 'SearchService', '$compile', 'uiCalendarConfig', 'AuthService', 'User',
-  function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User) {
+  .controller('AddClassCtrl', ['$scope', 'SearchService', '$compile', 'uiCalendarConfig', 'AuthService', 'User', "$uibModal",
+  function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User, $uibModal) {
 
     $scope.tab = 1;
     $scope.user = AuthService.currentUser();
@@ -215,9 +215,23 @@ angular.module('classbookApp')
       });
     }
 
+    $scope.open = function() {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'views/class_info.html',
+        controller: 'ClassInfoCtrl',
+        //size: size,
+        resolve: {
+          items: function () {
+            return [];
+          }
+        }
+      });
+    };
     /* alert on eventClick */
     $scope.alertOnEventClick = function(course, jsEvent, view){
         $scope.alertMessage = (course.title + ': info... ');
+        $scope.open();
     };
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){

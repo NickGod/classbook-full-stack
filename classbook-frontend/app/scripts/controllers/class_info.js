@@ -8,10 +8,9 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('ClassInfoCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('ClassInfoCtrl', ['$scope', '$uibModalInstance', 'items',
+  function ($scope, $uibModalInstance, items) {
+    items = {className: "CS130", title: "Software Engineering"};
+    $scope.classInfo = items;
+  }
+]);

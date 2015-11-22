@@ -1,3 +1,22 @@
-<p>This is the class_info view.</p>
-<p> this should be a modal </p>
-<p> Information about the class: enrolled friends, class details, and comments and stuff !</p>
+<div ng-controller="ClassInfoCtrl">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">Class Info</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <div class="user-info-edit-heading">Class Name:</label>
+        <span>
+          {{classInfo.className + ": " + classInfo.title}}
+        </span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary">Close</button>
+      <button type="button" class="btn btn-default">Drop Class</button>
+    </div>
+  </div>
+</div>

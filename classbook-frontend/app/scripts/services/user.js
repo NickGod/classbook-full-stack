@@ -169,4 +169,4 @@ angular.module('classbookApp')
       };
     };
     return User;
-    }]);
+  }]);

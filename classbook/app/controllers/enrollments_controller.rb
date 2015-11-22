@@ -35,8 +35,8 @@ class EnrollmentsController < ApplicationController
 
 	#http://stackoverflow.com/questions/5863477/how-do-i-build-a-json-object
 	def enroll
-		user = User.find(params[:userid])
-		discussion = Discussion.find(params[:discussionid])
+		user = User.find_by_id(params[:userId])
+		discussion = Discussion.find_by_id(params[:discussionId])
 		if(user.discussions.exists? discussion) 
 			render plain: ActiveSupport::JSON.encode({error_flag: 1, error_msg: 
 															"Already enrolled"},msg:"")
@@ -44,6 +44,20 @@ class EnrollmentsController < ApplicationController
 			user.discussions<<discussion
 			render plain: ActiveSupport::JSON.encode({error_flag: 0, error_msg: 
 															"",msg: "success"})
+		end
+	end
+
+	def drop
+		user = User.find_by_id(params[:userId])
+		discussion = Discussion.find_by_id(params[:discussionId])
+		render json: {error: true, 
+			errormsg: "invalid user or discussionId"} , status: :bad_request if user.nil? || discussion.nil?
+		if(user.discussions.exists? discussion) 
+			user.discussions.delete(discussion)
+			render json: {error: false} , status: :ok
+		else
+			render json: {error: true, 
+			errormsg: "discussion not enrolled"} , status: :bad_request
 		end
 	end
 

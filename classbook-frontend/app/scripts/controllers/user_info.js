@@ -128,23 +128,24 @@ angular.module('classbookApp')
       $scope.currentUser = null;
     }
     $scope.tab = 1;
-    $scope.user = {
-      id: 1,
-      userName: "Mengyuan",
-      major: "Computer Science",
-      year: "2016",
-      gender: "Female"
-    };
+    $scope.user = {};
+    $scope.currentUser.getInfo().then(function(info) {
+      $scope.user = info;
+    }).catch(function(e) {
+      console.log("ERROR: " + e);
+    });
+
+    // {
+    //   id: 1,
+    //   userName: "Mengyuan",
+    //   major: "Computer Science",
+    //   year: "2016",
+    //   gender: "Female"
+    // };
 
     $scope.getFriends = function() {
-      // $scope.friends = [{
-      //   uid: 2,
-      //   userName: "Shuo Sun",
-      //   major: "Computer Science",
-      //   year: "2016",
-      // }]
-
       $scope.currentUser.getFriends().then(function(friends) {
+        console.log("Friends:");
         console.log(friends);
         $scope.friends = friends;
       }).catch(function(e) {
@@ -153,10 +154,16 @@ angular.module('classbookApp')
     }
 
     $scope.getMessages = function() {
-      $scope.messages = [{
-        content: "This is a message to say Hi",
-        sender: "Shuo Sun",
-      }]
+      // $scope.messages = [{
+      //   content: "This is a message to say Hi",
+      //   sender: "Shuo Sun",
+      // }];
+      $scope.currentUser.getAllMessages().then(function(msgs) {
+        console.log(msgs);
+        $scope.messages = msgs;
+      }).catch(function(e){
+        console.log("ERROR: " + e);
+      });
     }
     // $scope.currentUser = AuthService.currentUser();
     // SearchService.getUserById($scope.currentUser.uid).then(function(resp){

@@ -78,7 +78,7 @@ angular.module('classbookApp')
 
         getInfo: function() {
           var self = this;
-          return $http.get('/api/user/' + this.uid + '/info').then(function (resp) {
+          return $http.get('/api/user/' + this.uid + '/info').then(function(resp) {
             if (resp.hasOwnProperty('id') && resp.id == self.uid) {
               for (var key in resp) {
                 this[key] = resp[key];
@@ -91,10 +91,11 @@ angular.module('classbookApp')
         getFriends: function() {
           return $http.get('/api/user/' + this.uid + '/get_friends').then(function(resp) {
             var ret = [];
-            for (var friend in resp) {
-              var user = new User(friend.id, friend.email);
-              ret.push(user);
-              user.getInfo();
+            console.log("Friends resp:");
+            console.log(resp.data);
+
+            for (var i in resp.data) {
+              ret.push(resp.data[i]);
             }
             return ret;
           });
@@ -103,11 +104,8 @@ angular.module('classbookApp')
         getPendingFriends: function() {
           return $http.get('/api/user/' + this.uid + '/get_pending_friends').then(function(resp) {
             var ret = [];
-            for (var friend in resp) {
-              var user = new User(friend.id, friend.email);
-              user.getInfo().then(function(resp) {
-                ret.push(user);
-              });
+            for (var i in resp.data) {
+              ret.push(resp.data[i]);
             }
             return ret;
           });
@@ -146,7 +144,7 @@ angular.module('classbookApp')
         getAllSwapRequests: function() {
           return $http.get('/api/swap_request/' + this.uid).then(function(resp) {
             var ret = [];
-            for (var req in resp) {
+            for (var req in resp.data) {
               var swapReq = new SwapRequest(req.id, req.user_id, req.has_dis, req.want_dis, req);
               if (swapReq != null && swapReq != undefined) {
                 ret.push(swapReq);
@@ -159,7 +157,7 @@ angular.module('classbookApp')
         getAllMessages: function() {
           return $http.get('/api/message/' + this.uid + '/userMessages').then(function(resp) {
             var ret = [];
-            for (var msg in resp) {
+            for (var msg in resp.data) {
               var message = new Message(msg.id, msg.user_id, msg.category, msg.context, req);
               if (message != null && message != undefined) {
                 ret.push(message);

@@ -20,7 +20,7 @@ class SwapRequestsController < ApplicationController
 	private
 	def match(selfRequest)
 		selfRequest
-		matchedRequests = SwapRequest.where(has_dis: selfRequest.want_dis, want_dis: selfRequest.has_dis)
+		matchedRequests = SwapRequest.where(has_dis: selfRequest.want_dis, want_dis: selfRequest.has_dis,current_match_user_id: nil)
 		if(matchedRequests != [])
 			matchedRequest = matchedRequests[0]
 			if(selfRequest.update(current_match_user_id: matchedRequest.user_id)&&

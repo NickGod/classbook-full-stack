@@ -9,11 +9,17 @@
  */
 angular.module('classbookApp')
   .controller('ClassSearchCtrl', [
-    '$scope', 'SearchService',
-    function($scope, SearchService) {
+    '$scope', 'SearchService', '$rootScope', 'AuthService',
+    function($scope, SearchService, $rootScope, AuthService) {
       // var quarterBegins = new Date('2015-09-22');
       // var quarterEnds = new Date('2015-12-12');
+      if (!$rootScope.currentUser)
+        $scope.currentUser = AuthService.currentUser();
 
+      $scope.currentUser = $rootScope.currentUser;
+      $scope.classes = $rootScope.classes;
+      console.log($scope.classes);
+      console.log($rootScope.currentUser);
       $scope.searchResults = [];
 
       // Helper function used for creating formatted time string
@@ -62,66 +68,80 @@ angular.module('classbookApp')
         return time;
       }
 
-      function parseData(data) {
-        var classes = [];
-        var i, j;
+    function parseSearchData(data) {
+      var classes = [];
+      var i, j;
 
-        for(i = 0; i < data.length; i++) {
-          var clsData = data[i];
-          var time = formatTime(clsData.days, clsData.startTime, clsData.endTime);
+      for(i = 0; i < data.length; i++) {
+        var clsData = data[i];
+        var time = formatTime(clsData.days, clsData.startTime, clsData.endTime);
 
-          var cls = {
-            lectureId: clsData.lectureId,
-            className: clsData.className,
-            lectureTime: time,
-          };
+        var cls = {
+          lectureId: clsData.lectureId,
+          className: clsData.className,
+          lectureTime: time,
+        };
 
-          for(j = 0; j < clsData.discussions.length; j++) {
-            var dis = clsData.discussions[i];
-            var clsDis = JSON.parse(JSON.stringify(cls));
+        for(j = 0; j < clsData.discussions.length; j++) {
+          var dis = clsData.discussions[j];
+          var clsDis = JSON.parse(JSON.stringify(cls));
 
-            clsDis.discussionId = dis.discussionId;
-            clsDis.discussionName = dis.discussionName;
-            clsDis.discussionTime = formatTime(dis.days, dis.startTime, dis.endTime);
-            classes.push(clsDis);
-          }
+          clsDis.discussionId = dis.discussionId;
+          clsDis.discussionName = dis.discussionName;
+          clsDis.discussionTime = formatTime(dis.days, dis.startTime, dis.endTime);
+          clsDis.rawData = [{
+            className: clsDis.className,
+            startTime: clsData.startTime,
+            endTime: clsData.endTime,
+            days: clsData.days
+          }, {
+            className: dis.discussionName,
+            startTime: dis.startTime,
+            endTime: dis.endTime,
+            days: dis.days
+          }];
+          classes.push(clsDis);
         }
-
-        return classes;
       }
+
+      return classes;
+    }
 
       $scope.searchClass = function(course) {
         if (!course) {
+          window.alert("You didn't fill in anything yet");
+          return;
+        } else if (!course.className && !course.department) {
           window.alert("Please enter at least one of class name or department name");
           return;
         }
 
-        SearchService.searchClasses(course).then(function(resp) {
-          var data = resp.data;
+        // Sample Search Result:
+        //
+        // {
+        //   id: 102,
+        //   className: "ART 10",
+        //   lectureTime: "MWF 10:00am-10:50am",
+        //   discussion: "1A",
+        //   discussionTime: "T 2:00pm-2:50pm",
+        // }
 
-          $scope.searchResults = parseData(data);
+        SearchService.searchClasses(course).then(function(classes) {
+          if (!classes){
+            throw new Error('Cannot get the classes object back');
+          } else if (classes.length == 0) {
+            alert("No matching class");
+          } else {
+            $scope.searchResults = parseSearchData(classes);
+          }
         })
-        .catch(function(resp) {
-          alert("Error in searching classes!\n" + resp.error);
+        .catch(function(e) {
+          if(e)
+            console.log("ERROR: " + e);
+          // alert("Error in searching classes!\n" + e);
         });
-
-        // $scope.searchResults = [
-        //   {
-        //     id: 102,
-        //     className: "ART 10",
-        //     lectureTime: "MWF 10:00am-10:50am",
-        //     discussion: "1A",
-        //     discussionTime: "T 2:00pm-2:50pm",
-        //   },
-        //   {
-        //     id: 211,
-        //     className: "CS 130",
-        //     lectureTime: "MW 12:00pm-1:50pm",
-        //     discussion: "1B",
-        //     discussionTime: "F 10:00am-11:50am",
-        //   }
-        // ];
       };
+
 
       $scope.enroll = function(lectureId, discussionId) {
         window.alert("CLICKED!" + lectureId + ' ' + discussionId);

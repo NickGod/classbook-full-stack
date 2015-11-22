@@ -33,8 +33,10 @@
  */
 
 angular.module('classbookApp')
-  .controller('ClassCldrCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService',
-  function($scope, $compile, uiCalendarConfig, AuthService) {
+  .controller('ClassCldrCtrl', ['$rootScope', '$scope', '$compile', 'uiCalendarConfig', 'AuthService',
+  function($rootScope, $scope, $compile, uiCalendarConfig, AuthService) {
+
+    $rootScope.classes;
 
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
@@ -86,6 +88,7 @@ angular.module('classbookApp')
           throw new Error('The response is NULL ');
         }
 
+        $rootScope.classes = classes;
         console.log(classes);
         // var data = resp.data;
         var events = [];

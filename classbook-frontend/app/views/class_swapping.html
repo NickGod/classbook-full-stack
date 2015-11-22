@@ -19,12 +19,11 @@
 </div>
 
 <div ng-show="tab2" class="container">
-	<p> get a list of classes your friend want to swap </p>
-	<div ng-include="'views/class_search.html'"> </div>
+	<div ng-include="'views/class_swap_search.html'" ng-controller="ClassSearchCtrl"> </div>
 </div>
 
 <div ng-show="tab3" class="container">
-	<p> Manage swap requests </p>
+<!-- 	<p> Manage swap requests </p>
 	<irontec-simple-chat
 	  messages="vm.messages"
 	  username="vm.username"
@@ -36,7 +35,8 @@
 	  visible="vm.visible"
 	  expand-on-new="vm.expandOnNew">
 
-	</irontec-simple-chat>
+	</irontec-simple-chat> -->
+	<div ng-include="'views/swap_request.html'"> </div>
 </div>
 
 

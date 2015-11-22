@@ -9,11 +9,6 @@
  */
 angular.module('classbookApp')
   .controller('MainCtrl', ['$location', '$scope', 'AuthService', function ($location, $scope, AuthService) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
 
     $scope.isFormSignUp = false;
 

@@ -177,6 +177,7 @@ angular.module('classbookApp')
           throw new Error('Enroll failed');
 
         var events = parseCalendarData(course.rawData);
+        console.log(events);
         $scope.events.push.apply($scope.events, events);
 
         alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);

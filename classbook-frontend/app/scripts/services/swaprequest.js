@@ -18,7 +18,14 @@ angular.module('classbookApp')
         id: id,
         uid: uid,
         has_dis: has_dis,
-        want_dis: want_dis
+        want_dis: want_dis,
+
+        //send the swap request
+        sendSwapRequest: function() {
+
+          return $http.post('/api/swap_request/create', {userid: this.uid, has_dis: this.has_dis, want_dis: this.want_dis});
+
+        }
       };
 
       for (var key in opts) {

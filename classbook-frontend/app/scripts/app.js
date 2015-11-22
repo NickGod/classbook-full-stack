@@ -18,6 +18,7 @@ angular
     'ngTouch',
     'ng-token-auth',
     'ui.calendar',
+    'ui.bootstrap',
     'irontec.simpleChat'
   ])
   .constant('FRONTEND_MOCKING', false)

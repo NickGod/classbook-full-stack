@@ -8,11 +8,31 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('ClassSwappingCtrl', ['$scope', function ($scope) {
+  .controller('ClassSwappingCtrl', ['$scope', '$modal', '$rootScope', 'AuthService', function ($scope, $modal, $rootScope, AuthService) {
+  		
+  		$rootScope.currentUser = AuthService.currentUser();
+  		
+
   		$scope.tab1 = true;
   		$scope.tab2 = false;
   		$scope.tab3 = false;
 
+  		    // MODAL WINDOW
+	    $scope.open = function (_course) {
+
+	        var modalInstance = $modal.open({
+	          controller: "ModalInstanceCtrl",
+	          templateUrl: 'modal_swap.html',
+	            resolve: {
+	                course: function()
+	                {
+
+	                    return _course;
+	                }
+	            }
+	             });
+
+	    };
 
   		$scope.chooseTab = function (index) {
   			switch (index) {
@@ -81,4 +101,12 @@ angular.module('classbookApp')
 		$scope.vm.expandOnNew = true;
 
 
-  }]);
+  }])
+.controller('ModalInstanceCtrl',  ['$scope', '$modalInstance', 'course',  function ($scope, $modalInstance, course) {
+	// $scope.course = course;
+	// alert($scope.course);
+	// alert(course);
+	$scope.course = course;
+
+
+}]);

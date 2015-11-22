@@ -41,6 +41,16 @@ angular.module('classbookApp')
             self.read = true;
             return resp;
           });
+        },
+
+        getMessages: function() {
+          if (user_id == null)
+            throw new Error('User ID Null. Cannot get Messages of a null user.');
+
+          //not tested yet
+          return $http.get("/api/message/" + user_id + "").then(function(res) {
+            return res;
+          })
         }
       };
 

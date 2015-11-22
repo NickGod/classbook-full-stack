@@ -15,9 +15,9 @@ class User < ActiveRecord::Base
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :swap_requests
   has_many :messages
-  validates :year, numericality: true
-  validates :sex, inclusion: { in: %w(male female),
-    message: "%{value} is not a valid sex" }
+  # validates :year, numericality: true
+  # validates :sex, inclusion: { in: %w(male female),
+  #   message: "%{value} is not a valid sex" }
 
   # Follows a user.
   def follow(other_user)

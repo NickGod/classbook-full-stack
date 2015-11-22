@@ -11,7 +11,7 @@ angular.module('classbookApp')
   .factory('User', ['UtilService', '$http', '$q', 'SwapRequest', 'Class', 'Discussion',
     function (UtilService, $http, $q, SwapRequest, Class, Discussion) {
     // Public API here
-    return function(uid, email, opts) {
+    var User = function(uid, email, opts) {
       // Validate parameters.
       if (parseInt(uid).toString() != uid) {
         console.log("DEBUG: user.js: uid is not valid.");
@@ -77,8 +77,9 @@ angular.module('classbookApp')
         },
 
         getInfo: function() {
+          var self = this;
           return $http.get('/api/user/' + this.uid + '/info').then(function (resp) {
-            if (resp.hasOwnProperty('id') && resp.id == this.uid) {
+            if (resp.hasOwnProperty('id') && resp.id == self.uid) {
               for (var key in resp) {
                 this[key] = resp[key];
               }
@@ -92,9 +93,8 @@ angular.module('classbookApp')
             var ret = [];
             for (var friend in resp) {
               var user = new User(friend.id, friend.email);
-              user.getInfo().then(function(resp) {
-                ret.push(user);
-              });
+              ret.push(user);
+              user.getInfo();
             }
             return ret;
           });
@@ -148,11 +148,27 @@ angular.module('classbookApp')
             var ret = [];
             for (var req in resp) {
               var swapReq = new SwapRequest(req.id, req.user_id, req.has_dis, req.want_dis, req);
-              ret.push(swapReq);
+              if (swapReq != null && swapReq != undefined) {
+                ret.push(swapReq);
+              }
+            }
+            return ret;
+          });
+        },
+
+        getAllMessages: function() {
+          return $http.get('/api/message/' + this.uid + '/userMessages').then(function(resp) {
+            var ret = [];
+            for (var msg in resp) {
+              var message = new Message(msg.id, msg.user_id, msg.category, msg.context, req);
+              if (message != null && message != undefined) {
+                ret.push(message);
+              }
             }
             return ret;
           });
         }
       };
     };
-  }]);
+    return User;
+    }]);

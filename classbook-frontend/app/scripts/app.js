@@ -44,23 +44,25 @@ angular
         templateUrl: 'views/user_info.html',
         controller: 'UserInfoCtrl',
         controllerAs: 'userInfo',
-        requireLogin: false
+        requireLogin: true
       })
       .when('/class_swapping', {
         templateUrl: 'views/class_swapping.html',
         controller: 'ClassSwappingCtrl',
         controllerAs: 'classSwapping',
-        requireLogin: false
+        requireLogin: true
       })
       .when('/class_info', {
         templateUrl: 'views/class_info.html',
         controller: 'ClassInfoCtrl',
-        controllerAs: 'classInfo'
+        controllerAs: 'classInfo',
+        requireLogin: true
       })
       .when('/add_class', {
         templateUrl: 'views/add_class.html',
         controller: 'AddClassCtrl',
-        controllerAs: 'addClass'
+        controllerAs: 'addClass',
+        requireLogin: true
       })
       .otherwise({
         redirectTo: '/'
@@ -68,7 +70,8 @@ angular
   })
    .config(function($authProvider) {
      $authProvider.configure({
-       apiUrl: 'api/user'
+       apiUrl: 'api/user',
+       validateOnPageLoad: false
      });
    })
    .run(['$rootScope', '$location', "AuthService", function($rootScope, $location, AuthService) {
@@ -76,8 +79,12 @@ angular
        if(next.requireLogin) {
          // Auth/session check here
          if (!AuthService.isAuthenticated()) {
-           event.preventDefault();
-           $location.path('/');
+           AuthService.validateUser().then(function() {})
+             .catch(function() {
+               event.preventDefault();
+               console.log();
+               $location.path('/');
+             })
          }
        }
      });

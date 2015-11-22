@@ -9,9 +9,10 @@
  * Service in the classbookApp.
  */
 angular.module('classbookApp')
-  .service('AuthService', ['$q', '$auth', 'FRONTEND_MOCKING', 'User', function ($q, $auth, FRONTEND_MOCKING, User) {
+  .service('AuthService', ['$q', '$auth', 'FRONTEND_MOCKING', 'User', '$rootScope', function ($q, $auth, FRONTEND_MOCKING, User, $rootScope) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     if (!FRONTEND_MOCKING) {
+
       var _currentUser = null;
       return {
 
@@ -31,6 +32,15 @@ angular.module('classbookApp')
          */
         currentUser: function () {
           return _currentUser;
+        },
+
+        validateUser: function() {
+          return $auth.validateUser().then(function(resp) {
+            _currentUser = new User(resp.id, resp.email);
+            return _currentUser.getInfo().then(function(resp) {
+              return _currentUser;
+            })
+          });
         },
 
         /**

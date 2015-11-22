@@ -29,7 +29,7 @@ class ApplicationController < ActionController::API
   	disList = discussions.map do |d|
   		{ 
   			:discussionId => d.id,
-  			:className => d.className,
+  			:discussionName => d.className,
   			:startTime => formatTime(d.begTime), 
   			:endTime => formatTime(d.endTime), 
   			:days => processDays(d.days)

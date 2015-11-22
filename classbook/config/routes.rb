@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     post 'enrollment/enroll' => 'enrollments#enroll'
-
+    post 'enrollment/drop' => 'enrollments#drop'
 
     get '/search' => 'application#searchClass'
 

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
 
     # to be changed to get 'message/userMessages' => 'messages#get_user_message'
     get 'message/:user_id/userMessages' => 'messages#get_user_message'
-    get 'message/:id/read' => 'messages#read'
+    post 'message/:id/read' => 'messages#read'
 
   end
   # The priority is based upon order of creation: first created -> highest priority.

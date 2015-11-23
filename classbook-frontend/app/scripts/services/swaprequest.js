@@ -30,7 +30,7 @@ angular.module('classbookApp')
           console.log(this.has_dis);
           console.log(this.want_dis);
 
-          return $http.post('/api/swap_request/create', {userid: this.uid, has_dis: this.has_dis, want_dis: this.want_dis});
+          return $http.post('/api/swap_request/create', {user_id: this.uid, has_dis: this.has_dis, want_dis: this.want_dis});
 
         }
       };

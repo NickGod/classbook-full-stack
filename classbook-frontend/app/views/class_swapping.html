@@ -4,7 +4,7 @@
 
 	<hr>
 	<ul class="nav nav-pills">
-	  <li role="presentation" class="active"><a ng-click="chooseTab(1)">Home</a></li>
+	  <li role="presentation"><a ng-click="chooseTab(1)">Home</a></li>
 	  <li role="presentation"><a ng-click="chooseTab(2)">Search</a></li>
 	  <li role="presentation"><a ng-click="chooseTab(3)">Swap requests</a></li>
 	</ul>
@@ -14,8 +14,9 @@
 
 
 <div ng-show="tab1">
-	<p> get a list of classes you want to swap and display it on the calendar </p>
-	<div ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
+<!-- 	<p> get a list of classes you want to swap and display it on the calendar </p>
+ -->	
+ 	<div ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
 </div>
 
 <div ng-show="tab2" class="container">

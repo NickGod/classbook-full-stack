@@ -127,7 +127,8 @@ angular.module('classbookApp')
     // console.log($scope.user);
 	$scope.SwapForClass = function(enrolledClassId) {
 		console.log(enrolledClassId);
-		$scope.swaprequest = new SwapRequest($scope.user.uid, enrolledClassId, $scope.course.discussionId);
+		// console.log($scope.user);
+		$scope.swaprequest = new SwapRequest($scope.user.id, enrolledClassId, $scope.course.discussionId);
 		alert('Swap request sent!');
 		$scope.swaprequest.sendSwapRequest().then(function(res) {
 			console.log(res);

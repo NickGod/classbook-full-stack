@@ -95,15 +95,34 @@ angular.module('classbookApp')
     //get events when calendar is loaded
     function getEvents() {
       console.log($scope.user);
+
+      $scope.user.getEnrolledClassesDetail().then(function(classes) {
+        if (!classes) {
+          throw new Error('The response is NULL ');
+        }
+
+        // console.log(classes);
+        $rootScope.classes = classes;
+
+        // var events = parseCalendarDetailData(classes);
+        // $scope.events.splice(0, $scope.events.length);
+        // $scope.events.push.apply($scope.events, events);
+      })
+      .catch(function(e) {
+        if (e)
+          console.log(e);
+        // alert("Error in getting user data!");
+      });
+
       $scope.user.getAllEnrolledClasses().then(function(classes) {
         if (!classes)
         {
           throw new Error('The response is NULL ');
         }
 
-        console.log(classes);
+        // console.log(classes);
 
-        $rootScope.classes = classes;
+        // $rootScope.classes = classes;
         // console.log($rootScope.classes);
         // console.log(classes);
         // var data = resp.data;

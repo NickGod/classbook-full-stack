@@ -58,6 +58,23 @@ angular.module('classbookApp')
           });
         },
 
+        getEnrolledClassesDetail: function() {
+          console.log('/api/user/' + this.uid + '/getEnrolledClassesForDrop');
+          return $http.get('/api/user/' + this.uid + '/getEnrolledClassesForDrop').then(function(resp) {
+            var ret = [];
+            if (resp.data instanceof Array) {
+              for (var lec in resp.data) {
+                if (resp.data[lec] != null) {
+                  ret.push(resp.data[lec]);
+                }
+              }
+            }
+            console.log("Enrolled Class Detail");
+            console.log(ret);
+            return ret;
+          });
+        },
+
         enroll: function(discussion) {
           // alert(discussion);
           var discussionId;
@@ -73,7 +90,15 @@ angular.module('classbookApp')
             return $q.reject({error: false, errormsg: "Invalid argument."});
           }
 
-          return $http.post('/api/enrollment/enroll', {userid: this.uid, discussionid: discussionId});
+          return $http.post('/api/enrollment/enroll', {userId: this.uid, discussionId: discussionId});
+        },
+
+        dropClass: function(discussionId) {
+          if (typeof discussionId !== "number") {
+            return $q.reject({error: false, errormsg: "Invalid argument."});
+          }
+          console.log("DROP: " + this.uid + ' ' + discussionId);
+          return $http.post('/api/enrollment/drop', {userId: this.uid, discussionId: discussionId});
         },
 
         getInfo: function() {

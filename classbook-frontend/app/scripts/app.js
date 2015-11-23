@@ -18,8 +18,8 @@ angular
     'ngTouch',
     'ng-token-auth',
     'ui.calendar',
-    'irontec.simpleChat',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'irontec.simpleChat'
   ])
   .constant('FRONTEND_MOCKING', false)
   .config(function($routeProvider) {

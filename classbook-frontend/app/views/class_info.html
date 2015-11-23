@@ -1,22 +1,36 @@
-<div ng-controller="ClassInfoCtrl">
+<div>
   <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <button type="button" class="close" aria-label="Close" ng-click="cancel()">
         <span aria-hidden="true">&times;</span>
       </button>
       <h4 class="modal-title">Class Info</h4>
     </div>
     <div class="modal-body">
-      <div class="form-group">
-        <div class="user-info-edit-heading">Class Name:</label>
+      <div class="user-info-edit-heading">Class Name:
         <span>
-          {{classInfo.className + ": " + classInfo.title}}
+          {{classInfo.classData.className}}
+        </span>
+      </div>
+      <div class="user-info-edit-heading">Lecture Time:
+        <span>
+          {{lectureTime}}
+        </span>
+      </div>
+      <div class="user-info-edit-heading">Discussion:
+        <span>
+          {{classInfo.classData.discussion.discussionName}}
+        </span>
+      </div>
+      <div class="user-info-edit-heading">Discussion:
+        <span>
+          {{discussionTime}}
         </span>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary">Close</button>
-      <button type="button" class="btn btn-default">Drop Class</button>
+      <button type="button" class="btn btn-primary" ng-click="cancel()">Close</button>
+      <button type="button" class="btn btn-default" ng-click="drop(classInfo.classId)">Drop Class</button>
     </div>
   </div>
 </div>

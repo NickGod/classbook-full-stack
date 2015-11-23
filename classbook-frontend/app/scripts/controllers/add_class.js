@@ -46,6 +46,54 @@ angular.module('classbookApp')
       return events;
     }
 
+    function parseCalendarDetailData(data) {
+      var events = [];
+      var date;
+      console.log("DATA");
+      console.log(data);
+      var course, i;
+
+      for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
+        for (i = 0; i < data.length; i++) {
+          course = data[i];
+          if (course.days.indexOf(date.getDay()) != -1) {
+            var timeBegin = date.toDateString() + ' ' + course.startTime;
+            var timeEnd = date.toDateString() + ' ' + course.endTime;
+
+            events.push({
+              lectureId: course.lectureId,
+              discussionId: course.discussion.discussionId,
+              classData: course,
+              title: course.className,
+              start: new Date(timeBegin),
+              end: new Date(timeEnd),
+              allDay: false,
+              editable: false,
+              stick: true,
+            });
+          }
+
+          if (course.discussion.days.indexOf(date.getDay()) != -1) {
+            var timeBegin = date.toDateString() + ' ' + course.discussion.startTime;
+            var timeEnd = date.toDateString() + ' ' + course.discussion.endTime;
+
+            events.push({
+              lectureId: course.lectureId,
+              discussionId: course.discussion.discussionId,
+              classData: course,
+              title: course.className + ' Dis' + course.discussion.discussionName,
+              start: new Date(timeBegin),
+              end: new Date(timeEnd),
+              allDay: false,
+              editable: false,
+              stick: true,
+            });
+          }
+        }
+      }
+      return events;
+    }
+
     // Helper function used for creating formatted time string
     function formatTime(days, startTime, endTime) {
       var i;
@@ -87,7 +135,7 @@ angular.module('classbookApp')
         }
       }
 
-      time += ' ' + startTime + '-' + endTime;
+      time += ' ' + startTime.substring(0, startTime.length - 3) + '-' + endTime.substring(0, startTime.length - 3);
 
       return time;
     }
@@ -176,15 +224,17 @@ angular.module('classbookApp')
         if(res.status != '200')
           throw new Error('Enroll failed');
 
-        var events = parseCalendarData(course.rawData);
-        $scope.events.push.apply($scope.events, events);
+        // var events = parseCalendarData(course.rawData);
+        // $scope.events.push.apply($scope.events, events);
 
-        alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);
+        // alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);
 
-        //remove the corresponding class from the view
+        // remove the corresponding class from the view
         var i = $scope.searchResults.indexOf(course);
         if (i > -1)
           $scope.searchResults.splice(i, 1);
+
+        getEvents();
       }).catch(function(e) {
         if(e) {
           console.log('Error when enrolling: ' + e);
@@ -200,12 +250,13 @@ angular.module('classbookApp')
 
     // get events when calendar is loaded
     function getEvents() {
-      $scope.user.getAllEnrolledClasses().then(function(classes) {
+      $scope.user.getEnrolledClassesDetail().then(function(classes) {
         if (!classes) {
           throw new Error('The response is NULL ');
         }
 
-        var events = parseCalendarData(classes);
+        var events = parseCalendarDetailData(classes);
+        $scope.events.splice(0, $scope.events.length);
         $scope.events.push.apply($scope.events, events);
       })
       .catch(function(e) {
@@ -215,23 +266,34 @@ angular.module('classbookApp')
       });
     }
 
-    $scope.open = function() {
+    $scope.open = function(course) {
       var modalInstance = $uibModal.open({
-        animation: true,
         templateUrl: 'views/class_info.html',
         controller: 'ClassInfoCtrl',
         //size: size,
         resolve: {
           items: function () {
-            return [];
+            return course;
           }
         }
+      });
+      modalInstance.result.then(function (disIdToDrop) {
+        $scope.user.dropClass(disIdToDrop).then(function(resp){
+          if (resp) {
+            getEvents();
+          }
+        }).catch(function(e){
+          console.log("ERROR: ");
+          console.log(e);
+        });
+      }, function () {
+        console.log("Cancelled");
       });
     };
     /* alert on eventClick */
     $scope.alertOnEventClick = function(course, jsEvent, view){
-        $scope.alertMessage = (course.title + ': info... ');
-        $scope.open();
+        // $scope.alertMessage = (course.title + ': info... ');
+        $scope.open(course);
     };
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
@@ -319,8 +381,8 @@ angular.module('classbookApp')
    });
 
    /* watch for scope events */
-  //  $scope.$watch('events', function() {
-  //     $scope.eventSources = [$scope.events, $scope.eventSource];
-  //  });
+   $scope.$watch('events', function() {
+      $scope.eventSources = [$scope.events, $scope.eventSource];
+   });
   }
 ]);

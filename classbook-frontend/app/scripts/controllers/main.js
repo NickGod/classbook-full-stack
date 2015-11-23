@@ -9,21 +9,14 @@
  */
 angular.module('classbookApp')
   .controller('MainCtrl', ['$location', '$scope', 'AuthService', function ($location, $scope, AuthService) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
 
     $scope.isFormSignUp = false;
 
     $scope.$on("HeaderCtrl:SignUpButtonClickedEvent", function(event, args) {
-      console.log(event);
       $scope.isFormSignUp = true;
     });
 
     $scope.$on("HeaderCtrl:SignInButtonClickedEvent", function(event, args) {
-      console.log(event);
       $scope.isFormSignUp = false;
     });
 
@@ -57,18 +50,14 @@ angular.module('classbookApp')
       if (valid) {
         AuthService.login($scope.signInForm.email, $scope.signInForm.password)
           .then(function(resp) {
-            $location.path('/class_info');
-            console.log(resp);
-            AuthService.currentUser().getAllEnrolledClasses().then(function(list) {
-              console.log(list);
-            });
+            $location.path('/user_info');
           })
           .catch(function(resp) {
             $('#inputEmail-sign-in-form-group').addClass('has-error');
             $('#inputPassword-sign-in-form-group').addClass('has-error');
         });
       }
-    }
+    };
 
     $scope.signUp = function() {
 
@@ -95,8 +84,7 @@ angular.module('classbookApp')
       if (valid) {
         AuthService.register($scope.signUpForm)
           .then(function(user) {
-            $location.path('/class_info');
-            console.log(user);
+            $location.path('/user_info');
           })
           .catch(function(resp) {
             $('#inputEmail-sign-up-form-group').addClass('has-error');

@@ -88,12 +88,82 @@ end
 
 sunshen = User.find(3)
 Discussion.find([9,10]).each do |dis|
-	if(! hanshen.discussions.exists? dis)
+	if(! sunshen.discussions.exists? dis)
 		sunshen.discussions << dis
 	end
 end
 
 yushen = User.find(5)
+Discussion.find([7,8,9,10]).each do |dis|
+	if(! yushen.discussions.exists? dis)
+		yushen.discussions << dis
+	end
+end
+
+
+#Helper function =====================
+	def match(selfRequest)
+		selfRequest
+		matchedRequests = SwapRequest.where(has_dis: selfRequest.want_dis, want_dis: selfRequest.has_dis,current_match_user_id: nil)
+		if(matchedRequests != [])
+			matchedRequest = matchedRequests[0]
+			if(selfRequest.update(current_match_user_id: matchedRequest.user_id)&&
+				matchedRequest.update(current_match_user_id: selfRequest.user_id))
+				if(!add_message(selfRequest))
+					return false
+				end
+				# gan hen duo shi qing
+			else
+				return false
+			end
+
+		end
+		return true
+	end
+
+    def add_message(swap_request)
+    	user1_msg = Message.new
+    	user1_msg.user_id = swap_request.user_id
+    	user1_msg.category = "swap_request"
+    	user1_msg.context = {has_dis: swap_request.has_dis, want_dis: swap_request.want_dis,
+    						 match_user_id: swap_request.current_match_user_id}.to_json
+
+    	user2_msg = Message.new	 
+    	user2_msg.user_id = swap_request.current_match_user_id
+    	user2_msg.category = "swap_request"
+    	user2_msg.context = {has_dis: swap_request.want_dis, want_dis: swap_request.has_dis,
+    						 match_user_id: swap_request.user_id}.to_json
+    	if(user1_msg.save && user2_msg.save)
+    		return true;
+    	else
+    		return false;
+    	end
+
+    end
+
+#==================================
+
+SwapRequest.create([
+	{user_id: 1, has_dis: 1, want_dis: 7},
+	{user_id: 1, has_dis: 1, want_dis: 8},
+	{user_id: 1, has_dis: 2, want_dis: 8},
+	{user_id: 1, has_dis: 3, want_dis: 8},
+	{user_id: 1, has_dis: 4, want_dis: 8},
+])
+sr = SwapRequest.create({user_id: 2, has_dis: 7, want_dis: 1})
+match(sr)
+SwapRequest.create([
+	{user_id: 2, has_dis: 8, want_dis: 9},
+	{user_id: 1, has_dis: 4, want_dis: 9},
+])
+sr = SwapRequest.create({user_id: 3, has_dis: 9, want_dis: 4})
+match(sr)
+sr = SwapRequest.create({user_id: 5, has_dis: 9, want_dis: 4})
+match(sr)
+
+# at this point, user 1 match user 2 for dis 7 <=> 8
+# 				 user 1 match user 3 for dis 9 <=> 4
+
 
 xiashen = User.find(8)
 xiashen.discussions << Discussion.find_by_id(11)
@@ -118,7 +188,3 @@ yushen.following << hanshen
 sunshen.following << guanshen
 sunshen.following << hanshen
 sunshen.following << yushen
-
-
-
-

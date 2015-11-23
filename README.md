@@ -48,3 +48,32 @@ To be filled...
 ##RESTful API Documentation
 Please refer to [this page](http://seas.ucla.edu/~xih/api-doc/index.html)
 
+##RESTful API 
+In bare ruby codes now
+
+    scope '/api' do
+    resources :groups, except: [:new, :edit]
+    resources :discussions, except: [:new, :edit]
+    resources :lectures, except: [:new, :edit]
+
+    get 'user/:id/get_friends' => 'users#get_friends'
+    get 'user/:id/get_pending_friends' => 'users#get_pending_friends'
+    post 'user/request_friend' => 'users#request_friend'
+    post 'user/accept_friend_request' => 'users#accept_friend_request'
+
+    # api for getting user infomation
+    get 'user/:id/info' => 'users#get_user_info'
+
+    get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
+    post 'enrollment/enroll' => 'enrollments#enroll'
+
+
+    get '/search' => 'application#searchClass'
+
+    # post params: user_id, has_dis,want_dis (discussion id)
+    post 'swap_request/create/' => 'swap_requests#create'
+
+    # to be changed to get 'message/userMessages' => 'messages#get_user_message'
+    get 'message/:user_id/userMessages' => 'messages#get_user_message'
+    get 'message/:id/read' => 'messages#read'
+

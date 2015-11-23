@@ -870,3 +870,39 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #4D8FAC;
 }
+
+.width-150 {
+    width: 150px;
+}
+.width-80 {
+    width: 80px;
+}
+
+
+
+/* Newly added stuff */
+
+.user-info-heading {
+    margin: 15px 0;
+    text-transform: none;
+}
+
+.user-info-title {
+    margin: 15px 15px;
+    text-transform: none;
+}
+
+.user-info-body {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.radio-with-margin {
+    font-weight: normal;
+    margin: 0 5px;
+}
+
+.user-info-edit-heading {
+    margin: 10px 10px 5px 0;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}

@@ -37,6 +37,7 @@ Lecture.create([
 	{ name: 'MATH110', begTime: '4:00P', endTime: '4:50P', days:'135', location: 'MATH&SCIENCE', term: 'Fall', department: "Math"},
 	{ name: 'MUSIC110', begTime: '4:00P', endTime: '4:50P', days:'24', location: 'ART BUILDING', term: 'Fall', department: "Music"},
 	{ name: 'ART998', begTime: '10:00A', endTime: '11:50A', days:'135', location: 'ART BUILDING', term: 'Fall', department: "Art"},
+	{ name: 'ETHNOMU 25', begTime: '9:00A', endTime: '10:50A', days:'24', location: 'Schoenberg Music Building', term: 'Fall', department: "Ethnomusicology"}
 ])
 
 Discussion.create([
@@ -50,6 +51,7 @@ Discussion.create([
 	{ lectureId: 17, begTime: '3:00P', endTime: '3:50P', days:'5', location: 'BOELTER', className:'1A'},
 	{ lectureId: 19, begTime: '8:00A', endTime: '8:50A', days:'5', location: 'BOELTER', className:'1A'},
 	{ lectureId: 20, begTime: '6:00P', endTime: '6:50P', days:'2', location: 'MATH&SCIENCE', className:'1A'},
+	{ lectureId: 21, begTime: '3:00P', endTime: '4:50P', days:'2', location: 'Schoenberg Music Building', className:'1A'}
 ])
 
 User.create([
@@ -57,19 +59,18 @@ User.create([
 	{uid: 2, email: 'hanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
 	{uid: 3, email: 'sunshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
 	{uid: 4, email: 'gaoshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
-	{uid: 5, email: 'yushen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
+	{uid: 5, email: 'yushen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'female'},
 	{uid: 6, email: 'panshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
 	{uid: 7, email: 'wangshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
 	{uid: 8, email: 'xiashen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
 	{uid: 9, email: 'xiaobai@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male'},
 ])
 
-
-# i = 1
-# for user in User.all do 
-# 	user.discussions << Discussion.find(i%5+1)
-# 	i += 1
-# end
+SwapRequest.create([
+	{user_id: 8, has_dis: 11, want_dis: 5},
+	{user_id: 2, has_dis: 7, want_dis: 10},
+	{user_id: 1, has_dis: 6, want_dis: 10}
+])
 
 guanshen = User.first
 Discussion.first(6).each do |dis|
@@ -77,7 +78,6 @@ Discussion.first(6).each do |dis|
 		guanshen.discussions << dis
 	end
 end
-
 
 hanshen = User.find(2)
 Discussion.find([7,8]).each do |dis|
@@ -165,3 +165,26 @@ match(sr)
 # 				 user 1 match user 3 for dis 9 <=> 4
 
 
+xiashen = User.find(8)
+xiashen.discussions << Discussion.find_by_id(11)
+xiashen.discussions << Discussion.find_by_id(6)
+
+xiaobai = User.find(9)
+
+
+#front-end team are all friends
+guanshen.following << hanshen
+guanshen.following << sunshen
+guanshen.following << yushen
+
+hanshen.following << guanshen
+hanshen.following << sunshen
+hanshen.following << yushen
+
+yushen.following << guanshen
+yushen.following << sunshen
+yushen.following << hanshen
+
+sunshen.following << guanshen
+sunshen.following << hanshen
+sunshen.following << yushen

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get 'user/:id/info' => 'users#get_user_info'
 
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
+    get 'user/:id/getEnrolledClassesForDrop' => 'enrollments#get_enrolled_for_drop_use'
     post 'enrollment/enroll' => 'enrollments#enroll'
     post 'enrollment/drop' => 'enrollments#drop'
 
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
 
     # to be changed to get 'message/userMessages' => 'messages#get_user_message'
     get 'message/:user_id/userMessages' => 'messages#get_user_message'
-    get 'message/:id/read' => 'messages#read'
+    post 'message/:id/read' => 'messages#read'
 
   end
   # The priority is based upon order of creation: first created -> highest priority.

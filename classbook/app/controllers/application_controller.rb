@@ -27,7 +27,8 @@ class ApplicationController < ActionController::API
 	end
 
   	disList = discussions.map do |d|
-  		{ 
+  		{
+  			:lectureId => d.lectureId, 
   			:discussionId => d.id,
   			:discussionName => d.className,
   			:startTime => formatTime(d.begTime), 
@@ -45,7 +46,7 @@ class ApplicationController < ActionController::API
 			:startTime => formatTime(l.begTime), 
 			:endTime => formatTime(l.endTime), 
 			:days => processDays(l.days),
-			:discussions => disList,
+			:discussions => disList.select{|dis| dis[:lectureId] == l.id},
 			:term => 'FALL'
 		}
 	end

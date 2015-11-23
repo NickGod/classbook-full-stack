@@ -112,6 +112,7 @@
           <thead>
             <tr>
               <th></th>
+              <th>Email</th>
               <th>Name</th>
               <th>Major</th>
               <th>Year</th>
@@ -120,7 +121,8 @@
           <tbody>
             <tr ng-repeat="friend in friends">
               <td></td>
-              <td>{{friend.userName}}</td>
+              <td>{{friend.uid}}</td>
+              <td>{{friend.name}}</td>
               <td>{{friend.major}}</td>
               <td>{{friend.year}}</td>
             </tr>

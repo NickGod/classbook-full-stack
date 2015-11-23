@@ -42,16 +42,23 @@
                     <h4 class="modal-title" id="myModalLabel">User Profile</h4>
                   </div>
                   <div class="modal-body">
-                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                      <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; vertical-align: middle;"></div>
-                      <div>
-                        <span class="btn btn-default btn-file"><span class="fileinput-new">Upload</span>
+                    
+                    <div class="row">
+                      <div class="col-sm-4"></div>
+                      <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="col-sm-4 fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; vertical-align: middle;"></div>
+                      <div class="col-sm-4"></div>
+                        <div>
+                          <span class="col-sm-4 btn btn-default btn-file"><span class="fileinput-new">Upload</span></span>
+                        </div>
                       </div>
+                    </div>
+
                       <div class="form-group">
                         <label for="user-name" class="control-label user-info-edit-heading">Name:</label>
                         <input type="text" class="form-control" id="user-name" placeholder="Name" ng-model="user.userName">
                       </div>
-                    </div>
+                    
 
                     <div class="form-group">
                       <label for="user-gender" class="user-info-edit-heading">Gender:</label>

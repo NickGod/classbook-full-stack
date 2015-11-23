@@ -102,14 +102,18 @@ angular.module('classbookApp')
         },
 
         getInfo: function() {
-          var self = this;
           return $http.get('/api/user/' + this.uid + '/info').then(function(resp) {
-            if (resp.hasOwnProperty('id') && resp.id == self.uid) {
-              for (var key in resp) {
-                this[key] = resp[key];
+            console.log("getInfo");
+            console.log(resp);
+            var userInfo = {};
+            if (resp.data) {
+              for (var key in resp.data) {
+                userInfo[key] = resp.data[key];
               }
+              userInfo.gender = userInfo.sex;
+              delete userInfo.error;
             }
-            return this;
+            return userInfo;
           });
         },
 

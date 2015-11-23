@@ -36,7 +36,20 @@ angular.module('classbookApp')
   .controller('ClassCldrCtrl', ['$rootScope', '$scope', '$compile', 'uiCalendarConfig', 'AuthService',
   function($rootScope, $scope, $compile, uiCalendarConfig, AuthService) {
 
+    //get current user only when auth service tells you that you have it
+    $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+      $scope.isAuthenticated = isAuthenticated;
+      if ($scope.isAuthenticated)
+      {
+        $scope.user = AuthService.currentUser();
+        getEvents();
+        console.log($rootScope.classes);
+      }
+    });
+
     $rootScope.classes;
+
+    console.log($rootScope.currentUser);
 
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
@@ -77,7 +90,7 @@ angular.module('classbookApp')
     $scope.events = [];
 
     //save user to the scope
-    $scope.user = AuthService.currentUser();
+    // $scope.user = $rootScope.currentUser;
 
     //get events when calendar is loaded
     function getEvents() {
@@ -88,8 +101,11 @@ angular.module('classbookApp')
           throw new Error('The response is NULL ');
         }
 
-        $rootScope.classes = classes;
         console.log(classes);
+
+        $rootScope.classes = classes;
+        // console.log($rootScope.classes);
+        // console.log(classes);
         // var data = resp.data;
         var events = [];
         var date;
@@ -207,12 +223,12 @@ angular.module('classbookApp')
 
 
     /* watch for user */
-   $scope.$watch('user', function() {
-      console.log('user loaded');
-      if ($scope.user != null)
-        getEvents();
-      else
-        console.log('User is invalid');
-   });
+   // $scope.$watch('user', function() {
+   //    console.log('user loaded');
+   //    if ($scope.user != null)
+   //      getEvents();
+   //    else
+   //      console.log('User is invalid');
+   // });
   }
 ]);

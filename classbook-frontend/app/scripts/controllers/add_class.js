@@ -12,7 +12,16 @@ angular.module('classbookApp')
   function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User, $uibModal) {
 
     $scope.tab = 1;
-    $scope.user = AuthService.currentUser();
+    // $scope.user = AuthService.currentUser();
+
+    $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+      $scope.isAuthenticated = isAuthenticated;
+      if ($scope.isAuthenticated)
+      {
+        $scope.user = AuthService.currentUser();
+        // getEvents();
+      }
+    });
 
     // CONTROLLER for calendar
     var quarterBegins = new Date('2015-09-22');
@@ -217,6 +226,7 @@ angular.module('classbookApp')
     };
 
     $scope.enroll = function(course) {
+      console.log(course);
       $scope.user.enroll(course.discussionId).then(function(res) {
         console.log("LOGGING: result from enroll()\n" + res);
         console.log(course);
@@ -374,8 +384,7 @@ angular.module('classbookApp')
       console.log('user loaded');
       if ($scope.user != null)
         getEvents();
-      else
-        $scope.user = AuthService.currentUser();
+
    });
 
    /* watch for scope events */

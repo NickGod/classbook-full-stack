@@ -10,8 +10,14 @@
 angular.module('classbookApp')
   .controller('ClassSwappingCtrl', ['$scope', '$modal', '$rootScope', 'AuthService', function ($scope, $modal, $rootScope, AuthService) {
   		
-  		$rootScope.currentUser = AuthService.currentUser();
-  		
+  		// $rootScope.currentUser = AuthService.currentUser();
+  		// $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+	   //    $scope.isAuthenticated = isAuthenticated;
+	   //    if ($scope.isAuthenticated)
+	   //    {
+	   //      $scope.user = AuthService.currentUser();
+	   //    }
+	   //  });
 
   		$scope.tab1 = true;
   		$scope.tab2 = false;
@@ -102,11 +108,31 @@ angular.module('classbookApp')
 
 
   }])
-.controller('ModalInstanceCtrl',  ['$scope', '$modalInstance', 'course',  function ($scope, $modalInstance, course) {
+.controller('ModalInstanceCtrl',  ['$scope', '$modalInstance', 'course', 'SwapRequest', function ($scope, $modalInstance, course, SwapRequest) {
 	// $scope.course = course;
 	// alert($scope.course);
 	// alert(course);
 	$scope.course = course;
+	console.log($scope.course);
 
+
+	//send a post request to backend to create swap request
+	// $scope.swapFor = function(course)
+        // sendSwapRequest: function() {
+
+        //   return $http.post('/api/swap_request/create', {userid: this.uid, has_dis: this.has_dis, want_dis: this.want_dis});
+
+        // }
+
+    // console.log($scope.user);
+	$scope.SwapForClass = function(enrolledClassId) {
+		console.log(enrolledClassId);
+		$scope.swaprequest = new SwapRequest($scope.user.uid, enrolledClassId, $scope.course.discussionId);
+		alert('Swap request sent!');
+		$scope.swaprequest.sendSwapRequest().then(function(res) {
+			console.log(res);
+		})
+		
+	}
 
 }]);

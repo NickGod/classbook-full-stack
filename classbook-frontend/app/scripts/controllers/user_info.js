@@ -8,8 +8,8 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('UserInfoCtrl', ['$scope','AuthService', 'SearchService',
-  function ($scope, AuthService, SearchService) {
+  .controller('UserInfoCtrl', ['$scope','AuthService', 'SearchService', '$rootScope',
+  function ($scope, AuthService, SearchService, $rootScope) {
 
     // Helper funtion that behaves similar to the range() in Python
     $scope.range = function(start, count) {

@@ -36,6 +36,7 @@ angular.module('classbookApp')
               // console.log('response is array');
               for (var lec in resp.data) {
                 var clss = null;
+                console.log(resp.data[lec]);
                 // console.log(lec);
                 // if (resp.data[lec].hasOwnProperty("lectureId") &&
                 //   resp.data[lec].hasOwnProperty("department") &&

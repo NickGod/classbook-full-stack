@@ -9,7 +9,8 @@
  * Service in the classbookApp.
  */
 angular.module('classbookApp')
-  .service('AuthService', ['$q', '$auth', 'FRONTEND_MOCKING', 'User', '$rootScope', function ($q, $auth, FRONTEND_MOCKING, User, $rootScope) {
+  .service('AuthService', ['$q', '$auth', 'FRONTEND_MOCKING', 'User', '$rootScope',
+  function($q, $auth, FRONTEND_MOCKING, User, $rootScope) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     if (!FRONTEND_MOCKING) {
 

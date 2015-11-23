@@ -36,7 +36,20 @@ angular.module('classbookApp')
   .controller('ClassCldrCtrl', ['$rootScope', '$scope', '$compile', 'uiCalendarConfig', 'AuthService',
   function($rootScope, $scope, $compile, uiCalendarConfig, AuthService) {
 
+    //get current user only when auth service tells you that you have it
+    $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+      $scope.isAuthenticated = isAuthenticated;
+      if ($scope.isAuthenticated)
+      {
+        $scope.user = AuthService.currentUser();
+        getEvents();
+        console.log($rootScope.classes);
+      }
+    });
+
     $rootScope.classes;
+
+    console.log($rootScope.currentUser);
 
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
@@ -77,19 +90,41 @@ angular.module('classbookApp')
     $scope.events = [];
 
     //save user to the scope
-    $scope.user = AuthService.currentUser();
+    // $scope.user = $rootScope.currentUser;
 
     //get events when calendar is loaded
     function getEvents() {
       console.log($scope.user);
+
+      $scope.user.getEnrolledClassesDetail().then(function(classes) {
+        if (!classes) {
+          throw new Error('The response is NULL ');
+        }
+
+        // console.log(classes);
+        $rootScope.classes = classes;
+
+        // var events = parseCalendarDetailData(classes);
+        // $scope.events.splice(0, $scope.events.length);
+        // $scope.events.push.apply($scope.events, events);
+      })
+      .catch(function(e) {
+        if (e)
+          console.log(e);
+        // alert("Error in getting user data!");
+      });
+
       $scope.user.getAllEnrolledClasses().then(function(classes) {
         if (!classes)
         {
           throw new Error('The response is NULL ');
         }
 
-        $rootScope.classes = classes;
-        console.log(classes);
+        // console.log(classes);
+
+        // $rootScope.classes = classes;
+        // console.log($rootScope.classes);
+        // console.log(classes);
         // var data = resp.data;
         var events = [];
         var date;
@@ -207,12 +242,12 @@ angular.module('classbookApp')
 
 
     /* watch for user */
-   $scope.$watch('user', function() {
-      console.log('user loaded');
-      if ($scope.user != null)
-        getEvents();
-      else
-        console.log('User is invalid');
-   });
+   // $scope.$watch('user', function() {
+   //    console.log('user loaded');
+   //    if ($scope.user != null)
+   //      getEvents();
+   //    else
+   //      console.log('User is invalid');
+   // });
   }
 ]);

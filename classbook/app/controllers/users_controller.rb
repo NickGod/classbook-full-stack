@@ -43,4 +43,20 @@ class UsersController < ApplicationController
                         year: user.year, major: user.major, sex: user.sex}
       end
   end
+
+  def update_user_info
+      user = User.find_by_id(params[:id])
+      user.email  = params[:email]
+      user.name   = params[:name]
+      user.year   = params[:year]
+      user.major  = params[:major]
+      user.sex    = params[:sex]
+      if user.save
+          render json: {error: false}
+      else
+          render json: user.errors, status: :unprocessable_entity
+      end
+
+
+  end
 end

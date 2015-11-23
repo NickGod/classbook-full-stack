@@ -80,7 +80,7 @@ angular
        if(next.requireLogin) {
          // Auth/session check here
          if (!AuthService.isAuthenticated()) {
-           AuthService.validateUser().then(function() {})
+           AuthService.validateUser().then(function() {$rootScope.currentUser = AuthService.currentUser(); console.log($rootScope.currentUser);})
              .catch(function() {
                event.preventDefault();
                console.log();

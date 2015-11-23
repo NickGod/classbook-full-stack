@@ -13,12 +13,28 @@ angular.module('classbookApp')
     function($scope, SearchService, $rootScope, AuthService) {
       // var quarterBegins = new Date('2015-09-22');
       // var quarterEnds = new Date('2015-12-12');
-      if (!$rootScope.currentUser)
-        $scope.currentUser = AuthService.currentUser();
+      $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+        $scope.isAuthenticated = isAuthenticated;
+        if ($scope.isAuthenticated)
+        {
+          $scope.user = AuthService.currentUser();
+          // getEvents();
+        }
+      });
+      $rootScope.$watch('classes', function(classes) {
+        console.log(classes);
+        if (classes != null)
+        {
+          $scope.classes = classes;
+        }
+      })
+
+
+      // console.log($rootScope.classes);
 
       $scope.currentUser = $rootScope.currentUser;
-      $scope.classes = $rootScope.classes;
-      console.log($scope.classes);
+      // $scope.classes = $rootScope.classes;
+      // console.log($scope.classes);
       console.log($rootScope.currentUser);
       $scope.searchResults = [];
 

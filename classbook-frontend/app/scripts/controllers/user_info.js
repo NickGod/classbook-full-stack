@@ -22,7 +22,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
         $scope.currentUser.getInfo().then(function(info) {
           $scope.user = info;
         }).catch(function(e) {
-          console.log("ERROR: " + e);
+          console.log(e);
         });
       }
     });
@@ -160,7 +160,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
         console.log(friends);
         $scope.friends = friends;
       }).catch(function(e) {
-        console.log("ERROR: " + e);
+        console.log(e);
       });
     }
 
@@ -173,7 +173,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
         console.log(msgs);
         $scope.messages = msgs;
       }).catch(function(e){
-        console.log("ERROR: " + e);
+        console.log(e);
       });
     }
     // $scope.currentUser = AuthService.currentUser();
@@ -190,7 +190,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
         console.log(friendRequests);
         $scope.friendRequests = friendRequests;
       }).catch(function(e) {
-        console.log("ERROR" + e);
+        console.log(e);
       });
     }
 
@@ -204,7 +204,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
           console.log("ERROR: unable to find user after accepting requests");
         }
       }).catch(function(e) {
-        console.log("ERROR" + e);
+        console.log(e);
       })
     }
 
@@ -212,7 +212,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       SearchService.searchUser(userInfo).then(function(friendSearchResults) {
         $scope.friendSearchResults = friendSearchResults;
       }).catch(function(e) {
-        console.log("ERROR" + e);
+        console.log(e);
       });
     }
 
@@ -226,7 +226,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
           console.log("ERROR: unable to find user after sending friend request");
         }
       }).catch(function(e) {
-        console.log("ERROR" + e);
+        console.log(e);
       });
     }
   }

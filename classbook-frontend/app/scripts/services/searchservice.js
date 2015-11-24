@@ -32,9 +32,9 @@ angular.module('classbookApp')
         }
         return $http.get(url)
           .then(function (resp) {
-            if (!resp){ 
+            if (!resp){
               throw new Error('Response is NULL.');
-              return; 
+              return;
             }
 
             var ret = resp.data;
@@ -63,6 +63,28 @@ angular.module('classbookApp')
       getUserById: function(uid) {
         var user = new User(uid);
         return user.getInfo();
+      },
+
+      searchUser: function(userInfo) {
+        var url = "/api/searchUser?";
+        var params = [];
+        for (var field in userInfo) {
+          params.push(field + '=' + userInfo[field]);
+        }
+
+        url += params.join('&');
+
+        return $http.get(url).then(function(resp) {
+          var ret = [];
+          if (resp.data instanceof Array) {
+            for (var userIndex in resp.data) {
+              ret.push(resp.data[userIndex]);
+            }
+          }
+          console.log("Search User");
+          console.log(ret);
+          return ret;
+        });
       }
     }
   }]);

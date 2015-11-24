@@ -14,12 +14,10 @@ function ($scope, AuthService, SearchService, $rootScope) {
 
     $scope.currentUser;
 
-    $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+    $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
-      if ($scope.isAuthenticated)
-      {
+      if ($scope.isAuthenticated) {
         $scope.currentUser = AuthService.currentUser();
-        console.log($scope.currentUser);
 
         $scope.currentUser.getInfo().then(function(info) {
           $scope.user = info;
@@ -141,12 +139,12 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Statistics",
     ];
 
-    $scope.currentUser = AuthService.currentUser();
-    // $rootScope.currentUser = AuthService.currentUser();
-
     $scope.tab = 1;
-    $scope.user = {};
+    $scope.friendTab = 1;
 
+    $scope.user = {};
+    $scope.friendSearchResults = [];
+    $scope.friendRequests = [];
 
     // {
     //   id: 1,
@@ -185,5 +183,51 @@ function ($scope, AuthService, SearchService, $rootScope) {
     // }).catch(function(resp) {
     //   alert("Error in getting user information");
     // });
+
+    $scope.getFriendRequests = function() {
+      $scope.currentUser.getPendingFriends().then(function(friendRequests) {
+        console.log("Friend Requests: ");
+        console.log(friendRequests);
+        $scope.friendRequests = friendRequests;
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      });
+    }
+
+    $scope.acceptFriendRequest = function(user) {
+      $scope.currentUser.acceptFriendRequest(user.id).then(function(resp) {
+        // delete request
+        var index = $scope.friendRequests.indexOf(user);
+        if (index != -1) {
+          $scope.friendRequests.splice(index, 1);
+        } else {
+          console.log("ERROR: unable to find user after accepting requests");
+        }
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      })
+    }
+
+    $scope.searchUser = function(userInfo) {
+      SearchService.searchUser(userInfo).then(function(friendSearchResults) {
+        $scope.friendSearchResults = friendSearchResults;
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      });
+    }
+
+    $scope.addFriend = function(user) {
+      $scope.currentUser.requestFriend(user.id).then(function(resp) {
+        // TODO: remove friend from list?
+        var index = $scope.friendSearchResults.indexOf(user);
+        if (index != -1) {
+          $scope.friendSearchResults.splice(index, 1);
+        } else {
+          console.log("ERROR: unable to find user after sending friend request");
+        }
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      });
+    }
   }
 ]);

@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   def accept_friend_request
     current_user = User.find(params[:my_id])
     futureFriend = User.find(params[:other_id])
-    if futureFriend.following.include?(current_user)
+    if !futureFriend.following.include?(current_user)
       render json: {error:true, errormsg: "You made a mistake, he/she is not requesting a friendship"} , status: :bad_request
       return
     end

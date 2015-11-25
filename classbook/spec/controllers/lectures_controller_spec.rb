@@ -52,12 +52,12 @@ RSpec.describe LecturesController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new lecture as @lecture" do
-      get :new, {}, valid_session
-      expect(assigns(:lecture)).to be_a_new(Lecture)
-    end
-  end
+  # describe "GET #new" do
+  #   it "assigns a new lecture as @lecture" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:lecture)).to be_a_new(Lecture)
+  #   end
+  # end
 
   describe "GET #edit" do
     it "assigns the requested lecture as @lecture" do

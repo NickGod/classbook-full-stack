@@ -52,12 +52,12 @@ RSpec.describe DiscussionsController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new discussion as @discussion" do
-      get :new, {}, valid_session
-      expect(assigns(:discussion)).to be_a_new(Discussion)
-    end
-  end
+  # describe "GET #new" do
+  #   it "assigns a new discussion as @discussion" do
+  #     get :new, {}, valid_session
+  #     expect(assigns(:discussion)).to be_a_new(Discussion)
+  #   end
+  # end
 
   describe "GET #edit" do
     it "assigns the requested discussion as @discussion" do

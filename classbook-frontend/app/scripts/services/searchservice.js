@@ -61,8 +61,18 @@ angular.module('classbookApp')
       },
 
       getUserById: function(uid) {
-        var user = new User(uid);
-        return user.getInfo();
+        var url = "/api/user/" + uid + '/info';
+        var params = uid;
+
+        return $http.get(url).then(function(res) {
+
+          console.log(res.data);
+          var user_info = res.data;
+          return user_info;
+
+        });
+
+
       },
 
       searchUser: function(userInfo) {
@@ -82,6 +92,25 @@ angular.module('classbookApp')
             }
           }
           console.log("Search User");
+          console.log(ret);
+          return ret;
+        });
+      },
+
+      getDiscussionById: function(id) {
+        var url = "/api/discussion/get_discussions?ids=[" + id + "]";
+        // var params = [id];
+        // url += params.join('&');
+
+
+        return $http.get(url).then(function(resp) {
+          var ret = [];
+          if (resp.data instanceof Array) {
+            for (var i in resp.data) {
+              ret.push(resp.data[i]);
+            }
+          }
+          console.log("Search Discussion");
           console.log(ret);
           return ret;
         });

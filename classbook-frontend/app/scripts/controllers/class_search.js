@@ -22,6 +22,7 @@ angular.module('classbookApp')
         }
       });
       $rootScope.$watch('classes', function(classes) {
+        console.log("Root classes");
         console.log(classes);
         if (classes != null)
         {

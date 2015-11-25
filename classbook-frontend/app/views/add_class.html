@@ -11,7 +11,7 @@
         <li><a href ng-click="tab=1;changeView('agendaWeek', 'classbookCal1');">Home</a></li>
         <li><a href ng-click="tab=2">Class Search</a></li>
       </ul>
-      <div id="add_class_calendar" ng-include="'views/class_calendar.html'" ng-hide="tab!=1"></div>
+      <div id="add_class_calendar" ng-include="'views/class_calendar.html'" ng-hide="tab!=1" ng-controller="ClassCldrCtrl"></div>
       <div id="add_class_search" ng-include="'views/class_search.html'" ng-hide="tab!=2"></div>
     </div>
   </div>

@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   def accept_friend_request
     current_user = User.find(params[:my_id])
     futureFriend = User.find(params[:other_id])
-    if futureFriend.following.include?(current_user)
+    if !futureFriend.following.include?(current_user)
       render json: {error:true, errormsg: "You made a mistake, he/she is not requesting a friendship"} , status: :bad_request
       return
     end
@@ -56,7 +56,28 @@ class UsersController < ApplicationController
       else
           render json: user.errors, status: :unprocessable_entity
       end
+  end
 
+
+
+  def search_user
+    email = params['email']
+    name = params['name']
+    if email.nil? && name.nil?
+      render json: {error: true, errormsg: "invalid email and name"}, status: :bad_request
+      return
+    end
+    userList = []
+    if email.nil?
+      userList = User.where(name: name)
+    elsif name.nil?
+      userList = User.where(email: email)
+    else
+      userList = User.where(email: email, name: name)
+    end
+    render json: userList
 
   end
+
+
 end

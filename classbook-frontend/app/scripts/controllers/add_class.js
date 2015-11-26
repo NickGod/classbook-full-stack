@@ -20,10 +20,6 @@ angular.module('classbookApp')
       }
     });
 
-    $scope.$watch('events', function(newValue, oldValue) {
-      $scope.eventSources = [newValue, $scope.eventSource];
-    });
-
     // Helper function used for creating formatted time string
     function formatTime(days, startTime, endTime) {
       var i;
@@ -160,17 +156,10 @@ angular.module('classbookApp')
       });
     }
 
-    /* event source that pulls from url */
-    $scope.eventSource = {};
-
-    /* event source that contains custom events on the scope */
-    $scope.events = [];
-
     $scope.open = function(course) {
       var modalInstance = $uibModal.open({
         templateUrl: 'views/class_info.html',
         controller: 'ClassInfoCtrl',
-        //size: size,
         resolve: {
           items: function () {
             return course;
@@ -181,6 +170,14 @@ angular.module('classbookApp')
         $scope.user.dropClass(disIdToDrop).then(function(resp){
           if (resp) {
             // TODO: getEvents();
+            // TODO: show alert window
+            var i;
+            console.log("DROP: ");
+            for (i = $rootScope.events.length - 1; i >= 0; i--) {
+              if ($rootScope.events[i].discussionId == disIdToDrop) {
+                $rootScope.events.splice(i, 1);
+              }
+            }
           }
         }).catch(function(e){
           console.log("ERROR: ");

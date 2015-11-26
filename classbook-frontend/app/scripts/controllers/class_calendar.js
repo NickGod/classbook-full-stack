@@ -21,7 +21,18 @@ angular.module('classbookApp')
       }
     });
 
-    $scope.$watch('events', function(newValue, oldValue) {
+    if (!$rootScope.events)
+      $rootScope.events = [];
+
+    $rootScope.$watch('events', function(newValue, oldValue) {
+      console.log("Watch events:");
+      console.log(newValue);
+      // var i = $scope.eventSources.indexOf(oldValue);
+      // if (i != -1) {
+      //   delete $scope.eventSources[i];
+      // }
+      // $scope.eventSources.push(newValue);
+      $scope.events = newValue;
       $scope.eventSources = [newValue, $scope.eventSource];
     });
 
@@ -75,11 +86,9 @@ angular.module('classbookApp')
       return events;
     }
 
-    /* event source that pulls from url */
-    $scope.eventSource = {};
-
     /* event source that contains custom events on the scope */
     $scope.events = [];
+    $scope.eventSource = {};
 
     // get events for calendar
     function getEvents() {
@@ -92,12 +101,10 @@ angular.module('classbookApp')
             throw new Error('The response is NULL ');
           }
           $rootScope.classes = classes;
-          $scope.classes = classes;
 
           var events = parseCalendarDetailData(classes);
-          $scope.events.splice(0, $scope.events.length);
-          $scope.events.push.apply($scope.events, events);
-          $rootScope.events = $scope.events;
+          $rootScope.events.splice(0, $rootScope.events.length);
+          $rootScope.events.push.apply($rootScope.events, events);
         })
         .catch(function(e) {
           if (e)

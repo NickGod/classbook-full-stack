@@ -172,12 +172,19 @@ angular.module('classbookApp')
         },
 
         getAllSwapRequests: function() {
-          return $http.get('/api/swap_request/' + this.uid).then(function(resp) {
+          return $http.get('/api/message/' + this.uid +'/userMessages').then(function(res) {
             var ret = [];
-            for (var req in resp.data) {
-              var swapReq = new SwapRequest(req.id, req.user_id, req.has_dis, req.want_dis, req);
-              if (swapReq != null && swapReq != undefined) {
-                ret.push(swapReq);
+            for (var req in res.data) {
+
+              if (res.data[req].category =='swap_request')
+              {
+                // console.log(res.data[req]);
+                // console.log(JSON.parse(res.data[req].context));
+                var swapReq = new SwapRequest(res.data[req].id, res.data[req].user_id, JSON.parse(res.data[req].context).has_dis, JSON.parse(res.data[req].context).want_dis, res.data[req]);
+                console.log(swapReq);
+                if (swapReq != null && swapReq != undefined) {
+                  ret.push(swapReq);
+                }
               }
             }
             return ret;

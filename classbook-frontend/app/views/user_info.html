@@ -101,9 +101,10 @@
 
   <div class="container">
     <ul class="nav nav-tabs">
-      <li><a href ng-click="tab=1">My Classes</a></li>
-      <li><a href ng-click="tab=2;getFriends();">Friends</a></li>
-      <li><a href ng-click="tab=3;getMessages();">Messages</a></li>
+      <li><a href ng-click="tab=1" ng-class="{active:tab==1}">My Classes</a></li>
+      <li><a href ng-click="tab=2;getFriends()" ng-class="{active:tab==2}">Friend List</a></li>
+      <li><a href ng-click="tab=3" ng-class="{active:tab==3}">Add Friends</a></li>
+      <li><a href ng-click="tab=4;getMessages()" ng-class="{active:tab==4}">Messages</a></li>
     </ul>
     <div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-hide="tab!=1"></div>
     <div id="friend_list" ng-hide="tab!=2">
@@ -130,7 +131,8 @@
         </table>
       </div>
     </div>
-    <div id="message_list" ng-hide="tab!=3">
+    <div id="add_friend" ng-include="'views/add_friend.html'" ng-hide="tab!=3"></div>
+    <div id="message_list" ng-hide="tab!=4">
       <div class="row">
         <table class="table table-hover">
           <col width="80%">

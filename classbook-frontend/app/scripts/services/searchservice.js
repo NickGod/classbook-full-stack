@@ -32,9 +32,9 @@ angular.module('classbookApp')
         }
         return $http.get(url)
           .then(function (resp) {
-            if (!resp){ 
+            if (!resp){
               throw new Error('Response is NULL.');
-              return; 
+              return;
             }
 
             var ret = resp.data;
@@ -61,8 +61,59 @@ angular.module('classbookApp')
       },
 
       getUserById: function(uid) {
-        var user = new User(uid);
-        return user.getInfo();
+        var url = "/api/user/" + uid + '/info';
+        var params = uid;
+
+        return $http.get(url).then(function(res) {
+
+          console.log(res.data);
+          var user_info = res.data;
+          return user_info;
+
+        });
+
+
+      },
+
+      searchUser: function(userInfo) {
+        var url = "/api/searchUser?";
+        var params = [];
+        for (var field in userInfo) {
+          params.push(field + '=' + userInfo[field]);
+        }
+
+        url += params.join('&');
+
+        return $http.get(url).then(function(resp) {
+          var ret = [];
+          if (resp.data instanceof Array) {
+            for (var userIndex in resp.data) {
+              ret.push(resp.data[userIndex]);
+            }
+          }
+          console.log("Search User");
+          console.log(ret);
+          return ret;
+        });
+      },
+
+      getDiscussionById: function(id) {
+        var url = "/api/discussion/get_discussions?ids=[" + id + "]";
+        // var params = [id];
+        // url += params.join('&');
+
+
+        return $http.get(url).then(function(resp) {
+          var ret = [];
+          if (resp.data instanceof Array) {
+            for (var i in resp.data) {
+              ret.push(resp.data[i]);
+            }
+          }
+          console.log("Search Discussion");
+          console.log(ret);
+          return ret;
+        });
       }
     }
   }]);

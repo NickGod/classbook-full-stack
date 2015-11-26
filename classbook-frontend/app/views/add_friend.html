@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="section-heading">Add Friends</h2>
+    </div>
+  </div>
+  <div class="row">
+    <ul class="nav nav-tabs">
+      <li><a href ng-click="friendTab=1;getFriendRequests()" ng-class="{active:friendTab==1}">Friend Requests</a></li>
+      <li><a href ng-click="friendTab=2" ng-class="{active:friendTab==2}">Add New Friends</a></li>
+    </ul>
+    <div id="add_class_calendar" ng-include="'views/friend_request.html'" ng-hide="friendTab!=1"></div>
+    <div id="add_class_search" ng-include="'views/friend_search.html'" ng-hide="friendTab!=2"></div>
+  </div>
+</div>

@@ -8,22 +8,58 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('ClassSwappingCtrl', ['$scope', '$modal', '$rootScope', 'AuthService', function ($scope, $modal, $rootScope, AuthService) {
+  .controller('ClassSwappingCtrl', ['$scope', '$modal', '$rootScope', 'AuthService', 'SearchService', function ($scope, $modal, $rootScope, AuthService, SearchService) {
   		
+  		$scope.requestInfos = [];
+  		$scope.messages = [];
   		// $rootScope.currentUser = AuthService.currentUser();
-  		// $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
-	   //    $scope.isAuthenticated = isAuthenticated;
-	   //    if ($scope.isAuthenticated)
-	   //    {
-	   //      $scope.user = AuthService.currentUser();
-	   //    }
-	   //  });
+  		$scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+	      $scope.isAuthenticated = isAuthenticated;
+	      if ($scope.isAuthenticated)
+	      {
+	        $scope.user = AuthService.currentUser();
+	        getRequestInfos();
+
+	      }
+	    });
 
   		$scope.tab1 = true;
   		$scope.tab2 = false;
   		$scope.tab3 = false;
 
+
+  		function getRequestInfos() {
+  			$scope.user.getAllSwapRequests().then(function(messages) { 
+	      		$scope.messages = messages;
+
+	      		$scope.messages.forEach(function (message, i) {
+	      			var duplicate = false;
+	      			var requestInfo = {user_email: "", has_dis_name: "", want_dis_name: "" };
+	      			//fill the request info
+	      			SearchService.getUserById(message.uid).then(function(user) {
+	      				requestInfo.user_email = user.email;
+	      				SearchService.getDiscussionById(message.has_dis).then(function(dis) {
+	      					requestInfo.has_dis_name = dis[0].className;
+	      					SearchService.getDiscussionById(message.want_dis).then(function(dis) {
+	      						requestInfo.want_dis_name = dis[0].className;
+	      						for (var r in $scope.requestInfos) {
+	      							if(requestInfo == $scope.requestInfos[r])
+	      							{
+	      								duplicate = true;
+	      							}
+	      						}
+	      						if (duplicate == false)
+	      							$scope.requestInfos.push(requestInfo);
+	      					})
+
+	      				})
+	      			});
+	      		});
+
+	      	});
   		    // MODAL WINDOW
+  		}
+
 	    $scope.open = function (_course) {
 
 	        var modalInstance = $modal.open({

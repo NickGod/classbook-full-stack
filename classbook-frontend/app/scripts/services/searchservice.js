@@ -60,9 +60,11 @@ angular.module('classbookApp')
           });
       },
 
-      getUserById: function(uid) {
-        var user = new User(uid);
+      getUserById: function(uid, email) {
+        var user = new User(uid, email);
         return user.getInfo();
       }
+
+    
     }
   }]);

@@ -131,6 +131,11 @@ angular.module('classbookApp')
           });
         },
 
+        getFriendsInfo: function() {
+
+
+        },
+
         getPendingFriends: function() {
           return $http.get('/api/user/' + this.uid + '/get_pending_friends').then(function(resp) {
             var ret = [];

@@ -13,16 +13,26 @@ angular.module('classbookApp')
 function ($scope, AuthService, SearchService, $rootScope) {
 
     $scope.currentUser;
+    // $scope.currentUser = AuthService.currentUser();
+    // SearchService.getUserById($scope.currentUser.uid).then(function(resp){
+    //   $scope.user = resp;
+    //   console.log(resp);
+    // }).catch(function(resp) {
+    //   alert("Error in getting user information");
+    // });
 
     $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
       $scope.isAuthenticated = isAuthenticated;
       if ($scope.isAuthenticated)
       {
         $scope.currentUser = AuthService.currentUser();
+        console.log("Current User:");
         console.log($scope.currentUser);
 
         $scope.currentUser.getInfo().then(function(info) {
+          console.log("Current info:");
           $scope.user = info;
+          console.log($scope.user);
         }).catch(function(e) {
           console.log("ERROR: " + e);
         });
@@ -163,7 +173,28 @@ function ($scope, AuthService, SearchService, $rootScope) {
 
     $scope.tab = 1;
     $scope.user = {};
+    $scope.edit = function(){
+      $scope.tempUser = JSON.parse(JSON.stringify($scope.user));
+      console.log("tempUser:");
+      console.log($scope.tempUser);
+    }
 
+    $scope.saveEdit = function() {
+      $scope.user = $scope.tempUser;
+
+      //update the server side by posting to backend
+      $scope.currentUser.saveUserInfo($scope.user).then(function(res) {
+        console.log("UserInfo");
+        console.log($scope.user);
+
+        if(res.status != '200')
+          throw new Error('Update failed');
+
+      }).catch(function(e) {
+        console.log("ERROR: " + e);
+      });
+
+    }
 
     // {
     //   id: 1,
@@ -182,6 +213,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
         console.log("ERROR: " + e);
       });
     }
+
 
     $scope.getMessages = function() {
       // $scope.messages = [{
@@ -202,5 +234,11 @@ function ($scope, AuthService, SearchService, $rootScope) {
     // }).catch(function(resp) {
     //   alert("Error in getting user information");
     // });
+    $scope.getFriendId = function(friend){
+      $rootScope.fid = friend.id;
+      $rootScope.femail = friend.uid;
+      console.log("Friend's ID:");
+      console.log($rootScope.fid, $rootScope.femail);
+    }
   }
 ]);

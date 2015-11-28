@@ -1,0 +1,69 @@
+<head>
+  <title>Freind Information</title>
+  
+</head>
+<body ng-app="classbookApp" ng-controller="FriendInfoCtrl">
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4 text-center">
+            <img style="width:250px;" src="images/yeoman.png" alt="Your Profile Pic" class="center-block img-circle img-responsive">
+            <p > {{user ? user.userMessage : "Your Description"}} </p>
+          </div>
+          <div class="col-sm-6">
+            <div class="row">
+              <h2 class="user-info-heading">{{user ? user.email : "example@example.com"}}</h2>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Name: <span class="user-info-body">{{user ? user.userName : "example name"}}</span></h4>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Gender: <span class="user-info-body">{{user ? user.gender : "example gender"}}</span></h4>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Year: <span class="user-info-body">{{user ? user.year : "example year"}}</span></h4>
+            </div>
+            <div class="row">
+              <h4 class="user-info-title">Major: <span class="user-info-body">{{user ? user.major : "example major"}}</span></h4>
+            </div>
+            <!--<p><strong> Swapping request ?? Shouldn't this be in message? </strong> PUT NAME HERE </p>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li><a href ng-click="tab=1">Classes</a></li>
+      <li><a href ng-click="tab=2;getFriends();">Friends</a></li>
+    </ul>
+    <div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-hide="tab!=1"></div>
+    <div id="friend_list" ng-hide="tab!=2">
+      <div class="row">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Major</th>
+              <th>Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="friend in friends">
+              <td></td>
+              <td> <a id="link-friend" href="#/friend_info" ng-click="">{{friend.uid}}</a></td>
+              <td>{{friend.name}}</td>
+              <td>{{friend.major}}</td>
+              <td>{{friend.year}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+ 
+  </div>
+</body>

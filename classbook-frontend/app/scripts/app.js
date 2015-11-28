@@ -65,6 +65,12 @@ angular
         controllerAs: 'addClass',
         requireLogin: true
       })
+      .when('/friend_info', {
+        templateUrl: 'views/friend_info.html',
+        controller: 'FriendInfoCtrl',
+        controllerAs: 'userInfo',
+        requireLogin: true
+      })
       .otherwise({
         redirectTo: '/'
       });

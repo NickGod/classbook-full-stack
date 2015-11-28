@@ -71,8 +71,6 @@ angular.module('classbookApp')
           return user_info;
 
         });
-
-
       },
 
       searchUser: function(userInfo) {

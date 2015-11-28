@@ -13,6 +13,13 @@ angular.module('classbookApp')
 function ($scope, AuthService, SearchService, $rootScope) {
 
     $scope.currentUser;
+    // $scope.currentUser = AuthService.currentUser();
+    // SearchService.getUserById($scope.currentUser.uid).then(function(resp){
+    //   $scope.user = resp;
+    //   console.log(resp);
+    // }).catch(function(resp) {
+    //   alert("Error in getting user information");
+    // });
 
     $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
@@ -20,7 +27,9 @@ function ($scope, AuthService, SearchService, $rootScope) {
         $scope.currentUser = AuthService.currentUser();
 
         $scope.currentUser.getInfo().then(function(info) {
+          console.log("Current info:");
           $scope.user = info;
+          console.log($scope.user);
         }).catch(function(e) {
           console.log("ERROR: " + e);
         });
@@ -37,12 +46,15 @@ function ($scope, AuthService, SearchService, $rootScope) {
 
     // List of all majors
     $scope.uclaMajors = [
+      "Aerospace Engineering",
       "African American Studies",
       "African and Middle Eastern Studies",
       "American Indian Studies",
       "American Literature and Culture",
       "Anthropology",
       "Arabic",
+      "Architectural Studies",
+      "Art",
       "Art History",
       "Asian American Studies",
       "Asian Humanities",
@@ -51,6 +63,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Astrophysics",
       "Atmospheric, Oceanic and Environmental Sciences",
       "Biochemistry",
+      "Bioengineering",
       "Biology",
       "Biophysics",
       "Business Economics",
@@ -66,13 +79,20 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Comparative Literature",
       "Computational and Systems Biology",
       "Computer Science",
+      "Computer Science and Engineering",
+      "Dance",
+      "Design Media Arts",
       "Earth and Environmental Science",
       "Ecology, Behavior, and Evolution",
       "Economics",
+      "Electrical Engineering",
       "Engineering Geology",
       "English",
       "Environmental Science",
+      "Ethnomusicology",
       "European Studies",
+      "Film and television",
+      "Theater",
       "French",
       "French and Linguistics",
       "Gender Studies",
@@ -87,6 +107,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "History",
       "Human Biology and Society",
       "International Development Studies",
+      "Individual Field of Concentration",
       "Iranian Studies",
       "Italian",
       "Italian and Special Fields",
@@ -108,6 +129,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Linguistics and Spanish",
       "Linguistics, Applied",
       "Marine Biology",
+      "Materials Engineering",
       "Mathematics",
       "Mathematics, Applied",
       "Mathematics/Applied Science",
@@ -116,10 +138,13 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Mathematics, Financial Actuarial",
       "Mathematics for Teaching",
       "Mathematics of Computation",
+      "Mechanical Engineering",
       "Microbiology, Immunology, and Molecular Genetics",
       "Molecular, Cell, and Developmental Biology",
+      "Music",
       "Music History",
       "Neuroscience",
+      "Nursing - Prelicensure",
       "Philosophy",
       "Physics",
       "Physiological Science",
@@ -137,6 +162,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Spanish and Linguistics",
       "Spanish and Portuguese",
       "Statistics",
+      "World Arts and Cultures",
     ];
 
     $scope.tab = 1;
@@ -145,6 +171,29 @@ function ($scope, AuthService, SearchService, $rootScope) {
     $scope.user = {};
     $scope.friendSearchResults = [];
     $scope.friendRequests = [];
+
+    $scope.edit = function(){
+      $scope.tempUser = JSON.parse(JSON.stringify($scope.user));
+      console.log("tempUser:");
+      console.log($scope.tempUser);
+    }
+
+    $scope.saveEdit = function() {
+      $scope.user = $scope.tempUser;
+
+      //update the server side by posting to backend
+      $scope.currentUser.saveUserInfo($scope.user).then(function(res) {
+        console.log("UserInfo");
+        console.log($scope.user);
+
+        if(res.status != '200')
+          throw new Error('Update failed');
+
+      }).catch(function(e) {
+        console.log("ERROR: " + e);
+      });
+
+    }
 
     // {
     //   id: 1,
@@ -163,6 +212,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
         console.log("ERROR: " + e);
       });
     }
+
 
     $scope.getMessages = function() {
       // $scope.messages = [{
@@ -228,6 +278,13 @@ function ($scope, AuthService, SearchService, $rootScope) {
       }).catch(function(e) {
         console.log("ERROR" + e);
       });
+    }
+
+    $scope.getFriendId = function(friend) {
+      $rootScope.fid = friend.id;
+      $rootScope.femail = friend.uid;
+      console.log("Friend's ID:");
+      console.log($rootScope.fid, $rootScope.femail);
     }
   }
 ]);

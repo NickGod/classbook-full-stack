@@ -149,6 +149,7 @@ angular.module('classbookApp')
           $scope.searchResults.splice(i, 1);
 
         // TODO: getEvents();
+        $scope.addClass(course);
       }).catch(function(e) {
         if(e) {
           console.log('Error when enrolling: ' + e);

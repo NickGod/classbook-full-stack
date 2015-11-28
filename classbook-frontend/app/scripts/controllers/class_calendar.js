@@ -25,13 +25,6 @@ angular.module('classbookApp')
       $rootScope.events = [];
 
     $rootScope.$watch('events', function(newValue, oldValue) {
-      console.log("Watch events:");
-      console.log(newValue);
-      // var i = $scope.eventSources.indexOf(oldValue);
-      // if (i != -1) {
-      //   delete $scope.eventSources[i];
-      // }
-      // $scope.eventSources.push(newValue);
       $scope.events = newValue;
       $scope.eventSources = [newValue, $scope.eventSource];
     });
@@ -112,6 +105,11 @@ angular.module('classbookApp')
         });
       }
     }
+
+    $scope.addClass = function(course) {
+      var newEvents = parseCalendarDetailData([course]);
+      $rootScope.events.push.apply($rootScope.events, newEvents);
+    };
 
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view) {

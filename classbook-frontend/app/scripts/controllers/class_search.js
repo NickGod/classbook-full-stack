@@ -106,17 +106,21 @@ angular.module('classbookApp')
           clsDis.discussionId = dis.discussionId;
           clsDis.discussionName = dis.discussionName;
           clsDis.discussionTime = formatTime(dis.days, dis.startTime, dis.endTime);
-          clsDis.rawData = [{
-            className: clsDis.className,
-            startTime: clsData.startTime,
-            endTime: clsData.endTime,
-            days: clsData.days
-          }, {
-            className: dis.discussionName,
-            startTime: dis.startTime,
-            endTime: dis.endTime,
-            days: dis.days
-          }];
+          // clsDis.rawData = [{
+          //   className: clsDis.className,
+          //   startTime: clsData.startTime,
+          //   endTime: clsData.endTime,
+          //   days: clsData.days
+          // }, {
+          //   className: dis.discussionName,
+          //   startTime: dis.startTime,
+          //   endTime: dis.endTime,
+          //   days: dis.days
+          // }];
+          var rawData = JSON.parse(JSON.stringify(clsData));
+          delete rawData.discussions;
+          rawData.discussion = dis;
+          clsDis.rawData = rawData;
           classes.push(clsDis);
         }
       }

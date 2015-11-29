@@ -17,27 +17,27 @@
 
 
 Lecture.create([
-	{ name: 'CS130', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS31', begTime: '4:00P', endTime: '5:50P', days:'24', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS32', begTime: '8:00A', endTime: '9:50A', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS35L', begTime: '12:00P', endTime: '1:50P', days:'24', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS111', begTime: '2:00P', endTime: '3:50P', days:'24', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS112', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS118', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS131', begTime: '12:00P', endTime: '1:50P', days:'24', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS143', begTime: '8:00A', endTime: '9:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS144', begTime: '10:00P', endTime: '11:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS161', begTime: '12:00P', endTime: '1:50P', days:'24', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS170A', begTime: '2:00P', endTime: '3:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS174A', begTime: '4:00P', endTime: '5:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS180', begTime: '6:00P', endTime: '7:50P', days:'24', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'CS181', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall', department: "ComputerScience"},
-	{ name: 'MATH131A', begTime: '12:00P', endTime: '12:50P', days:'135', location: 'MATH&SCIENCE',term: 'Fall', department: "Math"},
-	{ name: 'MATH132', begTime: '2:00P', endTime: '3:50P', days:'24', location: 'MATH&SCIENCE', term: 'Fall', department: "Math"},
-	{ name: 'MATH110', begTime: '4:00P', endTime: '4:50P', days:'135', location: 'MATH&SCIENCE', term: 'Fall', department: "Math"},
-	{ name: 'MUSIC110', begTime: '4:00P', endTime: '4:50P', days:'24', location: 'ART BUILDING', term: 'Fall', department: "Music"},
-	{ name: 'ART998', begTime: '10:00A', endTime: '11:50A', days:'135', location: 'ART BUILDING', term: 'Fall', department: "Art"},
-	{ name: 'ETHNOMU 25', begTime: '9:00A', endTime: '10:50A', days:'24', location: 'Schoenberg Music Building', term: 'Fall', department: "Ethnomusicology"}
+	{ name: 'CS130', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS31', begTime: '4:00P', endTime: '5:50P', days:'24', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS32', begTime: '8:00A', endTime: '9:50A', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS35L', begTime: '12:00P', endTime: '1:50P', days:'24', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS111', begTime: '2:00P', endTime: '3:50P', days:'24', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS112', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS118', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS131', begTime: '12:00P', endTime: '1:50P', days:'24', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS143', begTime: '8:00A', endTime: '9:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS144', begTime: '10:00P', endTime: '11:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS161', begTime: '12:00P', endTime: '1:50P', days:'24', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS170A', begTime: '2:00P', endTime: '3:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS174A', begTime: '4:00P', endTime: '5:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS180', begTime: '6:00P', endTime: '7:50P', days:'24', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'CS181', begTime: '12:00P', endTime: '1:50P', days:'13', location: 'BOELTER',term: 'Fall15', department: "Computer Science"},
+	{ name: 'MATH131A', begTime: '12:00P', endTime: '12:50P', days:'135', location: 'MATH&SCIENCE',term: 'Fall15', department: "Math"},
+	{ name: 'MATH132', begTime: '2:00P', endTime: '3:50P', days:'24', location: 'MATH&SCIENCE', term: 'Fall15', department: "Math"},
+	{ name: 'MATH110', begTime: '4:00P', endTime: '4:50P', days:'135', location: 'MATH&SCIENCE', term: 'Fall15', department: "Math"},
+	{ name: 'MUSIC110', begTime: '4:00P', endTime: '4:50P', days:'24', location: 'ART BUILDING', term: 'Fall15', department: "Music"},
+	{ name: 'ART998', begTime: '10:00A', endTime: '11:50A', days:'135', location: 'ART BUILDING', term: 'Fall15', department: "Art"},
+	{ name: 'ETHNOMU 25', begTime: '9:00A', endTime: '10:50A', days:'24', location: 'Schoenberg Music Building', term: 'Fall15', department: "Ethnomusicology"}
 ])
 
 Discussion.create([

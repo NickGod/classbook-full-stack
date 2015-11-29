@@ -83,21 +83,14 @@ angular.module('classbookApp')
         for(j = 0; j < clsData.discussions.length; j++) {
           var dis = clsData.discussions[j];
           var clsDis = JSON.parse(JSON.stringify(cls));
+          var clsRawData = JSON.parse(JSON.stringify(clsData));
+          clsRawData.discussion = dis;
+          delete clsRawData.discussions;
 
           clsDis.discussionId = dis.discussionId;
           clsDis.discussionName = dis.discussionName;
           clsDis.discussionTime = formatTime(dis.days, dis.startTime, dis.endTime);
-          clsDis.rawData = [{
-            className: clsDis.className,
-            startTime: clsData.startTime,
-            endTime: clsData.endTime,
-            days: clsData.days
-          }, {
-            className: dis.discussionName,
-            startTime: dis.startTime,
-            endTime: dis.endTime,
-            days: dis.days
-          }];
+          clsDis.rawData = clsRawData;
           classes.push(clsDis);
         }
       }
@@ -127,33 +120,59 @@ angular.module('classbookApp')
       })
       .catch(function(e) {
         if(e)
-          console.log("ERROR: " + e);
-        // alert("Error in searching classes!\n" + e);
+          console.log("ERROR: ");
+          console.log(e);
       });
     };
 
     $scope.enroll = function(course) {
-      console.log(course);
-      $scope.user.enroll(course.discussionId).then(function(res) {
-        console.log("LOGGING: result from enroll()\n" + res);
-        console.log(course);
-
-        if(res.status != '200')
-          throw new Error('Enroll failed');
-
-        // alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);
-
-        // remove the corresponding class from the view
-        var i = $scope.searchResults.indexOf(course);
-        if (i > -1)
-          $scope.searchResults.splice(i, 1);
-
-        // TODO: getEvents();
-        $scope.addClass(course);
-      }).catch(function(e) {
-        if(e) {
-          console.log('Error when enrolling: ' + e);
+      var modalInstance = $uibModal.open({
+        templateUrl: 'views/message_box.html',
+        controller: 'MessageBoxCtrl',
+        resolve: {
+          items: function () {
+            return {
+              title: 'Confirm',
+              message: 'Are you sure to enroll this class?'
+            };
+          }
         }
+      });
+
+      modalInstance.result.then(function(isConfirmed) {
+        $scope.user.enroll(course.discussionId).then(function(res) {
+          console.log("LOGGING: result from enroll()\n" + res);
+          console.log(course);
+
+          if(res.status != '200')
+            throw new Error('Enroll failed');
+
+          $uibModal.open({
+            templateUrl: 'views/message_box.html',
+            controller: 'MessageBoxCtrl',
+            resolve: {
+              items: function () {
+                return {
+                  title: 'Success',
+                  message: 'You have successfully enrolled',
+                  isMessageOnly: true
+                };
+              }
+            }
+          });
+          // remove the corresponding class from the view
+          // var i = $scope.searchResults.indexOf(course);
+          // if (i > -1)
+          //   $scope.searchResults.splice(i, 1);
+          $scope.searchResults = [];
+          // TODO: getEvents();
+          $rootScope.addClass(course.rawData);
+        }).catch(function(e) {
+          if(e) {
+            console.log('Error when enrolling:');
+            console.log(e);
+          }
+        });
       });
     }
 
@@ -167,24 +186,22 @@ angular.module('classbookApp')
           }
         }
       });
-      modalInstance.result.then(function (disIdToDrop) {
+      modalInstance.result.then(function(disIdToDrop) {
         $scope.user.dropClass(disIdToDrop).then(function(resp){
           if (resp) {
-            // TODO: getEvents();
             // TODO: show alert window
             var i;
-            console.log("DROP: ");
             for (i = $rootScope.events.length - 1; i >= 0; i--) {
               if ($rootScope.events[i].discussionId == disIdToDrop) {
                 $rootScope.events.splice(i, 1);
               }
             }
           }
-        }).catch(function(e){
+        }).catch(function(e) {
           console.log("ERROR: ");
           console.log(e);
         });
-      }, function () {
+      }, function() {
         console.log("Cancelled");
       });
     };

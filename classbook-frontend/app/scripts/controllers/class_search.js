@@ -11,8 +11,6 @@ angular.module('classbookApp')
   .controller('ClassSearchCtrl', [
     '$scope', 'SearchService', '$rootScope', 'AuthService',
     function($scope, SearchService, $rootScope, AuthService) {
-      // var quarterBegins = new Date('2015-09-22');
-      // var quarterEnds = new Date('2015-12-12');
       $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
         $scope.isAuthenticated = isAuthenticated;
         if ($scope.isAuthenticated)
@@ -30,12 +28,7 @@ angular.module('classbookApp')
         }
       })
 
-
-      // console.log($rootScope.classes);
-
       $scope.currentUser = $rootScope.currentUser;
-      // $scope.classes = $rootScope.classes;
-      // console.log($scope.classes);
       console.log($rootScope.currentUser);
       $scope.searchResults = [];
 
@@ -106,17 +99,7 @@ angular.module('classbookApp')
           clsDis.discussionId = dis.discussionId;
           clsDis.discussionName = dis.discussionName;
           clsDis.discussionTime = formatTime(dis.days, dis.startTime, dis.endTime);
-          // clsDis.rawData = [{
-          //   className: clsDis.className,
-          //   startTime: clsData.startTime,
-          //   endTime: clsData.endTime,
-          //   days: clsData.days
-          // }, {
-          //   className: dis.discussionName,
-          //   startTime: dis.startTime,
-          //   endTime: dis.endTime,
-          //   days: dis.days
-          // }];
+
           var rawData = JSON.parse(JSON.stringify(clsData));
           delete rawData.discussions;
           rawData.discussion = dis;
@@ -158,15 +141,9 @@ angular.module('classbookApp')
         })
         .catch(function(e) {
           if(e)
-            console.log("ERROR: " + e);
-          // alert("Error in searching classes!\n" + e);
+            console.log(e);
         });
       };
-
-
-      $scope.enroll = function(lectureId, discussionId) {
-        window.alert("CLICKED!" + lectureId + ' ' + discussionId);
-      }
     }
   ]
 );

@@ -21,14 +21,6 @@ angular.module('classbookApp')
       }
     });
 
-    if (!$rootScope.events)
-      $rootScope.events = [];
-
-    $rootScope.$watch('events', function(newValue, oldValue) {
-      $scope.events = newValue;
-      $scope.eventSources = [newValue, $scope.eventSource];
-    });
-
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
 
@@ -79,16 +71,25 @@ angular.module('classbookApp')
       return events;
     }
 
-    /* event source that contains custom events on the scope */
-    $scope.events = [];
-    $scope.eventSource = {};
+    if (!$rootScope.classes) {
+      $rootScope.classes = [];
+    }
+    if (!$rootScope.events) {
+      $rootScope.events = [];
+    }
+    if(!$rootScope.eventSources) {
+      $rootScope.eventSources = [$rootScope.events];
+    }
+
+    $scope.classes = $rootScope.classes;
+    $scope.events = $rootScope.events;
+    $scope.eventSources = $rootScope.eventSources;
 
     // get events for calendar
     function getEvents() {
-      if ($rootScope.classes && $rootScope.events) {
-        $scope.classes = $rootScope.classes;
-        $scope.events = $rootScope.events;
-      } else {
+      console.log("getEvents");
+      if ($rootScope.classes.length == 0 || $rootScope.events.length == 0) {
+        console.log("Load classes");
         $scope.user.getEnrolledClassesDetail().then(function(classes) {
           if (!classes) {
             throw new Error('The response is NULL ');
@@ -110,6 +111,8 @@ angular.module('classbookApp')
       var newEvents = parseCalendarDetailData([course]);
       $rootScope.events.push.apply($rootScope.events, newEvents);
     };
+
+    $rootScope.addClass = $scope.addClass;
 
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view) {
@@ -197,8 +200,5 @@ angular.module('classbookApp')
 
     $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventSource];
   }
 ]);

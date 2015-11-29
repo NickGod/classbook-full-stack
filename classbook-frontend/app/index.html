@@ -107,7 +107,7 @@
                     </li>
                 </ul> -->
               <ul class="nav navbar-nav navbar-right">
-              <li> <a ng-href="#/add_class"> Add Class </a> </li>
+              <li> <a ng-href="#/add_class"> Manage Class </a> </li>
               <li> <a ng-href="#/class_swapping"> Swap Class </a> </li>
               <li> <a ng-href="#/user_info"> Your Info </a> </li>
               </ul>
@@ -121,7 +121,7 @@
 
                 <ul ng-switch-when="true" class="nav navbar-nav navbar-right">
                   <li><a>Welcome, {{auth.currentUser().email || "my friend"}}.</a></li>
-                  <li><a ng-click="onSignOutButtonClick()">Sign Out</a></li>
+                  <li><a href ng-click="onSignOutButtonClick()">Sign Out</a></li>
                 </ul>
               </div>
             </div>
@@ -209,6 +209,7 @@
     <script src="scripts/controllers/friend_calendar.js"></script>
     <script src="scripts/controllers/class_calendar.js"></script>
     <script src="scripts/controllers/class_swapping.js"></script>
+    <script src="scripts/controllers/message_box.js"></script>
     <script src="scripts/services/user.js"></script>
     <script src="scripts/services/utilservice.js"></script>
     <script src="scripts/controllers/class_info.js"></script>

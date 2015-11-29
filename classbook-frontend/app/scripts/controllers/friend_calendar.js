@@ -158,7 +158,12 @@ angular.module('classbookApp')
     };
 
     $scope.getViewName = function(calendar) {
-      return uiCalendarConfig.calendars['classbookCal1'].fullCalendar('getView').name;
+      var calendar = uiCalendarConfig.calendars['classbookCal1'];
+      if (calendar) {
+        return calendar.fullCalendar('getView').name;
+      } else {
+        return 'none';
+      }
     }
 
     /* config object */

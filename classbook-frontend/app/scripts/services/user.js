@@ -270,6 +270,15 @@ angular.module('classbookApp')
             }
             return ret;
           });
+        },
+
+        updateInfo: function(userInfo) {
+          if (typeof userInfo.id === 'undefined') {
+            console.log('Undefined id when saving user info');
+            return;
+          }
+
+          return $http.post('/api/user/updateInfo', userInfo);
         }
       };
     };

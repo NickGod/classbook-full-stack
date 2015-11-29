@@ -175,6 +175,7 @@ angular.module('classbookApp')
     $scope.edit = function(){
       $scope.tempUser = JSON.parse(JSON.stringify($scope.user));
       console.log("tempUser:");
+      console.log(typeof $scope.tempUser.year);
       console.log($scope.tempUser);
     }
 
@@ -182,7 +183,7 @@ angular.module('classbookApp')
       $scope.user = $scope.tempUser;
 
       //update the server side by posting to backend
-      $scope.currentUser.saveUserInfo($scope.user).then(function(res) {
+      $scope.currentUser.updateInfo($scope.user).then(function(res) {
         console.log("UserInfo");
         console.log($scope.user);
 
@@ -266,11 +267,7 @@ angular.module('classbookApp')
     }
 
     $scope.getFriendId = function(friend) {
-      $rootScope.fid = friend.id;
-      $rootScope.femail = friend.uid;
       $scope.currentUser.setFriendToInspect(friend.id);
-      console.log("Friend's ID:");
-      console.log($rootScope.fid, $rootScope.femail);
     }
   }
 ]);

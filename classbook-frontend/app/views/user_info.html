@@ -15,7 +15,7 @@
               <h2 class="user-info-heading">{{user ? user.email : "example@example.com"}}</h2>
             </div>
             <div class="row">
-              <h4 class="user-info-title">Name: <span class="user-info-body">{{user ? user.userName : "example name"}}</span></h4>
+              <h4 class="user-info-title">Name: <span class="user-info-body">{{user ? user.name : "example name"}}</span></h4>
             </div>
             <div class="row">
               <h4 class="user-info-title">Gender: <span class="user-info-body">{{user ? user.sex : "example gender"}}</span></h4>
@@ -56,7 +56,7 @@
 
                     <div class="form-group">
                       <label for="user-name" class="control-label user-info-edit-heading">Name:</label>
-                      <input type="text" class="form-control" id="user-name" placeholder="Name" ng-model="tempUser.userName">
+                      <input type="text" class="form-control" id="user-name" placeholder="Name" ng-model="tempUser.name">
                     </div>
 
                     <div class="form-group">
@@ -75,7 +75,7 @@
                       <div class="col-sm-6 form-group">
                         <label for="user-year" class="user-info-edit-heading">Class: &nbsp</label>
                         <select class="width-80" ng-model="tempUser.year">
-                          <option ng-repeat="year in range(2012,10)" ng-value="year">{{year}}</option>
+                          <option ng-repeat="year in range(2012,10)" ng-value={{year}}>{{year}}</option>
                         </select>
                       </div>
 

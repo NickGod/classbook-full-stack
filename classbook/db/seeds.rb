@@ -55,15 +55,15 @@ Discussion.create([
 ])
 
 User.create([
-	{uid: 1, email: 'guanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'Guan Beiqi'},
-	{uid: 2, email: 'hanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'Han Xi'},
-	{uid: 3, email: 'sunshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'Sun Shuo' },
-	{uid: 4, email: 'gaoshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'Gao Yuanzhi'},
-	{uid: 5, email: 'yushen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Female', name: 'Yu Mengyuan'},
-	{uid: 6, email: 'panshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'Pan Pengchen'},
-	{uid: 7, email: 'wangshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'WangShen'},
-	{uid: 8, email: 'xiashen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'Xia Tianyi'},
-	{uid: 9, email: 'xiaobai@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'CS', sex: 'Male', name: 'Wu Zhengliang'},
+	{uid: 1, email: 'guanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Guan Beiqi'},
+	{uid: 2, email: 'hanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Han Xi'},
+	{uid: 3, email: 'sunshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Sun Shuo' },
+	{uid: 4, email: 'gaoshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Gao Yuanzhi'},
+	{uid: 5, email: 'yushen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Female', name: 'Yu Mengyuan'},
+	{uid: 6, email: 'panshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Pan Pengchen'},
+	{uid: 7, email: 'wangshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'WangShen'},
+	{uid: 8, email: 'xiashen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Xia Tianyi'},
+	{uid: 9, email: 'xiaobai@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Wu Zhengliang'},
 ])
 
 SwapRequest.create([

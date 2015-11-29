@@ -1,5 +1,5 @@
 class SwapRequestsController < ApplicationController
-	before_action :authenticate_user! ,unless: "Rails.env.test?"
+	#before_action :authenticate_user! ,unless: "Rails.env.test?"
 
 	def create
 		current_user = User.find(params[:user_id])

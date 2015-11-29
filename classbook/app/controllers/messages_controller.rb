@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+	  before_action :authenticate_user! ,unless: "Rails.env.test?"
+
 
 	def get_user_message
 		#user_id = current_user.id

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
     # api for getting user infomation
     get 'user/:id/info' => 'users#get_user_info'
-    post 'user/info' => 'users#update_user_info'
+    post 'user/updateInfo' => 'users#update_user_info'
 
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_discussion'
     get 'user/:id/getEnrolledClassesForDrop' => 'enrollments#get_enrolled_for_drop_use'

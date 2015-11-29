@@ -10,7 +10,7 @@
 angular.module('classbookApp')
 
   .controller('UserInfoCtrl', ['$scope', 'AuthService', 'SearchService', '$rootScope',
-function ($scope, AuthService, SearchService, $rootScope) {
+  function ($scope, AuthService, SearchService, $rootScope) {
 
     $scope.currentUser;
     // $scope.currentUser = AuthService.currentUser();
@@ -38,10 +38,10 @@ function ($scope, AuthService, SearchService, $rootScope) {
 
     // Helper funtion that behaves similar to the range() in Python
     $scope.range = function(start, count) {
-        return Array.apply(0, Array(count))
-                    .map(function (element, index) {
-                             return index + start;
-                         });
+      return Array.apply(0, Array(count))
+                  .map(function (element, index) {
+                         return index + start;
+                       });
     }
 
     // List of all majors
@@ -195,14 +195,6 @@ function ($scope, AuthService, SearchService, $rootScope) {
 
     }
 
-    // {
-    //   id: 1,
-    //   userName: "Mengyuan",
-    //   major: "Computer Science",
-    //   year: "2016",
-    //   gender: "Female"
-    // };
-
     $scope.getFriends = function() {
       $scope.currentUser.getFriends().then(function(friends) {
         console.log("Friends:");
@@ -226,13 +218,6 @@ function ($scope, AuthService, SearchService, $rootScope) {
         console.log("ERROR: " + e);
       });
     }
-    // $scope.currentUser = AuthService.currentUser();
-    // SearchService.getUserById($scope.currentUser.uid).then(function(resp){
-    //   $scope.user = resp;
-    //   console.log(resp);
-    // }).catch(function(resp) {
-    //   alert("Error in getting user information");
-    // });
 
     $scope.getFriendRequests = function() {
       $scope.currentUser.getPendingFriends().then(function(friendRequests) {
@@ -283,6 +268,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
     $scope.getFriendId = function(friend) {
       $rootScope.fid = friend.id;
       $rootScope.femail = friend.uid;
+      $scope.currentUser.setFriendToInspect(friend.id);
       console.log("Friend's ID:");
       console.log($rootScope.fid, $rootScope.femail);
     }

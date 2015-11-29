@@ -8,8 +8,8 @@
  * Factory in the classbookApp.
  */
 angular.module('classbookApp')
-  .factory('User', ['UtilService', '$http', '$q', 'SwapRequest', 'Class', 'Discussion',
-    function (UtilService, $http, $q, SwapRequest, Class, Discussion) {
+  .factory('User', ['UtilService', '$http', '$q', '$cookieStore', 'SwapRequest', 'Class', 'Discussion',
+    function (UtilService, $http, $q, $cookieStore, SwapRequest, Class, Discussion) {
     // Public API here
     var User = function(uid, email, opts) {
       // Validate parameters.
@@ -131,9 +131,72 @@ angular.module('classbookApp')
           });
         },
 
-        getFriendsInfo: function() {
+        setFriendToInspect: function(friendId) {
+          $cookieStore.put('friendId', friendId);
+        },
 
+        getFriendInfo: function() {
+          var friendId = $cookieStore.get('friendId');
+          if (typeof friendId === 'undefined') {
+            console.log("friendId is not defined");
+            return null;
+          }
 
+          return $http.get('/api/user/' + friendId + '/info').then(function(resp) {
+            console.log("getFriendInfo");
+            console.log(resp);
+            var userInfo = {};
+            if (resp.data) {
+              for (var key in resp.data) {
+                userInfo[key] = resp.data[key];
+              }
+              userInfo.gender = userInfo.sex;
+              delete userInfo.error;
+            }
+            return userInfo;
+          });
+        },
+
+        getFriendEnrolledClassesDetail: function() {
+          var friendId = $cookieStore.get('friendId');
+          if (typeof friendId === 'undefined') {
+            console.log("friendId is not defined");
+            return null;
+          }
+
+          console.log('/api/user/' + friendId + '/getEnrolledClassesForDrop');
+          return $http.get('/api/user/' + friendId + '/getEnrolledClassesForDrop').then(function(resp) {
+            var ret = [];
+            if (resp.data instanceof Array) {
+              for (var lec in resp.data) {
+                if (resp.data[lec] != null) {
+                  ret.push(resp.data[lec]);
+                }
+              }
+            }
+            console.log("Friend Enrolled Class Detail");
+            console.log(ret);
+            return ret;
+          });
+        },
+
+        getFriendFriends: function() {
+          var friendId = $cookieStore.get('friendId');
+          if (typeof friendId === 'undefined') {
+            console.log("friendId is not defined");
+            return null;
+          }
+
+          return $http.get('/api/user/' + friendId + '/get_friends').then(function(resp) {
+            var ret = [];
+            console.log("Friend Friends:");
+            console.log(resp.data);
+
+            for (var i in resp.data) {
+              ret.push(resp.data[i]);
+            }
+            return ret;
+          });
         },
 
         getPendingFriends: function() {

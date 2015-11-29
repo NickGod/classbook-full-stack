@@ -2,32 +2,25 @@
 
 /**
  * @ngdoc function
- * @name classbookApp.controller:ClassInfoCtrl
+ * @name classbookApp.controller:FriendCldrCtrl
  * @description
- * # ClassInfoCtrl
+ * # FriendCldrCtrl
  * Controller of the classbookApp
  */
 
 angular.module('classbookApp')
-  .controller('ClassCldrCtrl', ['$rootScope', '$scope', '$compile', 'uiCalendarConfig', 'AuthService',
-  function($rootScope, $scope, $compile, uiCalendarConfig, AuthService) {
+  .controller('FriendCldrCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService',
+  function($scope, $compile, uiCalendarConfig, AuthService) {
 
-    //get current user only when auth service tells you that you have it
     $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
       if ($scope.isAuthenticated) {
-        $scope.user = AuthService.currentUser();
+        $scope.currentUser = AuthService.currentUser();
         getEvents();
       }
     });
 
-    if (!$rootScope.events)
-      $rootScope.events = [];
-
-    $rootScope.$watch('events', function(newValue, oldValue) {
-      $scope.events = newValue;
-      $scope.eventSources = [newValue, $scope.eventSource];
-    });
+    $scope.tab = 1;
 
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
@@ -85,30 +78,26 @@ angular.module('classbookApp')
 
     // get events for calendar
     function getEvents() {
-      if ($rootScope.classes && $rootScope.events) {
-        $scope.classes = $rootScope.classes;
-        $scope.events = $rootScope.events;
-      } else {
-        $scope.user.getEnrolledClassesDetail().then(function(classes) {
-          if (!classes) {
-            throw new Error('The response is NULL ');
-          }
-          $rootScope.classes = classes;
+      console.log("Friend get events");
+      $scope.currentUser.getFriendEnrolledClassesDetail().then(function(classes) {
+        if (!classes) {
+          throw new Error('The response is NULL ');
+        }
+        $scope.classes = classes;
 
-          var events = parseCalendarDetailData(classes);
-          $rootScope.events.splice(0, $rootScope.events.length);
-          $rootScope.events.push.apply($rootScope.events, events);
-        })
-        .catch(function(e) {
-          if (e)
-            console.log(e);
-        });
-      }
+        var events = parseCalendarDetailData(classes);
+        $scope.events.splice(0, $scope.events.length);
+        $scope.events.push.apply($scope.events, events);
+      })
+      .catch(function(e) {
+        if (e)
+          console.log(e);
+      });
     }
 
     $scope.addClass = function(course) {
       var newEvents = parseCalendarDetailData([course]);
-      $rootScope.events.push.apply($rootScope.events, newEvents);
+      $scope.events.push.apply($scope.events, newEvents);
     };
 
     /* alert on Drop */
@@ -157,10 +146,6 @@ angular.module('classbookApp')
       }
     };
 
-    $scope.getViewName = function(calendar) {
-      return uiCalendarConfig.calendars['classbookCal1'].fullCalendar('getView').name;
-    }
-
     /* Render Tooltip */
     $scope.eventRender = function(event, element, view) {
         element.attr({'tooltip': event.title,
@@ -171,6 +156,10 @@ angular.module('classbookApp')
     $scope.viewRender = function(view, element) {
       // $('#calendar').fullCalendar('updateEvent', $scope.events);
     };
+
+    $scope.getViewName = function(calendar) {
+      return uiCalendarConfig.calendars['classbookCal1'].fullCalendar('getView').name;
+    }
 
     /* config object */
     $scope.uiConfig = {

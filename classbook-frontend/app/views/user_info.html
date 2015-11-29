@@ -18,7 +18,7 @@
               <h4 class="user-info-title">Name: <span class="user-info-body">{{user ? user.userName : "example name"}}</span></h4>
             </div>
             <div class="row">
-              <h4 class="user-info-title">Gender: <span class="user-info-body">{{user ? user.gender : "example gender"}}</span></h4>
+              <h4 class="user-info-title">Gender: <span class="user-info-body">{{user ? user.sex : "example gender"}}</span></h4>
             </div>
             <div class="row">
               <h4 class="user-info-title">Year: <span class="user-info-body">{{user ? user.year : "example year"}}</span></h4>
@@ -42,7 +42,7 @@
                     <h4 class="modal-title" id="myModalLabel">User Profile</h4>
                   </div>
                   <div class="modal-body">
-                    
+
                     <div class="row">
                       <div class="col-sm-4"></div>
                       <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -54,22 +54,21 @@
                       </div>
                     </div>
 
-                      <div class="form-group">
-                        <label for="user-name" class="control-label user-info-edit-heading">Name:</label>
-                        <input type="text" class="form-control" id="user-name" placeholder="Name" ng-model="tempUser.userName">
-                      </div>
-                    
+                    <div class="form-group">
+                      <label for="user-name" class="control-label user-info-edit-heading">Name:</label>
+                      <input type="text" class="form-control" id="user-name" placeholder="Name" ng-model="tempUser.userName">
+                    </div>
 
                     <div class="form-group">
                       <label for="user-gender" class="user-info-edit-heading">Gender:</label>
                       <span class="vd_radio radio-info">
-                        <input type="radio" value="Male" name="optionsGenderMale" ng-model="tempUser.gender">
+                        <input type="radio" value="Male" name="optionsGenderMale" ng-model="tempUser.sex">
                         <label for="optionsGenderMale" class="radio-with-margin">Male</label>
                       </span>
                       <span class="vd_radio radio-info">
-                      <input type="radio" value="Female" name="optionsGenderFemale" ng-model="tempUser.gender">
-                      <label for="optionsGenderFemale" class="radio-with-margin">Female</label>
-                    </span>
+                        <input type="radio" value="Female" name="optionsGenderFemale" ng-model="tempUser.sex">
+                        <label for="optionsGenderFemale" class="radio-with-margin">Female</label>
+                      </span>
                     </div>
 
                     <div class="row">

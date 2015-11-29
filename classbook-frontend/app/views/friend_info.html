@@ -1,7 +1,7 @@
 <head>
   <title>Freind Information</title>
-  
 </head>
+
 <body ng-app="classbookApp" ng-controller="FriendInfoCtrl">
   <div class="container">
     <div class="panel panel-default">
@@ -13,13 +13,13 @@
           </div>
           <div class="col-sm-6">
             <div class="row">
-              <h2 class="user-info-heading">{{user ? user.email : "example@example.com"}}</h2>
+              <h2 class="user-info-heading">Friend: {{user ? user.email : "example@example.com"}}</h2>
             </div>
             <div class="row">
               <h4 class="user-info-title">Name: <span class="user-info-body">{{user ? user.userName : "example name"}}</span></h4>
             </div>
             <div class="row">
-              <h4 class="user-info-title">Gender: <span class="user-info-body">{{user ? user.gender : "example gender"}}</span></h4>
+              <h4 class="user-info-title">Gender: <span class="user-info-body">{{user ? user.sex : "example gender"}}</span></h4>
             </div>
             <div class="row">
               <h4 class="user-info-title">Year: <span class="user-info-body">{{user ? user.year : "example year"}}</span></h4>
@@ -27,7 +27,6 @@
             <div class="row">
               <h4 class="user-info-title">Major: <span class="user-info-body">{{user ? user.major : "example major"}}</span></h4>
             </div>
-            <!--<p><strong> Swapping request ?? Shouldn't this be in message? </strong> PUT NAME HERE </p>-->
           </div>
         </div>
       </div>
@@ -36,10 +35,10 @@
 
   <div class="container">
     <ul class="nav nav-tabs">
-      <li><a href ng-click="tab=1">Classes</a></li>
-      <li><a href ng-click="tab=2;getFriends();">Friends</a></li>
+      <li><a href ng-click="tab=1" ng-class="{active:tab==1}">Classes</a></li>
+      <li><a href ng-click="tab=2;getFriends();" ng-class="{active:tab==2}">Friends</a></li>
     </ul>
-    <div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-hide="tab!=1"></div>
+    <div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="FriendCldrCtrl" ng-hide="tab!=1"></div>
     <div id="friend_list" ng-hide="tab!=2">
       <div class="row">
         <table class="table table-hover">
@@ -64,6 +63,6 @@
         </table>
       </div>
     </div>
- 
+
   </div>
 </body>

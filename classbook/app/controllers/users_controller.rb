@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user! ,unless: "Rails.env.test?"
+  #before_action :authenticate_user! ,unless: "Rails.env.test?"
 
   def get_friends
     user  = User.find_by_id(params[:id])

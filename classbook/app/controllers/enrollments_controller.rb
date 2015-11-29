@@ -1,5 +1,5 @@
 class EnrollmentsController < ApplicationController
-	before_action :authenticate_user! ,unless: "Rails.env.test?"
+	#before_action :authenticate_user! ,unless: "Rails.env.test?"
 
 	def get_all_discussion
 		@user = User.find_by_id(params[:id])

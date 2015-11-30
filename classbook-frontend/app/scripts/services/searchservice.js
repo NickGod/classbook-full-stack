@@ -18,18 +18,18 @@ angular.module('classbookApp')
        *
        * @returns {Promise} The argument of the success callback will be a list of classes.
        */
-      searchClasses: function (params) {
-        console.log(params);
+      searchClasses: function (classInfo) {
         var url = "/api/search?";
-        var first = true;
-        for (var key in params) {
-          if (first) {
-            url = url + key + "=" + params[key];
-            first = false;
-          } else {
-            url = url + "&" + key + "=" + params[key];
+        var params = [];
+        for (var field in classInfo) {
+          if (classInfo[field].length > 0) {
+            params.push(field + '=' + classInfo[field]);
           }
         }
+
+        url += params.join('&');
+
+        console.log(url);
         return $http.get(url)
           .then(function (resp) {
             if (!resp){

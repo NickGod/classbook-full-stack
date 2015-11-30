@@ -33,11 +33,17 @@ angular.module('classbookApp')
     // });
 
      $scope.getFriends = function() {
-      $scope.currentUser.getFriendFriends($scope.user.id).then(function(friends) {
-        $scope.friends = friends;
-      }).catch(function(e) {
-        console.log("ERROR: " + e);
-      });
+       if ($scope.friendGotten) {
+         return;
+       }
+       
+       $scope.currentUser.getFriendFriends($scope.user.id).then(function(friends) {
+         $scope.friends = friends;
+       }).catch(function(e) {
+         console.log("ERROR: " + e);
+       });
+
+       $scope.friendGotten = true;
     }
 
 

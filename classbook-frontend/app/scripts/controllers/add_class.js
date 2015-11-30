@@ -78,6 +78,7 @@ angular.module('classbookApp')
           lectureId: clsData.lectureId,
           className: clsData.className,
           lectureTime: time,
+          department: clsData.department,
         };
 
         for(j = 0; j < clsData.discussions.length; j++) {
@@ -102,10 +103,34 @@ angular.module('classbookApp')
 
     $scope.searchClass = function(course) {
       if (!course) {
-        window.alert("You didn't fill in anything yet");
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Oops!',
+                message: "You didn't fill in anything yet",
+                isMessageOnly: true
+              };
+            }
+          }
+        });
         return;
       } else if (!course.className && !course.department) {
-        window.alert("Please enter at least one of class name or department name");
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Oops!',
+                message: "Please enter at least one of class name or department name",
+                isMessageOnly: true
+              };
+            }
+          }
+        });
         return;
       }
 
@@ -113,7 +138,19 @@ angular.module('classbookApp')
         if (!classes){
           throw new Error('Cannot get the classes object back');
         } else if (classes.length == 0) {
-          alert("No matching class");
+          $uibModal.open({
+            templateUrl: 'views/message_box.html',
+            controller: 'MessageBoxCtrl',
+            resolve: {
+              items: function() {
+                return {
+                  title: 'Oops!',
+                  message: 'There is no class matching your provided information.',
+                  isMessageOnly: true
+                };
+              }
+            }
+          });
         } else {
           $scope.searchResults = parseSearchData(classes);
         }
@@ -130,7 +167,7 @@ angular.module('classbookApp')
         templateUrl: 'views/message_box.html',
         controller: 'MessageBoxCtrl',
         resolve: {
-          items: function () {
+          items: function() {
             return {
               title: 'Confirm',
               message: 'Are you sure to enroll this class?'
@@ -151,7 +188,7 @@ angular.module('classbookApp')
             templateUrl: 'views/message_box.html',
             controller: 'MessageBoxCtrl',
             resolve: {
-              items: function () {
+              items: function() {
                 return {
                   title: 'Success',
                   message: 'You have successfully enrolled',
@@ -165,7 +202,6 @@ angular.module('classbookApp')
           // if (i > -1)
           //   $scope.searchResults.splice(i, 1);
           $scope.searchResults = [];
-          // TODO: getEvents();
           $rootScope.addClass(course.rawData);
         }).catch(function(e) {
           if(e) {

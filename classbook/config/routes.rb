@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get 'user/:id/get_pending_friends' => 'users#get_pending_friends'
     post 'user/request_friend' => 'users#request_friend'
     post 'user/accept_friend_request' => 'users#accept_friend_request'
+    post 'user/unfriend' => 'users#unFriend' 
     get 'user/search' => 'users#search_user'
 
     # api for getting user infomation

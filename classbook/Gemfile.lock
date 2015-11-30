@@ -149,6 +149,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  climate_control
   devise_token_auth
   mysql
   omniauth

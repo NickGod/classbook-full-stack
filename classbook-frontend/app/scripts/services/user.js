@@ -279,6 +279,14 @@ angular.module('classbookApp')
           }
 
           return $http.post('/api/user/updateInfo', userInfo);
+        },
+
+        unfriend: function(friendId) {
+          var data = {
+            my_id: this.uid,
+            other_id: friendId
+          };
+          return $http.post('/api/user/unfriend', data);
         }
       };
     };

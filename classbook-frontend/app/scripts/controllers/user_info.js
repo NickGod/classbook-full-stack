@@ -9,8 +9,8 @@
  */
 angular.module('classbookApp')
 
-  .controller('UserInfoCtrl', ['$scope', 'AuthService', 'SearchService', '$rootScope',
-  function ($scope, AuthService, SearchService, $rootScope) {
+  .controller('UserInfoCtrl', ['$scope', 'AuthService', 'SearchService', '$rootScope', '$uibModal',
+  function ($scope, AuthService, SearchService, $rootScope, $uibModal) {
 
     $scope.currentUser;
     // $scope.currentUser = AuthService.currentUser();
@@ -165,7 +165,7 @@ angular.module('classbookApp')
       "World Arts and Cultures",
     ];
 
-    $scope.friendTab = 1;
+    // $scope.friendTab = 1;
 
     $scope.user = {};
     $scope.friendSearchResults = [];
@@ -246,6 +246,7 @@ angular.module('classbookApp')
 
     $scope.acceptFriendRequest = function(user) {
       $scope.currentUser.acceptFriendRequest(user.id).then(function(resp) {
+        $scope.friendGotten = false;
         // delete request
         var index = $scope.friendRequests.indexOf(user);
         if (index != -1) {
@@ -253,6 +254,20 @@ angular.module('classbookApp')
         } else {
           console.log("ERROR: unable to find user after accepting requests");
         }
+
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Success',
+                message: 'You are now friend with ' + user.name,
+                isMessageOnly: true
+              };
+            }
+          }
+        });
       }).catch(function(e) {
         console.log("ERROR" + e);
       })
@@ -268,6 +283,19 @@ angular.module('classbookApp')
 
     $scope.addFriend = function(user) {
       $scope.currentUser.requestFriend(user.id).then(function(resp) {
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Success',
+                message: 'Friend request to ' + user.name + ' sent',
+                isMessageOnly: true
+              };
+            }
+          }
+        });
         // TODO: remove friend from list?
         var index = $scope.friendSearchResults.indexOf(user);
         if (index != -1) {
@@ -282,6 +310,44 @@ angular.module('classbookApp')
 
     $scope.getFriendId = function(friend) {
       $scope.currentUser.setFriendToInspect(friend.id);
+    }
+
+    $scope.unfriend = function(friend) {
+      var modalInstance = $uibModal.open({
+        templateUrl: 'views/message_box.html',
+        controller: 'MessageBoxCtrl',
+        resolve: {
+          items: function() {
+            return {
+              title: 'Confirm',
+              message: 'Are you sure to unfriend with ' + friend.name + ' ?'
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(function(isConfirmed) {
+        $scope.currentUser.unfriend(friend.id).then(function(res) {
+          if (res) {
+            $uibModal.open({
+              templateUrl: 'views/message_box.html',
+              controller: 'MessageBoxCtrl',
+              resolve: {
+                items: function() {
+                  return {
+                    title: 'Success',
+                    message: 'You have successfully unfriended with ' + friend.name,
+                    isMessageOnly: true
+                  };
+                }
+              }
+            });
+
+            $scope.friendGotten = false;
+            $scope.getFriends();
+          }
+        });
+      });
     }
   }
 ]);

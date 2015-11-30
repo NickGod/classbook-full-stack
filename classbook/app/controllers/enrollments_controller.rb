@@ -162,9 +162,31 @@ class EnrollmentsController < ApplicationController
 			render json: {error:false,msg: "you need more friends to get recommended classes"}
 		else
 			@recommendList = Discussion.find(recommend.keys)
-			render json: {dis: @recommendList, error: false, msg: recommend}
-		end
+			@discussions = @recommendList
+			@lectures = Lecture.select{ |l| l.id.in? @discussions.map{|d| d.lectureId} }
 
+			@disList = @discussions.map do |d|
+	  		{ 
+	  			:className => Lecture.find(d.lectureId).name + " "+ d.className,
+	  			:startTime => formatTime(d.begTime), 
+	  			:endTime => formatTime(d.endTime), 
+	  			:days => processDays(d.days)
+	  		}
+			end
+
+			@lectureList = @lectures.map do |l|
+	  		{ 
+	  			:className => l.name,
+	  			:startTime => formatTime(l.begTime), 
+	  			:endTime => formatTime(l.endTime), 
+	  			:days => processDays(l.days)  		
+	  		}
+			end
+
+			allList = @disList + @lectureList
+
+			render json: allList.to_json
+		end
 	end
 
 

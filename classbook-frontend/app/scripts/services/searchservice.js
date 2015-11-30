@@ -74,7 +74,7 @@ angular.module('classbookApp')
       },
 
       searchUser: function(userInfo) {
-        var url = "/api/searchUser?";
+        var url = "/api/user/search?";
         var params = [];
         for (var field in userInfo) {
           params.push(field + '=' + userInfo[field]);

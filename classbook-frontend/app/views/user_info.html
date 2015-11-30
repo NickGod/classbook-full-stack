@@ -106,57 +106,60 @@
   </div>
 
   <div class="container">
-    <ul class="nav nav-tabs">
-      <li><a href ng-click="tab=1" ng-class="{active:tab==1}">My Classes</a></li>
-      <li><a href ng-click="tab=2;getFriends()" ng-class="{active:tab==2}">Friend List</a></li>
-      <li><a href ng-click="tab=3" ng-class="{active:tab==3}">Add Friends</a></li>
-      <li><a href ng-click="tab=4;getMessages()" ng-class="{active:tab==4}">Messages</a></li>
-    </ul>
-    <div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-hide="tab!=1"></div>
-    <div id="friend_list" ng-hide="tab!=2">
-      <div class="row">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Email</th>
-              <th>Name</th>
-              <th>Major</th>
-              <th>Year</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="friend in friends">
-              <td></td>
-              <td> <a id="link-friend" ng-href="#/friend_info" ng-click="getFriendId(friend)">{{friend.uid}}</a></td>
-              <td>{{friend.name}}</td>
-              <td>{{friend.major}}</td>
-              <td>{{friend.year}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div id="add_friend" ng-include="'views/add_friend.html'" ng-hide="tab!=3"></div>
-    <div id="message_list" ng-hide="tab!=4">
-      <div class="row">
-        <table class="table table-hover">
-          <col width="80%">
-          <col width="20%">
-          <thead>
-            <tr>
-              <th width="80%">Message</th>
-              <th>From</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="message in messages">
-              <td>{{message.content}}</td>
-              <td>{{message.sender}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <uib-tabset class="tab-animation">
+      <uib-tab heading="My Classes">
+        <div id="class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
+      </uib-tab>
+
+      <uib-tab heading="Friend List" ng-click="getFriends()">
+        <div class="row">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Major</th>
+                <th>Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="friend in friends">
+                <td></td>
+                <td> <a id="link-friend" ng-href="#/friend_info" ng-click="getFriendId(friend)">{{friend.uid}}</a></td>
+                <td>{{friend.name}}</td>
+                <td>{{friend.major}}</td>
+                <td>{{friend.year}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </uib-tab>
+
+      <uib-tab heading="Add Friends">
+        <div id="add_friend" ng-include="'views/add_friend.html'"></div>
+      </uib-tab>
+
+      <uib-tab heading="Messages" ng-click="getMessages()">
+        <div class="row">
+          <table class="table table-hover">
+            <col width="80%">
+            <col width="20%">
+            <thead>
+              <tr>
+                <th width="80%">Message</th>
+                <th>From</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="message in messages">
+                <td>{{message.content}}</td>
+                <td>{{message.sender}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </uib-tab>
+    </uib-tabset>
   </div>
 </body>

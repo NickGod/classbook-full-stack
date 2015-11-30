@@ -165,7 +165,6 @@ angular.module('classbookApp')
       "World Arts and Cultures",
     ];
 
-    $scope.tab = 1;
     $scope.friendTab = 1;
 
     $scope.user = {};
@@ -197,6 +196,9 @@ angular.module('classbookApp')
     }
 
     $scope.getFriends = function() {
+      if ($scope.friendGotten)
+        return;
+
       $scope.currentUser.getFriends().then(function(friends) {
         console.log("Friends:");
         console.log(friends);
@@ -204,6 +206,8 @@ angular.module('classbookApp')
       }).catch(function(e) {
         console.log("ERROR: " + e);
       });
+
+      $scope.friendGotten = true;
     }
 
 
@@ -212,15 +216,23 @@ angular.module('classbookApp')
       //   content: "This is a message to say Hi",
       //   sender: "Shuo Sun",
       // }];
+      if ($scope.messageGotten)
+        return;
+
       $scope.currentUser.getAllMessages().then(function(msgs) {
         console.log(msgs);
         $scope.messages = msgs;
       }).catch(function(e){
         console.log("ERROR: " + e);
       });
+
+      $scope.messageGotten = true;
     }
 
     $scope.getFriendRequests = function() {
+      if ($scope.friendRequestsGotten)
+        return;
+
       $scope.currentUser.getPendingFriends().then(function(friendRequests) {
         console.log("Friend Requests: ");
         console.log(friendRequests);
@@ -228,6 +240,8 @@ angular.module('classbookApp')
       }).catch(function(e) {
         console.log("ERROR" + e);
       });
+
+      $scope.friendRequestsGotten = true;
     }
 
     $scope.acceptFriendRequest = function(user) {

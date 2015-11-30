@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user! ,unless: "Rails.env.test?"
+  #before_action :authenticate_user! ,unless: "Rails.env.test?"
 
   def get_friends
     user  = User.find_by_id(params[:id])
@@ -34,6 +34,23 @@ class UsersController < ApplicationController
     render json: requests
   end
 
+  def unFriend
+    current_user = User.find_by_id(params[:my_id])
+    notLike = User.find_by_id(params[:other_id])
+    if current_user.nil? || notLike.nil?
+      render json: {error:true, errormsg: "Invalid id"} , status: :bad_request
+      return
+    end
+
+    if !current_user.following.include?(notLike) || !current_user.followers.include?(notLike)
+      render json: {error:true, errormsg: "They are not friends"} , status: :bad_request
+      return
+    end
+
+    current_user.following.delete(notLike)
+    current_user.followers.delete(notLike)
+    render json: {error: false}, status: :ok
+  end
   def get_user_info
       user = User.find_by_id(params[:id])
       if(user.nil?)
@@ -79,6 +96,8 @@ class UsersController < ApplicationController
     render json: userList
 
   end
+
+
 
 
 end

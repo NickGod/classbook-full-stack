@@ -7,18 +7,14 @@
       </div>
     </div>
     <div class="row">
-      <ul class="nav nav-tabs">
-        <li><a href ng-click="tab=1;changeView('agendaWeek', 'classbookCal1');" ng-class="{active:tab==1}">Home</a></li>
-        <li><a href ng-click="tab=2" ng-class="{active:tab==2}">Class Search</a></li>
-      </ul>
-      <div class="animate-switch-container" ng-switch on="tab">
-        <div class="animate-switch" ng-switch-when='1'>
-      <div id="add_class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
-        </div>
-        <div class="animate-switch" ng-switch-when='2'>
-      <div id="add_class_search" ng-include="'views/class_search.html'" ></div>
-        </div>
-      </div>
+      <uib-tabset class="tab-animation">
+        <uib-tab heading="Home">
+          <div id="add_class_calendar" ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl" ng-mouseenter="renderCalendar('classbookCal1')"></div>
+        </uib-tab>
+        <uib-tab heading="Class Search">
+          <div id="add_class_search" ng-include="'views/class_search.html'" ></div>
+        </uib-tab>
+      </tabset>
     </div>
   </div>
 </section>

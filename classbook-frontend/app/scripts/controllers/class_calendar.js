@@ -110,6 +110,8 @@ angular.module('classbookApp')
     $scope.addClass = function(course) {
       var newEvents = parseCalendarDetailData([course]);
       $rootScope.events.push.apply($rootScope.events, newEvents);
+      $rootScope.needRerender = true;
+      // uiCalendarConfig.calendars['classbookCal1'].fullCalendar('refetchEvents');
     };
 
     $rootScope.addClass = $scope.addClass;
@@ -154,11 +156,14 @@ angular.module('classbookApp')
     };
 
     /* Change View */
-    $scope.renderCalender = function(calendar) {
-      if(uiCalendarConfig.calendars[calendar]){
-        uiCalendarConfig.calendars[calendar].fullCalendar('render');
+    $scope.renderCalendar = function(calendar) {
+      if($rootScope.needRerender && uiCalendarConfig.calendars[calendar]){
+        console.log("Render is called");
+        $rootScope.needRerender = false;
+        uiCalendarConfig.calendars[calendar].fullCalendar('rerenderEvents');
       }
     };
+    $rootScope.renderCalendar = $scope.renderCalendar;
 
     $scope.getViewName = function(calendar) {
       var calendar = uiCalendarConfig.calendars['classbookCal1'];
@@ -200,5 +205,9 @@ angular.module('classbookApp')
 
     $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    $rootScope.$on('calActive', function(event) {
+      $scope.renderCalendar('classbookCal1');
+    })
   }
 ]);

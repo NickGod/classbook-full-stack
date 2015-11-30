@@ -11,7 +11,7 @@ angular.module('classbookApp')
   .controller('AddClassCtrl', ['$scope', 'SearchService', '$compile', 'uiCalendarConfig', 'AuthService', 'User', '$uibModal', '$rootScope',
   function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User, $uibModal, $rootScope) {
 
-    $scope.tab = 1;
+    // $scope.tab = 1;
 
     $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
@@ -211,5 +211,9 @@ angular.module('classbookApp')
       // $scope.alertMessage = (course.title + ': info... ');
       $scope.open(course);
     };
+
+    $rootScope.$watch('renderCalendar', function(newVal, oldVal) {
+      $scope.renderCalendar = $rootScope.renderCalendar;
+    });
   }
 ]);

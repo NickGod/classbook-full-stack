@@ -947,10 +947,10 @@ body {
 
 /* ng-show animation */
 /* when hiding the picture */
-.ng-hide-add         { animation:1s lightSpeedOut ease; }
+.animated-hide.ng-hide-add         { animation:1s lightSpeedOut ease; }
 
 /* when showing the picture */
-.ng-hide-remove      { animation:1s flipInX ease; }
+.animated-hide.ng-hide-remove      { animation:1s flipInX ease; }
 
 /* ANIMATIONS (FROM ANIMATE.CSS) ======================== */
 /* flip in */

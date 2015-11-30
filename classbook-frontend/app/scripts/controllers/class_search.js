@@ -9,8 +9,8 @@
  */
 angular.module('classbookApp')
   .controller('ClassSearchCtrl', [
-    '$scope', 'SearchService', '$rootScope', 'AuthService',
-    function($scope, SearchService, $rootScope, AuthService) {
+    '$scope', 'SearchService', '$rootScope', 'AuthService', '$uibModal',
+    function($scope, SearchService, $rootScope, AuthService, $uibModal) {
       $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
         $scope.isAuthenticated = isAuthenticated;
         if ($scope.isAuthenticated)
@@ -111,39 +111,64 @@ angular.module('classbookApp')
       return classes;
     }
 
-      $scope.searchClass = function(course) {
-        if (!course) {
-          window.alert("You didn't fill in anything yet");
-          return;
-        } else if (!course.className && !course.department) {
-          window.alert("Please enter at least one of class name or department name");
-          return;
-        }
-
-        // Sample Search Result:
-        //
-        // {
-        //   id: 102,
-        //   className: "ART 10",
-        //   lectureTime: "MWF 10:00am-10:50am",
-        //   discussion: "1A",
-        //   discussionTime: "T 2:00pm-2:50pm",
-        // }
-
-        SearchService.searchClasses(course).then(function(classes) {
-          if (!classes){
-            throw new Error('Cannot get the classes object back');
-          } else if (classes.length == 0) {
-            alert("No matching class");
-          } else {
-            $scope.searchResults = parseSearchData(classes);
+    $scope.searchClass = function(course) {
+      if (!course) {
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Oops!',
+                message: "You didn't fill in anything yet",
+                isMessageOnly: true
+              };
+            }
           }
-        })
-        .catch(function(e) {
-          if(e)
-            console.log(e);
         });
-      };
+        return;
+      } else if (!course.className && !course.department) {
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Oops!',
+                message: "Please enter at least one of class name or department name",
+                isMessageOnly: true
+              };
+            }
+          }
+        });
+        return;
+      }
+
+      SearchService.searchClasses(course).then(function(classes) {
+        if (!classes) {
+          throw new Error('Cannot get the classes object back');
+        } else if (classes.length == 0) {
+          $uibModal.open({
+            templateUrl: 'views/message_box.html',
+            controller: 'MessageBoxCtrl',
+            resolve: {
+              items: function() {
+                return {
+                  title: 'Oops!',
+                  message: 'There is no class matching your provided information.',
+                  isMessageOnly: true
+                };
+              }
+            }
+          });
+        } else {
+          $scope.searchResults = parseSearchData(classes);
+        }
+      })
+      .catch(function(e) {
+        if(e)
+          console.log(e);
+      });
     }
-  ]
-);
+  }
+  ]);

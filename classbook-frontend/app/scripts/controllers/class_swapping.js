@@ -23,11 +23,6 @@ angular.module('classbookApp')
       }
     });
 
-    $scope.tab1 = true;
-    $scope.tab2 = false;
-    $scope.tab3 = false;
-
-
     function getRequestInfos() {
       $scope.user.getAllSwapRequests().then(function (messages) {
         $scope.messages = messages;
@@ -50,17 +45,13 @@ angular.module('classbookApp')
                 if (duplicate == false)
                   $scope.requestInfos.push(requestInfo);
               })
-
             })
           });
         });
-
       });
-      // MODAL WINDOW
     }
 
     $scope.open = function (_course) {
-
       var modalInstance = $modal.open({
         controller: "ModalInstanceCtrl",
         templateUrl: 'modal_swap.html',
@@ -72,32 +63,16 @@ angular.module('classbookApp')
           }
         }
       });
-
+      modalInstance.result.then(
+        function() {
+          // $scope.searchResults = [];
+        },
+        function() {
+          console.log("cancelled");
+          // $scope.searchResults = [];
+        }
+      );
     };
-
-    $scope.chooseTab = function (index) {
-      switch (index) {
-        case 1:
-          $scope.tab1 = true;
-          $scope.tab2 = false;
-          $scope.tab3 = false;
-          break;
-        case 2:
-          $scope.tab1 = false;
-          $scope.tab2 = true;
-          $scope.tab3 = false;
-          break;
-        case 3:
-          $scope.tab1 = false;
-          $scope.tab2 = false;
-          $scope.tab3 = true;
-          break;
-
-        default:
-          break;
-
-      }
-    }
 
     $scope.vm = {};
 
@@ -143,36 +118,36 @@ angular.module('classbookApp')
 
 
   }])
-  .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$modalInstance', 'course', 'SwapRequest',
-  function ($rootScope, $scope, $modalInstance, course, SwapRequest) {
-    // $scope.course = course;
-    // alert($scope.course);
-    // alert(course);
+  .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', '$uibModal', 'course', 'SwapRequest',
+  function ($rootScope, $scope, $uibModalInstance, $uibModal, course, SwapRequest) {
     $scope.course = course;
     $scope.classes = $rootScope.classes;
     console.log($scope.classes);
     console.log($scope.course);
-
-
-    //send a post request to backend to create swap request
-    // $scope.swapFor = function(course)
-    // sendSwapRequest: function() {
-
-    //   return $http.post('/api/swap_request/create', {userid: this.uid, has_dis: this.has_dis, want_dis: this.want_dis});
-
-    // }
-
-    // console.log($scope.user);
     $scope.SwapForClass = function (enrolledClassId) {
       console.log(enrolledClassId);
-      // console.log($scope.user);
+
       $scope.swaprequest = new SwapRequest($scope.user.id, enrolledClassId, $scope.course.discussionId);
-      alert('Swap request sent!');
+      $uibModal.open({
+        templateUrl: 'views/message_box.html',
+        controller: 'MessageBoxCtrl',
+        resolve: {
+          items: function() {
+            return {
+              title: 'Success',
+              message: "Swap request sent",
+              isMessageOnly: true
+            };
+          }
+        }
+      });
       $scope.swaprequest.sendSwapRequest().then(function (res) {
         console.log(res);
       })
-
     }
 
+    $scope.cancel = function() {
+      $uibModalInstance.dismiss('cancel');
+    };
   }
   ]);

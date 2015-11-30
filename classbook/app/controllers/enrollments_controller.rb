@@ -154,8 +154,6 @@ class EnrollmentsController < ApplicationController
 				end
 			end
 		end
-		render json: classRate
-		return 
 		recommend = classRate.sort_by {|_key, value| value}.first(5).to_h
 		if recommend.empty?
 			render json: {error:false,msg: "you need more friends to get recommended classes"}

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get 'user/:id/get_pending_friends' => 'users#get_pending_friends'
     post 'user/request_friend' => 'users#request_friend'
     post 'user/accept_friend_request' => 'users#accept_friend_request'
+    post 'user/unfriend' => 'users#unFriend' 
     get 'user/search' => 'users#search_user'
 
     # api for getting user infomation
@@ -16,7 +17,6 @@ Rails.application.routes.draw do
     post 'user/updateInfo' => 'users#update_user_info'
 
     get 'discussion/get_discussions' => 'enrollments#get_discussions'
-
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_enrolled_discussion'
     get 'user/:id/getEnrolledClassesForDrop' => 'enrollments#get_enrolled_for_drop_use'
     post 'enrollment/enroll' => 'enrollments#enroll'

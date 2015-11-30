@@ -305,6 +305,20 @@ angular.module('classbookApp')
         }
       }).catch(function(e) {
         console.log(e);
+
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Something went wrong!',
+                message: 'Friend request to ' + user.name + ' was not valid. Are you guys already friends?',
+                isMessageOnly: true
+              };
+            }
+          }
+        });
       });
     }
 

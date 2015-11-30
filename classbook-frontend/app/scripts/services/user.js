@@ -215,6 +215,8 @@ angular.module('classbookApp')
             other_id: friendId
           };
 
+          console.log(data);
+
           return $http.post('/api/user/request_friend', data);
         },
 

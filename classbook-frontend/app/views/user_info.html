@@ -113,7 +113,26 @@
 
       <uib-tab heading="Friend List" ng-click="getFriends()">
         <div class="row">
-          <table class="table table-hover">
+
+        <br>
+        <div ng-repeat="friend in friends" class="media container">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" ng-src="images/yeoman.png" alt="...">
+            </a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading"> <a id="link-friend" ng-href="#/friend_info" ng-click="getFriendId(friend)"> {{friend.name}} </a></h4>
+            <p> {{friend.major}} </p>
+            <p> {{friend.year}} </p>
+          </div>
+
+          <div class="media-right">
+            <button class="btn btn-sm btn-warning" ng-click="unfriend(friend)">Unfriend</button>
+          </div>
+        </div>
+
+<!--           <table class="table table-hover">
             <thead>
               <tr>
                 <th></th>
@@ -135,33 +154,13 @@
               </tr>
             </tbody>
           </table>
-        </div>
+ -->        </div>
       </uib-tab>
 
       <uib-tab heading="Add Friends" ng-click="getFriendRequests()">
         <div id="add_friend" ng-include="'views/add_friend.html'"></div>
       </uib-tab>
 
-      <uib-tab heading="Messages" ng-click="getMessages()">
-        <div class="row">
-          <table class="table table-hover">
-            <col width="80%">
-            <col width="20%">
-            <thead>
-              <tr>
-                <th width="80%">Message</th>
-                <th>From</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="message in messages">
-                <td>{{message.content}}</td>
-                <td>{{message.sender}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </uib-tab>
     </uib-tabset>
   </div>
 </body>

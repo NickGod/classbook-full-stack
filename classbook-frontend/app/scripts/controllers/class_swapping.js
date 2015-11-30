@@ -66,6 +66,8 @@ angular.module('classbookApp')
       });
       modalInstance.result.then(
         function() {
+          //refetch request infos
+          getRequestInfos();
           // $scope.searchResults = [];
         },
         function() {

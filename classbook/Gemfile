@@ -10,6 +10,8 @@ gem 'rails-api'
 
 gem 'spring', :group => :development
 
+gem "paperclip", "~> 4.3"
+
 gem 'rspec-rails'
 
 gem 'mysql'

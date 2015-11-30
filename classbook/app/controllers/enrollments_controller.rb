@@ -114,7 +114,7 @@ class EnrollmentsController < ApplicationController
 		discussion = Discussion.find_by_id(params[:discussionId])
 		if(user.discussions.include? discussion) 
 			render plain: ActiveSupport::JSON.encode({error_flag: 1, error_msg: 
-															"Already enrolled"},msg:"")
+															"Already enrolled"})
 		else
 			user.discussions<<discussion
 			render plain: ActiveSupport::JSON.encode({error_flag: 0, error_msg: 
@@ -138,6 +138,10 @@ class EnrollmentsController < ApplicationController
 
 	def recommend_classes
 		user = User.find_by_id(params[:id])
+		if user.nil?
+			render json: {error: true, msg:"invalid user id"}, status: :bad_request
+			return
+		end
 		classRate = Hash.new
 		userDis = user.discussions
 		user.following.map do |f|
@@ -153,7 +157,7 @@ class EnrollmentsController < ApplicationController
 				end
 			end
 		end
-		recommend = classRate.sort_by {|_key, value| value}.first(5).to_h
+		recommend = classRate.sort_by {|_key, value| value}.reverse.first(5).to_h
 		if recommend.empty?
 			render json: {error:false,msg: "you need more friends to get recommended classes"}
 		else

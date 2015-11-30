@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     get 'message/:user_id/userMessages' => 'messages#get_user_message'
     post 'message/:id/read' => 'messages#read'
 
+    #get recommend classes
+    get 'user/:id/getRecommendClasses' => 'enrollments#recommend_classes'
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

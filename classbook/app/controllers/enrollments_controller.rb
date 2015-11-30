@@ -137,6 +137,36 @@ class EnrollmentsController < ApplicationController
 		end
 	end
 
+	def recommend_classes
+		user = User.find_by_id(params[:id])
+		classRate = Hash.new
+		userDis = user.discussions
+		user.following.map do |f|
+			f.discussions.map do |d|
+				next if userDis.include?(d)
+				if classRate[d.id].nil?
+					classRate[d.id] = 0
+				end
+				if Lecture.find_by_id(d.lectureId).department == user.major
+					classRate[d.id] += 3
+				else
+					classRate[d.id] += 1
+				end
+			end
+		end
+		render json: classRate
+		return 
+		recommend = classRate.sort_by {|_key, value| value}.first(5).to_h
+		if recommend.empty?
+			render json: {error:false,msg: "you need more friends to get recommended classes"}
+		else
+			@recommendList = Discussion.find(recommend.keys)
+			render json: {dis: @recommendList, error: false, msg: recommend}
+		end
+
+	end
+
+
 	def formatTime (rawTime)
 		index = rawTime.index(':')
 		lastChar = rawTime[-1]
@@ -158,5 +188,7 @@ class EnrollmentsController < ApplicationController
 		array.map!(&:to_i)
 		return array
 	end
+
+	
 
 end

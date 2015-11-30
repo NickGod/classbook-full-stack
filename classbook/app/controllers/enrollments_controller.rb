@@ -1,7 +1,7 @@
 class EnrollmentsController < ApplicationController
 	#before_action :authenticate_user! ,unless: "Rails.env.test?"
 
-	def get_all_discussion
+	def get_all_enrolled_discussion
 		@user = User.find_by_id(params[:id])
 		if @user.nil?
 			render json: {error: true, errormsg: "invalid user"} , status: :bad_request
@@ -12,7 +12,7 @@ class EnrollmentsController < ApplicationController
 
 		@disList = @discussions.map do |d|
   		{ 
-  			:className => Lecture.find(d.lectureId).name + "DIS",
+  			:className => Lecture.find(d.lectureId).name + " "+ d.className,
   			:startTime => formatTime(d.begTime), 
   			:endTime => formatTime(d.endTime), 
   			:days => processDays(d.days)
@@ -46,7 +46,7 @@ class EnrollmentsController < ApplicationController
 
 		@disList = @discussions.map do |d|
   		{ 
-  			:className => Lecture.find(d.lectureId).name + "DIS",
+  			:className => Lecture.find(d.lectureId).name + " "+ d.className,
   			:startTime => formatTime(d.begTime), 
   			:endTime => formatTime(d.endTime), 
   			:days => processDays(d.days)

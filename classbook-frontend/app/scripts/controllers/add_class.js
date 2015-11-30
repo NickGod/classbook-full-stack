@@ -8,100 +8,17 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('AddClassCtrl', ['$scope', 'SearchService', '$compile', 'uiCalendarConfig', 'AuthService', 'User', "$uibModal",
-  function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User, $uibModal) {
+  .controller('AddClassCtrl', ['$scope', 'SearchService', '$compile', 'uiCalendarConfig', 'AuthService', 'User', '$uibModal', '$rootScope',
+  function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User, $uibModal, $rootScope) {
 
-    $scope.tab = 1;
-    // $scope.user = AuthService.currentUser();
+    // $scope.tab = 1;
 
-    $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+    $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
-      if ($scope.isAuthenticated)
-      {
+      if ($scope.isAuthenticated) {
         $scope.user = AuthService.currentUser();
-        // getEvents();
       }
     });
-
-    // CONTROLLER for calendar
-    var quarterBegins = new Date('2015-09-22');
-    var quarterEnds = new Date('2015-12-12');
-
-    // helper function
-    function parseCalendarData(data) {
-      var events = [];
-      var date;
-
-      for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
-        var course, i;
-        for (i = 0; i < data.length; i++) {
-          course = data[i];
-
-          if (course.days.indexOf(date.getDay()) != -1) {
-            var timeBegin = date.toDateString() + ' ' + course.startTime;
-            var timeEnd = date.toDateString() + ' ' + course.endTime;
-
-            events.push({
-              title: course.className,
-              start: new Date(timeBegin),
-              end: new Date(timeEnd),
-              allDay: false,
-              editable: false,
-              stick: true,
-            });
-          }
-        }
-      }
-      return events;
-    }
-
-    function parseCalendarDetailData(data) {
-      var events = [];
-      var date;
-      console.log("DATA");
-      console.log(data);
-      var course, i;
-
-      for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
-        for (i = 0; i < data.length; i++) {
-          course = data[i];
-          if (course.days.indexOf(date.getDay()) != -1) {
-            var timeBegin = date.toDateString() + ' ' + course.startTime;
-            var timeEnd = date.toDateString() + ' ' + course.endTime;
-
-            events.push({
-              lectureId: course.lectureId,
-              discussionId: course.discussion.discussionId,
-              classData: course,
-              title: course.className,
-              start: new Date(timeBegin),
-              end: new Date(timeEnd),
-              allDay: false,
-              editable: false,
-              stick: true,
-            });
-          }
-
-          if (course.discussion.days.indexOf(date.getDay()) != -1) {
-            var timeBegin = date.toDateString() + ' ' + course.discussion.startTime;
-            var timeEnd = date.toDateString() + ' ' + course.discussion.endTime;
-
-            events.push({
-              lectureId: course.lectureId,
-              discussionId: course.discussion.discussionId,
-              classData: course,
-              title: course.className + ' Dis' + course.discussion.discussionName,
-              start: new Date(timeBegin),
-              end: new Date(timeEnd),
-              allDay: false,
-              editable: false,
-              stick: true,
-            });
-          }
-        }
-      }
-      return events;
-    }
 
     // Helper function used for creating formatted time string
     function formatTime(days, startTime, endTime) {
@@ -161,26 +78,20 @@ angular.module('classbookApp')
           lectureId: clsData.lectureId,
           className: clsData.className,
           lectureTime: time,
+          department: clsData.department,
         };
 
         for(j = 0; j < clsData.discussions.length; j++) {
           var dis = clsData.discussions[j];
           var clsDis = JSON.parse(JSON.stringify(cls));
+          var clsRawData = JSON.parse(JSON.stringify(clsData));
+          clsRawData.discussion = dis;
+          delete clsRawData.discussions;
 
           clsDis.discussionId = dis.discussionId;
           clsDis.discussionName = dis.discussionName;
           clsDis.discussionTime = formatTime(dis.days, dis.startTime, dis.endTime);
-          clsDis.rawData = [{
-            className: clsDis.className,
-            startTime: clsData.startTime,
-            endTime: clsData.endTime,
-            days: clsData.days
-          }, {
-            className: dis.discussionName,
-            startTime: dis.startTime,
-            endTime: dis.endTime,
-            days: dis.days
-          }];
+          clsDis.rawData = clsRawData;
           classes.push(clsDis);
         }
       }
@@ -192,85 +103,108 @@ angular.module('classbookApp')
 
     $scope.searchClass = function(course) {
       if (!course) {
-        window.alert("You didn't fill in anything yet");
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Oops!',
+                message: "You didn't fill in anything yet",
+                isMessageOnly: true
+              };
+            }
+          }
+        });
         return;
       } else if (!course.className && !course.department) {
-        window.alert("Please enter at least one of class name or department name");
+        $uibModal.open({
+          templateUrl: 'views/message_box.html',
+          controller: 'MessageBoxCtrl',
+          resolve: {
+            items: function() {
+              return {
+                title: 'Oops!',
+                message: "Please enter at least one of class name or department name",
+                isMessageOnly: true
+              };
+            }
+          }
+        });
         return;
       }
-
-      // Sample Search Result:
-      //
-      // {
-      //   id: 102,
-      //   className: "ART 10",
-      //   lectureTime: "MWF 10:00am-10:50am",
-      //   discussion: "1A",
-      //   discussionTime: "T 2:00pm-2:50pm",
-      // }
 
       SearchService.searchClasses(course).then(function(classes) {
         if (!classes){
           throw new Error('Cannot get the classes object back');
         } else if (classes.length == 0) {
-          alert("No matching class");
+          $uibModal.open({
+            templateUrl: 'views/message_box.html',
+            controller: 'MessageBoxCtrl',
+            resolve: {
+              items: function() {
+                return {
+                  title: 'Oops!',
+                  message: 'There is no class matching your provided information.',
+                  isMessageOnly: true
+                };
+              }
+            }
+          });
         } else {
           $scope.searchResults = parseSearchData(classes);
         }
       })
       .catch(function(e) {
         if(e)
-          console.log("ERROR: " + e);
-        // alert("Error in searching classes!\n" + e);
+          console.log("ERROR: ");
+          console.log(e);
       });
     };
 
     $scope.enroll = function(course) {
-      console.log(course);
-      $scope.user.enroll(course.discussionId).then(function(res) {
-        console.log("LOGGING: result from enroll()\n" + res);
-        console.log(course);
-
-        if(res.status != '200')
-          throw new Error('Enroll failed');
-
-
-        // alert("Enrolled! " + course.lectureId + ' ' + course.discussionId);
-
-        // remove the corresponding class from the view
-        var i = $scope.searchResults.indexOf(course);
-        if (i > -1)
-          $scope.searchResults.splice(i, 1);
-
-        getEvents();
-      }).catch(function(e) {
-        if(e) {
-          console.log('Error when enrolling: ' + e);
+      var modalInstance = $uibModal.open({
+        templateUrl: 'views/message_box.html',
+        controller: 'MessageBoxCtrl',
+        resolve: {
+          items: function() {
+            return {
+              title: 'Confirm',
+              message: 'Are you sure to enroll this class?'
+            };
+          }
         }
       });
-    }
 
-    /* event source that pulls from url */
-    $scope.eventSource = {};
+      modalInstance.result.then(function(isConfirmed) {
+        $scope.user.enroll(course.discussionId).then(function(res) {
+          console.log("LOGGING: result from enroll()\n" + res);
+          console.log(course);
 
-    /* event source that contains custom events on the scope */
-    $scope.events = [];
+          if(res.status != '200')
+            throw new Error('Enroll failed');
 
-    // get events when calendar is loaded
-    function getEvents() {
-      $scope.user.getEnrolledClassesDetail().then(function(classes) {
-        if (!classes) {
-          throw new Error('The response is NULL ');
-        }
-
-        var events = parseCalendarDetailData(classes);
-        $scope.events.splice(0, $scope.events.length);
-        $scope.events.push.apply($scope.events, events);
-      })
-      .catch(function(e) {
-        if (e)
-          console.log(e);
-        // alert("Error in getting user data!");
+          $uibModal.open({
+            templateUrl: 'views/message_box.html',
+            controller: 'MessageBoxCtrl',
+            resolve: {
+              items: function() {
+                return {
+                  title: 'Success',
+                  message: 'You have successfully enrolled',
+                  isMessageOnly: true
+                };
+              }
+            }
+          });
+          $scope.searchResults = [];
+          $rootScope.addClass(course.rawData);
+        }).catch(function(e) {
+          if(e) {
+            console.log('Error when enrolling:');
+            console.log(e);
+          }
+        });
       });
     }
 
@@ -278,118 +212,40 @@ angular.module('classbookApp')
       var modalInstance = $uibModal.open({
         templateUrl: 'views/class_info.html',
         controller: 'ClassInfoCtrl',
-        //size: size,
         resolve: {
           items: function () {
             return course;
           }
         }
       });
-      modalInstance.result.then(function (disIdToDrop) {
+      modalInstance.result.then(function(disIdToDrop) {
         $scope.user.dropClass(disIdToDrop).then(function(resp){
           if (resp) {
-            getEvents();
+            // TODO: show alert window
+            var i;
+            for (i = $rootScope.events.length - 1; i >= 0; i--) {
+              if ($rootScope.events[i].discussionId == disIdToDrop) {
+                $rootScope.events.splice(i, 1);
+              }
+            }
           }
-        }).catch(function(e){
+        }).catch(function(e) {
           console.log("ERROR: ");
           console.log(e);
         });
-      }, function () {
+      }, function() {
         console.log("Cancelled");
       });
     };
+
     /* alert on eventClick */
     $scope.alertOnEventClick = function(course, jsEvent, view){
-        // $scope.alertMessage = (course.title + ': info... ');
-        $scope.open(course);
-    };
-    /* alert on Drop */
-     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
-    };
-    /* alert on Resize */
-    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-    };
-    /* add and removes an event source of choice */
-    $scope.addRemoveEventSource = function(sources,source) {
-      var canAdd = 0;
-      angular.forEach(sources,function(value, key){
-        if(sources[key] === source){
-          sources.splice(key,1);
-          canAdd = 1;
-        }
-      });
-      if(canAdd === 0){
-        sources.push(source);
-      }
+      // $scope.alertMessage = (course.title + ': info... ');
+      $scope.open(course);
     };
 
-    /* add custom event*/
-    $scope.addEvent = function() {
-      return;
-    };
-    /* remove event */
-    $scope.remove = function(index) {
-      // console.log(index.name);
-      $scope.events.splice(index,1);
-    };
-    /* Change View */
-    $scope.changeView = function(view,calendar) {
-      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
-    };
-    /* Change View */
-    $scope.renderCalender = function(calendar) {
-      if(uiCalendarConfig.calendars[calendar]){
-        uiCalendarConfig.calendars[calendar].fullCalendar('render');
-      }
-    };
-     /* Render Tooltip */
-    $scope.eventRender = function(event, element, view) {
-        element.attr({'tooltip': event.title,
-                     'tooltip-append-to-body': true});
-        $compile(element)($scope);
-    };
-
-    $scope.viewRender = function(view, element) {
-      // $('#calendar').fullCalendar('updateEvent', $scope.events);
-    };
-
-    /* config object */
-    $scope.uiConfig = {
-      calendar:{
-        height: 600,
-        editable: true,
-        header: {
-          left: 'title',
-          center: '',
-          right: 'today prev,next'
-        },
-        defaultView: 'agendaWeek',
-        eventClick: $scope.alertOnEventClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender,
-      }
-    };
-
-    $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventSource];
-
-    /* watch for user */
-   $scope.$watch('user', function() {
-      console.log('user loaded');
-      if ($scope.user != null)
-        getEvents();
-
-   });
-
-   /* watch for scope events */
-   $scope.$watch('events', function() {
-      $scope.eventSources = [$scope.events, $scope.eventSource];
-   });
+    $rootScope.$watch('renderCalendar', function(newVal, oldVal) {
+      $scope.renderCalendar = $rootScope.renderCalendar;
+    });
   }
 ]);

@@ -1,43 +1,41 @@
-<div class="container">
-	<h1>Swap your class with your friend</h1>
-	<p> This is where you share the classes you want to swap with, and see what classes your peers want to swap. </p>
+<section id="add_class_header">
+  <div class="container">
+    <div class="row">
+      <h2 class="section-heading">Swap your class with your friend</h2>
+      <h3 class="section-subheading text-muted">Exchange for both good</h3>
+      <!--<ul class="nav nav-pills">
+        <li role="presentation"><a ng-click="chooseTab(1)">Home</a></li>
+        <li role="presentation"><a ng-click="chooseTab(2)">Search</a></li>
+        <li role="presentation"><a ng-click="chooseTab(3)">Swap requests</a></li>
+      </ul>-->
+    </div>
 
-	<hr>
-	<ul class="nav nav-pills">
-	  <li role="presentation"><a ng-click="chooseTab(1)">Home</a></li>
-	  <li role="presentation"><a ng-click="chooseTab(2)">Search</a></li>
-	  <li role="presentation"><a ng-click="chooseTab(3)">Swap requests</a></li>
-	</ul>
+    <div class="row">
+      <uib-tabset class="tab-animation">
+        <uib-tab heading="Home">
+          <div ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
+        </uib-tab>
 
-	<br>
-</div>
+        <uib-tab heading="Class Search">
+          <div ng-include="'views/class_swap_search.html'" ng-controller="ClassSearchCtrl"></div>
+        </uib-tab>
 
-
-<div ng-show="tab1">
-<!-- 	<p> get a list of classes you want to swap and display it on the calendar </p>
- -->	
- 	<div ng-include="'views/class_calendar.html'" ng-controller="ClassCldrCtrl"></div>
-</div>
-
-<div ng-show="tab2" class="container">
-	<div ng-include="'views/class_swap_search.html'" ng-controller="ClassSearchCtrl"> </div>
-</div>
-
-<div ng-show="tab3" class="container">
-<!-- 	<p> Manage swap requests </p>
-	<irontec-simple-chat
-	  messages="vm.messages"
-	  username="vm.username"
-	  input-placeholder-text="You can write here"
-	  submit-button-text="Send your message"
-	  title="Swap request"
-	  theme="material"
-	  submit-function="vm.sendMessage"
-	  visible="vm.visible"
-	  expand-on-new="vm.expandOnNew">
-
-	</irontec-simple-chat> -->
-	<div ng-include="'views/swap_request.html'"> </div>
-</div>
-
-
+        <uib-tab heading="Swap Requests">
+          <div ng-include="'views/swap_request.html'"></div>
+        </uib-tab>
+        <!--<p> Manage swap requests </p>
+        <irontec-simple-chat
+          messages="vm.messages"
+          username="vm.username"
+          input-placeholder-text="You can write here"
+          submit-button-text="Send your message"
+          title="Swap request"
+          theme="material"
+          submit-function="vm.sendMessage"
+          visible="vm.visible"
+          expand-on-new="vm.expandOnNew">
+        </irontec-simple-chat> -->
+      </uib-tabset>
+    </div>
+  </div>
+</section>

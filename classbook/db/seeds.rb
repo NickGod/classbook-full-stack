@@ -38,7 +38,8 @@ Lecture.create([
 	{ name: 'MUSIC110', begTime: '4:00P', endTime: '4:50P', days:'24', location: 'ART BUILDING', term: 'Fall', department: "Music"},
 	{ name: 'ART998', begTime: '10:00A', endTime: '11:50A', days:'135', location: 'ART BUILDING', term: 'Fall', department: "Art"},
 	{ name: 'ETHNOMU 25', begTime: '9:00A', endTime: '10:50A', days:'24', location: 'Schoenberg Music Building', term: 'Fall', department: "Ethnomusicology"}
-])
+
+]);
 
 Discussion.create([
 	{ lectureId: 1, begTime: '10:00A', endTime: '11:50A', days:'2', location: 'BOELTER', className:'1A'},
@@ -55,15 +56,15 @@ Discussion.create([
 ])
 
 User.create([
-	{uid: 1, email: 'guanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'Guan Beiqi'},
-	{uid: 2, email: 'hanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'Han Xi'},
-	{uid: 3, email: 'sunshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'Sun Shuo' },
-	{uid: 4, email: 'gaoshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'Gao Yuanzhi'},
-	{uid: 5, email: 'yushen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'female', name: 'Yu Mengyuan'},
-	{uid: 6, email: 'panshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'Pan Pengchen'},
-	{uid: 7, email: 'wangshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'WangShen'},
-	{uid: 8, email: 'xiashen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'Xia Tianyi'},
-	{uid: 9, email: 'xiaobai@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: 2012, major: 'CS', sex: 'male', name: 'Wu Zhengliang'},
+	{uid: 1, email: 'guanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Guan Beiqi'},
+	{uid: 2, email: 'hanshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Han Xi'},
+	{uid: 3, email: 'sunshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Sun Shuo' },
+	{uid: 4, email: 'gaoshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Gao Yuanzhi'},
+	{uid: 5, email: 'yushen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Female', name: 'Yu Mengyuan'},
+	{uid: 6, email: 'panshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Pan Pengchen'},
+	{uid: 7, email: 'wangshen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'WangShen'},
+	{uid: 8, email: 'xiashen@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Xia Tianyi'},
+	{uid: 9, email: 'xiaobai@gmail.com', password: 'guanshen', password_confirmation: 'guanshen', confirmed_at: Time.zone.now, year: '2012', major: 'Computer Science', sex: 'Male', name: 'Wu Zhengliang'},
 ])
 
 SwapRequest.create([

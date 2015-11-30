@@ -6,15 +6,16 @@
       <div class="btn-toolbar">
         <p class="pull-right lead">Calendar View Options</p>
         <div class="btn-group">
-            <button class="btn btn-success" ng-click="changeView('agendaDay', 'classbookCal1')">AgendaDay</button>
-            <button class="btn btn-success" ng-click="changeView('agendaWeek', 'classbookCal1')">AgendaWeek</button>
-            <button class="btn btn-success" ng-click="changeView('month', 'classbookCal1')">Month</button>
+            <!--<button class="btn btn-success" ng-click="renderCalendar('classbookCal1')">Refresh</button>-->
+            <button class="btn btn-success" ng-click="changeView('agendaDay', 'classbookCal1')" ng-class="{active: getViewName('classbookCal1') == 'agendaDay'}">AgendaDay</button>
+            <button class="btn btn-success" ng-click="changeView('agendaWeek', 'classbookCal1')" ng-class="{active: getViewName('classbookCal1') == 'agendaWeek'}">AgendaWeek</button>
+            <button class="btn btn-success" ng-click="changeView('month', 'classbookCal1')" ng-class="{active: getViewName('classbookCal1') == 'month'}">Month</button>
         </div>
       </div>
       <div class="span8 calendar" ng-model="eventSources" calendar="classbookCal1" ui-calendar="uiConfig.calendar"></div>
-      <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+      <!--<div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
         <h4>{{alertMessage}}</h4>
-      </div>
+      </div>-->
       <!--<div calendar="cal" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>-->
       <!--<div><button ng-click="open()">Drop</button></div>-->
     </div>

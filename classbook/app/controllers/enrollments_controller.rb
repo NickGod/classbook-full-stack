@@ -1,5 +1,7 @@
 class EnrollmentsController < ApplicationController
-	def get_all_enrolled_discussion
+	#before_action :authenticate_user! ,unless: "Rails.env.test?"
+
+	def get_all_discussion
 		@user = User.find_by_id(params[:id])
 		if @user.nil?
 			render json: {error: true, errormsg: "invalid user"} , status: :bad_request

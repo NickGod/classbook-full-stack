@@ -1,5 +1,5 @@
 class DiscussionsController < ApplicationController
-  #before_action :set_discussion, only: [:show, :update, :destroy]
+  before_action :set_discussion, only: [:show, :update, :destroy]
 
   # GET /discussions
   # GET /discussions.json

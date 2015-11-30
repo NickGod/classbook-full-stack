@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  #before_action :authenticate_user! ,unless: "Rails.env.test?"
+  before_action :authenticate_user! ,unless: "Rails.env.test?"
 
   def get_friends
     user  = User.find_by_id(params[:id])
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
           render json: {error: true, errormsg: "invalid user id"}, status: 400
       else
           render json: {error: false, id: user.id, email: user.email, name: user.name,
-                        year: user.year, major: user.major, sex: user.sex}
+                        year: user.year, major: user.major, sex: user.sex, about: user.about}
       end
   end
 
@@ -51,6 +51,7 @@ class UsersController < ApplicationController
       user.year   = params[:year]
       user.major  = params[:major]
       user.sex    = params[:sex]
+      user.about  = params[:about]
       if user.save
           render json: {error: false}
       else

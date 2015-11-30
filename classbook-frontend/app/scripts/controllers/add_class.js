@@ -197,10 +197,6 @@ angular.module('classbookApp')
               }
             }
           });
-          // remove the corresponding class from the view
-          // var i = $scope.searchResults.indexOf(course);
-          // if (i > -1)
-          //   $scope.searchResults.splice(i, 1);
           $scope.searchResults = [];
           $rootScope.addClass(course.rawData);
         }).catch(function(e) {

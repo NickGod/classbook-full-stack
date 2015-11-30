@@ -17,7 +17,6 @@ Rails.application.routes.draw do
     post 'user/updateInfo' => 'users#update_user_info'
 
     get 'discussion/get_discussions' => 'enrollments#get_discussions'
-
     get 'user/:id/getEnrolledClasses' => 'enrollments#get_all_enrolled_discussion'
     get 'user/:id/getEnrolledClassesForDrop' => 'enrollments#get_enrolled_for_drop_use'
     post 'enrollment/enroll' => 'enrollments#enroll'

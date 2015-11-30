@@ -15,11 +15,11 @@ angular.module('classbookApp')
         $scope.isAuthenticated = isAuthenticated;
         if ($scope.isAuthenticated)
         {
-          $scope.user = AuthService.currentUser();
+          $scope.currentUser = AuthService.currentUser();
           // getEvents();
         }
       });
-      
+
       $rootScope.$watch('classes', function(classes) {
         console.log("Root classes");
         console.log(classes);

@@ -16,7 +16,7 @@ angular.module('classbookApp')
     $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
       if ($scope.isAuthenticated) {
-        $scope.user = AuthService.currentUser();
+        $scope.currentUser = AuthService.currentUser();
         getEvents();
       }
     });
@@ -90,7 +90,7 @@ angular.module('classbookApp')
       console.log("getEvents");
       if ($rootScope.classes.length == 0 || $rootScope.events.length == 0) {
         console.log("Load classes");
-        $scope.user.getEnrolledClassesDetail().then(function(classes) {
+        $scope.currentUser.getEnrolledClassesDetail().then(function(classes) {
           if (!classes) {
             throw new Error('The response is NULL ');
           }

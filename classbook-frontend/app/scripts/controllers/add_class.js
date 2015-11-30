@@ -63,7 +63,7 @@ angular.module('classbookApp')
     $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
       if ($scope.isAuthenticated) {
-        $scope.user = AuthService.currentUser();
+        $scope.currentUser = AuthService.currentUser();
       }
     });
 
@@ -224,7 +224,7 @@ angular.module('classbookApp')
       });
 
       modalInstance.result.then(function(isConfirmed) {
-        $scope.user.enroll(course.discussionId).then(function(res) {
+        $scope.currentUser.enroll(course.discussionId).then(function(res) {
           console.log("LOGGING: result from enroll()\n" + res);
           console.log(course);
 
@@ -266,7 +266,7 @@ angular.module('classbookApp')
         }
       });
       modalInstance.result.then(function(disIdToDrop) {
-        $scope.user.dropClass(disIdToDrop).then(function(resp){
+        $scope.currentUser.dropClass(disIdToDrop).then(function(resp){
           if (resp) {
             // TODO: show alert window
             var i;

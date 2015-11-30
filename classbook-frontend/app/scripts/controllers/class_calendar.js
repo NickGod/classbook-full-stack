@@ -108,6 +108,10 @@ angular.module('classbookApp')
     }
 
     $scope.addClass = function(course) {
+
+      //psuh to $rootScope classessh
+      $rootScope.classes.push(course);
+      console.log($rootScope.classes);
       var newEvents = parseCalendarDetailData([course]);
       $rootScope.events.push.apply($rootScope.events, newEvents);
       $rootScope.needRerender = true;

@@ -102,6 +102,20 @@ angular.module('classbookApp')
           return $http.post('/api/enrollment/drop', {userId: this.uid, discussionId: discussionId});
         },
 
+        getRecommendClasses: function() {
+          return $http.get('/api/user/' + this.uid + '/getRecommendClasses').then(function(resp) {
+            console.log("Class Recommendation");
+            console.log(resp.data);
+            if (resp.data) {
+              var classes = [];
+              for (var key in resp.data) {
+                classes[key] = resp.data[key];
+              }
+              return classes;
+            }
+          });
+        },
+
         getInfo: function() {
           return $http.get('/api/user/' + this.uid + '/info').then(function(resp) {
             console.log("getInfo");

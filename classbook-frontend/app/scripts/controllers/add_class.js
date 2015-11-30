@@ -11,7 +11,54 @@ angular.module('classbookApp')
   .controller('AddClassCtrl', ['$scope', 'SearchService', '$compile', 'uiCalendarConfig', 'AuthService', 'User', '$uibModal', '$rootScope',
   function ($scope, SearchService, $compile, uiCalendarConfig, AuthService, User, $uibModal, $rootScope) {
 
-    // $scope.tab = 1;
+
+    var quarterBegins = new Date('2015-09-22');
+    var quarterEnds = new Date('2015-12-12');
+    function parseCalendarDetailData2(data) {
+      var events = [];
+      var date;
+      var course, i;
+
+      for(date = new Date(quarterBegins.getTime()); date < quarterEnds; date.setDate(date.getDate() + 1)) {
+        for (i = 0; i < data.length; i++) {
+          course = data[i];
+          if (course.days.indexOf(date.getDay()) != -1) {
+            var timeBegin = date.toDateString() + ' ' + course.startTime;
+            var timeEnd = date.toDateString() + ' ' + course.endTime;
+
+            events.push({
+              lectureId: course.lectureId,
+              discussionId: course.discussion.discussionId,
+              rawData: course,
+              title: course.className,
+              start: new Date(timeBegin),
+              end: new Date(timeEnd),
+              allDay: false,
+              editable: false,
+              stick: true,
+            });
+          }
+
+          if (course.discussion.days.indexOf(date.getDay()) != -1) {
+            var timeBegin = date.toDateString() + ' ' + course.discussion.startTime;
+            var timeEnd = date.toDateString() + ' ' + course.discussion.endTime;
+
+            events.push({
+              lectureId: course.lectureId,
+              discussionId: course.discussion.discussionId,
+              rawData: course,
+              title: course.className + ' Dis' + course.discussion.discussionName,
+              start: new Date(timeBegin),
+              end: new Date(timeEnd),
+              allDay: false,
+              editable: false,
+              stick: true,
+            });
+          }
+        }
+      }
+      return events;
+    }
 
     $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
@@ -247,5 +294,16 @@ angular.module('classbookApp')
     $rootScope.$watch('renderCalendar', function(newVal, oldVal) {
       $scope.renderCalendar = $rootScope.renderCalendar;
     });
+
+    $scope.getRecommendClasses = function() {
+      $scope.currentUser.getRecommendClasses().then(function(courses) {
+        console.log(courses);
+        var i;
+        for (i = 0; i < courses.length; i++) {
+          courses[i].discussions = [courses[i].discussion];
+        }
+        $scope.recommendClasses = parseSearchData(courses);
+      });
+    }
   }
 ]);

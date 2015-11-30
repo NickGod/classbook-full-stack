@@ -77,11 +77,12 @@ angular.module('classbookApp')
         var url = "/api/user/search?";
         var params = [];
         for (var field in userInfo) {
-          params.push(field + '=' + userInfo[field]);
+          if (userInfo[field].length > 0)
+            params.push(field + '=' + userInfo[field]);
         }
 
         url += params.join('&');
-
+        console.log(url);
         return $http.get(url).then(function(resp) {
           var ret = [];
           if (resp.data instanceof Array) {

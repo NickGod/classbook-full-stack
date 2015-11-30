@@ -34,13 +34,30 @@ class UsersController < ApplicationController
     render json: requests
   end
 
+  def unFriend
+    current_user = User.find_by_id(params[:my_id])
+    notLike = User.find_by_id(params[:other_id])
+    if current_user.nil? || notLike.nil?
+      render json: {error:true, errormsg: "Invalid id"} , status: :bad_request
+      return
+    end
+
+    if !current_user.following.include?(notLike) || !current_user.followers.include?(notLike)
+      render json: {error:true, errormsg: "They are not friends"} , status: :bad_request
+      return
+    end
+
+    current_user.following.delete(notLike)
+    current_user.followers.delete(notLike)
+    render json: {error: false}, status: :ok
+  end
   def get_user_info
       user = User.find_by_id(params[:id])
       if(user.nil?)
           render json: {error: true, errormsg: "invalid user id"}, status: 400
       else
           render json: {error: false, id: user.id, email: user.email, name: user.name,
-                        year: user.year, major: user.major, sex: user.sex}
+                        year: user.year, major: user.major, sex: user.sex, about: user.about}
       end
   end
 
@@ -51,6 +68,7 @@ class UsersController < ApplicationController
       user.year   = params[:year]
       user.major  = params[:major]
       user.sex    = params[:sex]
+      user.about  = params[:about]
       if user.save
           render json: {error: false}
       else
@@ -78,6 +96,8 @@ class UsersController < ApplicationController
     render json: userList
 
   end
+
+
 
 
 end

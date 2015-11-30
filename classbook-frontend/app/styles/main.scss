@@ -112,3 +112,21 @@ body {
 .navbar {
   margin-bottom: 0px !important;
 }
+
+/* reset container width */
+@media (min-width: 768px) {
+  .container {
+    width: 90%;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 90%;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 90%;
+  }
+}
+

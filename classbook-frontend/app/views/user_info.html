@@ -7,8 +7,8 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-xs-12 col-sm-4 text-center">
-            <img style="width:250px;" src="images/yeoman.png" alt="Your Profile Pic" class="center-block img-circle img-responsive">
-            <p > {{user ? user.userMessage : "Your Description"}} </p>
+            <img style="width:200px;" src="images/nick.jpg" alt="Your Profile Pic" class="center-block img-circle img-responsive">
+            <div class="user-info-body"> {{user ? user.about : "Your Description"}} </div>
           </div>
           <div class="col-sm-6">
             <div class="row">
@@ -89,7 +89,7 @@
 
                     <div class="form-group">
                       <label for="message-text" class="user-info-edit-heading">About:</label>
-                      <textarea class="form-control" id="message-text" placeholder="Describe yourself :)" ng-model="tempUser.userMessage"></textarea>
+                      <textarea class="form-control" id="message-text" placeholder="Describe yourself :)" ng-model="tempUser.about"></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -121,6 +121,7 @@
                 <th>Name</th>
                 <th>Major</th>
                 <th>Year</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -130,13 +131,14 @@
                 <td>{{friend.name}}</td>
                 <td>{{friend.major}}</td>
                 <td>{{friend.year}}</td>
+                <td><button class="btn btn-sm btn-warning" ng-click="unfriend(friend)">Unfriend</button></td>
               </tr>
             </tbody>
           </table>
         </div>
       </uib-tab>
 
-      <uib-tab heading="Add Friends">
+      <uib-tab heading="Add Friends" ng-click="getFriendRequests()">
         <div id="add_friend" ng-include="'views/add_friend.html'"></div>
       </uib-tab>
 

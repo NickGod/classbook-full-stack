@@ -27,6 +27,7 @@ angular.module('classbookApp')
       $scope.user.getAllSwapRequests().then(function (messages) {
         $scope.messages = messages;
 
+        console.log($scope.messages);
         $scope.messages.forEach(function (message, i) {
           var duplicate = false;
           var requestInfo = { user_email: "", has_dis_name: "", want_dis_name: "" };
@@ -73,49 +74,6 @@ angular.module('classbookApp')
         }
       );
     };
-
-    $scope.vm = {};
-
-    $scope.vm.messages = [
-      {
-        'username': 'username1',
-        'content': 'Hi!'
-      },
-      {
-        'username': 'username2',
-        'content': 'Hello!'
-      },
-      {
-        'username': 'username2',
-        'content': 'Hello!'
-      },
-      {
-        'username': 'username2',
-        'content': 'Hello!'
-      },
-      {
-        'username': 'username2',
-        'content': 'Hello!'
-      },
-      {
-        'username': 'username2',
-        'content': 'Hello!'
-      }
-    ];
-
-    $scope.vm.username = 'username1';
-
-    $scope.vm.sendMessage = function (message, username) {
-      if (message && message !== '' && username) {
-        $scope.vm.messages.push({
-          'username': username,
-          'content': message
-        });
-      }
-    };
-    $scope.vm.visible = true;
-    $scope.vm.expandOnNew = true;
-
 
   }])
   .controller('ModalInstanceCtrl', ['$rootScope', '$scope', '$uibModalInstance', '$uibModal', 'course', 'SwapRequest',

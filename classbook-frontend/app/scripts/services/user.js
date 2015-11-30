@@ -248,7 +248,7 @@ angular.module('classbookApp')
               {
                 // console.log(res.data[req]);
                 // console.log(JSON.parse(res.data[req].context));
-                var swapReq = new SwapRequest(res.data[req].id, res.data[req].user_id, JSON.parse(res.data[req].context).has_dis, JSON.parse(res.data[req].context).want_dis, res.data[req]);
+                var swapReq = new SwapRequest( JSON.parse(res.data[req].context).match_user_id, JSON.parse(res.data[req].context).has_dis, JSON.parse(res.data[req].context).want_dis, res.data[req]);
                 console.log(swapReq);
                 if (swapReq != null && swapReq != undefined) {
                   ret.push(swapReq);
@@ -279,6 +279,14 @@ angular.module('classbookApp')
           }
 
           return $http.post('/api/user/updateInfo', userInfo);
+        },
+
+        unfriend: function(friendId) {
+          var data = {
+            my_id: this.uid,
+            other_id: friendId
+          };
+          return $http.post('/api/user/unfriend', data);
         }
       };
     };

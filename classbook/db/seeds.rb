@@ -39,7 +39,7 @@ Lecture.create([
 	{ name: 'ART998', begTime: '10:00A', endTime: '11:50A', days:'135', location: 'ART BUILDING', term: 'Fall', department: "Art"},
 	{ name: 'ETHNOMU 25', begTime: '9:00A', endTime: '10:50A', days:'24', location: 'Schoenberg Music Building', term: 'Fall', department: "Ethnomusicology"}
 
-]);
+])
 
 Discussion.create([
 	{ lectureId: 1, begTime: '10:00A', endTime: '11:50A', days:'2', location: 'BOELTER', className:'1A'},

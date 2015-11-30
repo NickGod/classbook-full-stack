@@ -109,13 +109,12 @@ class EnrollmentsController < ApplicationController
 
 	end
 
-	#http://stackoverflow.com/questions/5863477/how-do-i-build-a-json-object
 	def enroll
 		user = User.find_by_id(params[:userId])
 		discussion = Discussion.find_by_id(params[:discussionId])
-		if(user.discussions.exists? discussion) 
+		if(user.discussions.include? discussion) 
 			render plain: ActiveSupport::JSON.encode({error_flag: 1, error_msg: 
-															"Already enrolled"},msg:"")
+															"Already enrolled"})
 		else
 			user.discussions<<discussion
 			render plain: ActiveSupport::JSON.encode({error_flag: 0, error_msg: 
@@ -128,7 +127,7 @@ class EnrollmentsController < ApplicationController
 		discussion = Discussion.find_by_id(params[:discussionId])
 		render json: {error: true, 
 			errormsg: "invalid user or discussionId"} , status: :bad_request if user.nil? || discussion.nil?
-		if(user.discussions.exists? discussion) 
+		if(user.discussions.include? discussion) 
 			user.discussions.delete(discussion)
 			render json: {error: false} , status: :ok
 		else
@@ -136,6 +135,38 @@ class EnrollmentsController < ApplicationController
 			errormsg: "discussion not enrolled"} , status: :bad_request
 		end
 	end
+
+	def recommend_classes
+		user = User.find_by_id(params[:id])
+		if user.nil?
+			render json: {error: true, msg:"invalid user id"}, status: :bad_request
+			return
+		end
+		classRate = Hash.new
+		userDis = user.discussions
+		user.following.map do |f|
+			f.discussions.map do |d|
+				next if userDis.include?(d)
+				if classRate[d.id].nil?
+					classRate[d.id] = 0
+				end
+				if Lecture.find_by_id(d.lectureId).department == user.major
+					classRate[d.id] += 3
+				else
+					classRate[d.id] += 1
+				end
+			end
+		end
+		recommend = classRate.sort_by {|_key, value| value}.reverse.first(5).to_h
+		if recommend.empty?
+			render json: {error:false,msg: "you need more friends to get recommended classes"}
+		else
+			@recommendList = Discussion.find(recommend.keys)
+			render json: {dis: @recommendList, error: false, msg: recommend}
+		end
+
+	end
+
 
 	def formatTime (rawTime)
 		index = rawTime.index(':')
@@ -158,5 +189,7 @@ class EnrollmentsController < ApplicationController
 		array.map!(&:to_i)
 		return array
 	end
+
+	
 
 end

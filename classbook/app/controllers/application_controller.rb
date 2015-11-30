@@ -12,10 +12,14 @@ class ApplicationController < ActionController::API
   		return
   	end
 
-  	if name.nil?
-  		lectures = Lecture.where(department: department)
+  	if name == ""
+  		lectures = Lecture.where("department LIKE :department",{:department => "%#{department}%"})
   	else
-  		lectures = Lecture.where(name: name)
+  		if(department == "")
+  			lectures = Lecture.where("name LIKE :name",{:name => "%#{name}%"})
+  		else
+  			lectures = Lecture.where("name LIKE :name AND department LIKE :department",{:name => "%#{name}%", :department => "%#{department}%"})
+  		end
   	end
 
   	if discussion.nil?

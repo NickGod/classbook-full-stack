@@ -18,12 +18,17 @@ angular.module('classbookApp')
       $scope.isAuthenticated = isAuthenticated;
       if ($scope.isAuthenticated) {
         $scope.user = AuthService.currentUser();
-        getRequestInfos();
+        $scope.getRequestInfos();
 
       }
     });
 
-    function getRequestInfos() {
+    $scope.$on('SwapRequestSent', function() {
+      $scope.getRequestInfos();
+    });
+
+    $scope.getRequestInfos = function() {
+      console.log('getting request infos!');
       $scope.user.getAllSwapRequests().then(function (messages) {
         $scope.messages = messages;
 
@@ -103,6 +108,7 @@ angular.module('classbookApp')
       });
       $scope.swaprequest.sendSwapRequest().then(function (res) {
         console.log(res);
+        $rootScope.$broadcast('SwapRequestSent');
       })
     }
 

@@ -21,6 +21,9 @@ angular.module('classbookApp')
     };
 
     $scope.onSignOutButtonClick = function() {
+      $rootScope.classes = null;
+      $rootScope.events = null;
+      $rootScope.eventSources = null;
       AuthService.logout().then(function() {
         $location.path('/');
       });

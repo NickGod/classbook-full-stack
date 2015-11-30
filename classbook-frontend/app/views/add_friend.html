@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="section-heading">Add Friends</h2>
+    </div>
+  </div>
+  <div class="row">
+    <uib-tabset class="tab-animation">
+      <uib-tab heading="Friend Requests" ng-click="getFriendRequests()">
+        <div id="add_class_calendar" ng-include="'views/friend_request.html'"></div>
+      </uib-tab>
+
+      <uib-tab heading="Search User">
+        <div id="add_class_search" ng-include="'views/friend_search.html'"></div>
+      </uib-tab>
+    </uib-tabset>
+  </div>
+</div>

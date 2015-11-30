@@ -10,19 +10,26 @@
 angular.module('classbookApp')
 
   .controller('UserInfoCtrl', ['$scope', 'AuthService', 'SearchService', '$rootScope',
-function ($scope, AuthService, SearchService, $rootScope) {
+  function ($scope, AuthService, SearchService, $rootScope) {
 
     $scope.currentUser;
+    // $scope.currentUser = AuthService.currentUser();
+    // SearchService.getUserById($scope.currentUser.uid).then(function(resp){
+    //   $scope.user = resp;
+    //   console.log(resp);
+    // }).catch(function(resp) {
+    //   alert("Error in getting user information");
+    // });
 
-    $scope.$watch( AuthService.isAuthenticated, function ( isAuthenticated ) {
+    $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
-      if ($scope.isAuthenticated)
-      {
+      if ($scope.isAuthenticated) {
         $scope.currentUser = AuthService.currentUser();
-        console.log($scope.currentUser);
 
         $scope.currentUser.getInfo().then(function(info) {
+          console.log("Current info:");
           $scope.user = info;
+          console.log($scope.user);
         }).catch(function(e) {
           console.log("ERROR: " + e);
         });
@@ -31,20 +38,23 @@ function ($scope, AuthService, SearchService, $rootScope) {
 
     // Helper funtion that behaves similar to the range() in Python
     $scope.range = function(start, count) {
-        return Array.apply(0, Array(count))
-                    .map(function (element, index) {
-                             return index + start;
-                         });
+      return Array.apply(0, Array(count))
+                  .map(function (element, index) {
+                         return index + start;
+                       });
     }
 
     // List of all majors
     $scope.uclaMajors = [
+      "Aerospace Engineering",
       "African American Studies",
       "African and Middle Eastern Studies",
       "American Indian Studies",
       "American Literature and Culture",
       "Anthropology",
       "Arabic",
+      "Architectural Studies",
+      "Art",
       "Art History",
       "Asian American Studies",
       "Asian Humanities",
@@ -53,6 +63,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Astrophysics",
       "Atmospheric, Oceanic and Environmental Sciences",
       "Biochemistry",
+      "Bioengineering",
       "Biology",
       "Biophysics",
       "Business Economics",
@@ -68,13 +79,20 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Comparative Literature",
       "Computational and Systems Biology",
       "Computer Science",
+      "Computer Science and Engineering",
+      "Dance",
+      "Design Media Arts",
       "Earth and Environmental Science",
       "Ecology, Behavior, and Evolution",
       "Economics",
+      "Electrical Engineering",
       "Engineering Geology",
       "English",
       "Environmental Science",
+      "Ethnomusicology",
       "European Studies",
+      "Film and television",
+      "Theater",
       "French",
       "French and Linguistics",
       "Gender Studies",
@@ -89,6 +107,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "History",
       "Human Biology and Society",
       "International Development Studies",
+      "Individual Field of Concentration",
       "Iranian Studies",
       "Italian",
       "Italian and Special Fields",
@@ -110,6 +129,7 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Linguistics and Spanish",
       "Linguistics, Applied",
       "Marine Biology",
+      "Materials Engineering",
       "Mathematics",
       "Mathematics, Applied",
       "Mathematics/Applied Science",
@@ -118,10 +138,13 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Mathematics, Financial Actuarial",
       "Mathematics for Teaching",
       "Mathematics of Computation",
+      "Mechanical Engineering",
       "Microbiology, Immunology, and Molecular Genetics",
       "Molecular, Cell, and Developmental Biology",
+      "Music",
       "Music History",
       "Neuroscience",
+      "Nursing - Prelicensure",
       "Philosophy",
       "Physics",
       "Physiological Science",
@@ -139,24 +162,43 @@ function ($scope, AuthService, SearchService, $rootScope) {
       "Spanish and Linguistics",
       "Spanish and Portuguese",
       "Statistics",
+      "World Arts and Cultures",
     ];
 
-    $scope.currentUser = AuthService.currentUser();
-    // $rootScope.currentUser = AuthService.currentUser();
+    $scope.friendTab = 1;
 
-    $scope.tab = 1;
     $scope.user = {};
+    $scope.friendSearchResults = [];
+    $scope.friendRequests = [];
 
+    $scope.edit = function(){
+      $scope.tempUser = JSON.parse(JSON.stringify($scope.user));
+      console.log("tempUser:");
+      console.log(typeof $scope.tempUser.year);
+      console.log($scope.tempUser);
+    }
 
-    // {
-    //   id: 1,
-    //   userName: "Mengyuan",
-    //   major: "Computer Science",
-    //   year: "2016",
-    //   gender: "Female"
-    // };
+    $scope.saveEdit = function() {
+      $scope.user = $scope.tempUser;
+
+      //update the server side by posting to backend
+      $scope.currentUser.updateInfo($scope.user).then(function(res) {
+        console.log("UserInfo");
+        console.log($scope.user);
+
+        if(res.status != '200')
+          throw new Error('Update failed');
+
+      }).catch(function(e) {
+        console.log("ERROR: " + e);
+      });
+
+    }
 
     $scope.getFriends = function() {
+      if ($scope.friendGotten)
+        return;
+
       $scope.currentUser.getFriends().then(function(friends) {
         console.log("Friends:");
         console.log(friends);
@@ -164,26 +206,82 @@ function ($scope, AuthService, SearchService, $rootScope) {
       }).catch(function(e) {
         console.log("ERROR: " + e);
       });
+
+      $scope.friendGotten = true;
     }
+
 
     $scope.getMessages = function() {
       // $scope.messages = [{
       //   content: "This is a message to say Hi",
       //   sender: "Shuo Sun",
       // }];
+      if ($scope.messageGotten)
+        return;
+
       $scope.currentUser.getAllMessages().then(function(msgs) {
         console.log(msgs);
         $scope.messages = msgs;
       }).catch(function(e){
         console.log("ERROR: " + e);
       });
+
+      $scope.messageGotten = true;
     }
-    // $scope.currentUser = AuthService.currentUser();
-    // SearchService.getUserById($scope.currentUser.uid).then(function(resp){
-    //   $scope.user = resp;
-    //   console.log(resp);
-    // }).catch(function(resp) {
-    //   alert("Error in getting user information");
-    // });
+
+    $scope.getFriendRequests = function() {
+      if ($scope.friendRequestsGotten)
+        return;
+
+      $scope.currentUser.getPendingFriends().then(function(friendRequests) {
+        console.log("Friend Requests: ");
+        console.log(friendRequests);
+        $scope.friendRequests = friendRequests;
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      });
+
+      $scope.friendRequestsGotten = true;
+    }
+
+    $scope.acceptFriendRequest = function(user) {
+      $scope.currentUser.acceptFriendRequest(user.id).then(function(resp) {
+        // delete request
+        var index = $scope.friendRequests.indexOf(user);
+        if (index != -1) {
+          $scope.friendRequests.splice(index, 1);
+        } else {
+          console.log("ERROR: unable to find user after accepting requests");
+        }
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      })
+    }
+
+    $scope.searchUser = function(userInfo) {
+      SearchService.searchUser(userInfo).then(function(friendSearchResults) {
+        $scope.friendSearchResults = friendSearchResults;
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      });
+    }
+
+    $scope.addFriend = function(user) {
+      $scope.currentUser.requestFriend(user.id).then(function(resp) {
+        // TODO: remove friend from list?
+        var index = $scope.friendSearchResults.indexOf(user);
+        if (index != -1) {
+          $scope.friendSearchResults.splice(index, 1);
+        } else {
+          console.log("ERROR: unable to find user after sending friend request");
+        }
+      }).catch(function(e) {
+        console.log("ERROR" + e);
+      });
+    }
+
+    $scope.getFriendId = function(friend) {
+      $scope.currentUser.setFriendToInspect(friend.id);
+    }
   }
 ]);

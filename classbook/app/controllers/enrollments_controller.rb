@@ -7,8 +7,7 @@ class EnrollmentsController < ApplicationController
 			render json: {error: true, errormsg: "invalid user"} , status: :bad_request
 			return
 		end
-
-		@discussions = @user.discussions 
+		@discussions = @user.discussions
 		@lectures = Lecture.select{ |l| l.id.in? @discussions.map{|d| d.lectureId} }
 
 		@disList = @discussions.map do |d|
@@ -34,6 +33,42 @@ class EnrollmentsController < ApplicationController
 		render json: allList.to_json
 
 	end
+
+	def get_discussions
+		if(params[:ids].nil?)
+			@discussions = Discussion.all
+		else
+			discussionJsonArray = params[:ids]
+			discussionArray = JSON.parse(discussionJsonArray)
+			@discussions = Discussion.find(discussionArray)
+		end
+		@lectures = Lecture.select{ |l| l.id.in? @discussions.map{|d| d.lectureId} }
+
+		@disList = @discussions.map do |d|
+  		{ 
+  			:className => Lecture.find(d.lectureId).name + "DIS",
+  			:startTime => formatTime(d.begTime), 
+  			:endTime => formatTime(d.endTime), 
+  			:days => processDays(d.days)
+  		}
+		end
+
+		@lectureList = @lectures.map do |l|
+  		{ 
+  			:className => l.name,
+  			:startTime => formatTime(l.begTime), 
+  			:endTime => formatTime(l.endTime), 
+  			:days => processDays(l.days)  		
+  		}
+		end
+
+		allList = @disList + @lectureList
+
+		render json: allList.to_json
+
+	end
+
+
 
 	def get_enrolled_for_drop_use
 		@user = User.find_by_id(params[:id])

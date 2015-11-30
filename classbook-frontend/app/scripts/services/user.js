@@ -8,8 +8,8 @@
  * Factory in the classbookApp.
  */
 angular.module('classbookApp')
-  .factory('User', ['UtilService', '$http', '$q', 'SwapRequest', 'Class', 'Discussion',
-    function (UtilService, $http, $q, SwapRequest, Class, Discussion) {
+  .factory('User', ['UtilService', '$http', '$q', '$cookieStore', 'SwapRequest', 'Class', 'Discussion',
+    function (UtilService, $http, $q, $cookieStore, SwapRequest, Class, Discussion) {
     // Public API here
     var User = function(uid, email, opts) {
       // Validate parameters.
@@ -131,6 +131,74 @@ angular.module('classbookApp')
           });
         },
 
+        setFriendToInspect: function(friendId) {
+          $cookieStore.put('friendId', friendId);
+        },
+
+        getFriendInfo: function() {
+          var friendId = $cookieStore.get('friendId');
+          if (typeof friendId === 'undefined') {
+            console.log("friendId is not defined");
+            return null;
+          }
+
+          return $http.get('/api/user/' + friendId + '/info').then(function(resp) {
+            console.log("getFriendInfo");
+            console.log(resp);
+            var userInfo = {};
+            if (resp.data) {
+              for (var key in resp.data) {
+                userInfo[key] = resp.data[key];
+              }
+              userInfo.gender = userInfo.sex;
+              delete userInfo.error;
+            }
+            return userInfo;
+          });
+        },
+
+        getFriendEnrolledClassesDetail: function() {
+          var friendId = $cookieStore.get('friendId');
+          if (typeof friendId === 'undefined') {
+            console.log("friendId is not defined");
+            return null;
+          }
+
+          console.log('/api/user/' + friendId + '/getEnrolledClassesForDrop');
+          return $http.get('/api/user/' + friendId + '/getEnrolledClassesForDrop').then(function(resp) {
+            var ret = [];
+            if (resp.data instanceof Array) {
+              for (var lec in resp.data) {
+                if (resp.data[lec] != null) {
+                  ret.push(resp.data[lec]);
+                }
+              }
+            }
+            console.log("Friend Enrolled Class Detail");
+            console.log(ret);
+            return ret;
+          });
+        },
+
+        getFriendFriends: function() {
+          var friendId = $cookieStore.get('friendId');
+          if (typeof friendId === 'undefined') {
+            console.log("friendId is not defined");
+            return null;
+          }
+
+          return $http.get('/api/user/' + friendId + '/get_friends').then(function(resp) {
+            var ret = [];
+            console.log("Friend Friends:");
+            console.log(resp.data);
+
+            for (var i in resp.data) {
+              ret.push(resp.data[i]);
+            }
+            return ret;
+          });
+        },
+
         getPendingFriends: function() {
           return $http.get('/api/user/' + this.uid + '/get_pending_friends').then(function(resp) {
             var ret = [];
@@ -172,12 +240,19 @@ angular.module('classbookApp')
         },
 
         getAllSwapRequests: function() {
-          return $http.get('/api/swap_request/' + this.uid).then(function(resp) {
+          return $http.get('/api/message/' + this.uid +'/userMessages').then(function(res) {
             var ret = [];
-            for (var req in resp.data) {
-              var swapReq = new SwapRequest(req.id, req.user_id, req.has_dis, req.want_dis, req);
-              if (swapReq != null && swapReq != undefined) {
-                ret.push(swapReq);
+            for (var req in res.data) {
+
+              if (res.data[req].category =='swap_request')
+              {
+                // console.log(res.data[req]);
+                // console.log(JSON.parse(res.data[req].context));
+                var swapReq = new SwapRequest(res.data[req].id, res.data[req].user_id, JSON.parse(res.data[req].context).has_dis, JSON.parse(res.data[req].context).want_dis, res.data[req]);
+                console.log(swapReq);
+                if (swapReq != null && swapReq != undefined) {
+                  ret.push(swapReq);
+                }
               }
             }
             return ret;
@@ -195,6 +270,15 @@ angular.module('classbookApp')
             }
             return ret;
           });
+        },
+
+        updateInfo: function(userInfo) {
+          if (typeof userInfo.id === 'undefined') {
+            console.log('Undefined id when saving user info');
+            return;
+          }
+
+          return $http.post('/api/user/updateInfo', userInfo);
         }
       };
     };

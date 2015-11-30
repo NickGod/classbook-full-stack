@@ -8,8 +8,8 @@
  * Controller of the classbookApp
  */
 angular.module('classbookApp')
-  .controller('ClassInfoCtrl', ['$scope', '$uibModalInstance', 'items',
-  function ($scope, $uibModalInstance, items) {
+  .controller('ClassInfoCtrl', ['$scope', '$uibModalInstance', 'items', '$uibModal',
+  function ($scope, $uibModalInstance, items, $uibModal) {
     function formatTime(days, startTime, endTime) {
       var i;
       var time = '';
@@ -57,7 +57,24 @@ angular.module('classbookApp')
     console.log(items);
     $scope.classInfo = items;
     $scope.drop = function() {
-      $uibModalInstance.close($scope.classInfo.discussionId);
+      var modalInstance = $uibModal.open({
+        templateUrl: 'views/message_box.html',
+        controller: 'MessageBoxCtrl',
+        resolve: {
+          items: function () {
+            return {
+              title: 'Confirm',
+              message: 'Are you sure to drop this class?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(function(isConfirmed) {
+        console.log('Dialog called');
+        if (isConfirmed) {
+          $uibModalInstance.close($scope.classInfo.discussionId);
+        }
+      });
     };
 
     $scope.lectureTime = formatTime($scope.classInfo.classData.days, $scope.classInfo.classData.startTime, $scope.classInfo.classData.endTime);

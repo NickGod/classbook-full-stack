@@ -2,24 +2,25 @@
 
 /**
  * @ngdoc function
- * @name classbookApp.controller:ClassInfoCtrl
+ * @name classbookApp.controller:FriendCldrCtrl
  * @description
- * # ClassInfoCtrl
+ * # FriendCldrCtrl
  * Controller of the classbookApp
  */
 
 angular.module('classbookApp')
-  .controller('ClassCldrCtrl', ['$rootScope', '$scope', '$compile', 'uiCalendarConfig', 'AuthService',
-  function($rootScope, $scope, $compile, uiCalendarConfig, AuthService) {
+  .controller('FriendCldrCtrl', ['$scope', '$compile', 'uiCalendarConfig', 'AuthService',
+  function($scope, $compile, uiCalendarConfig, AuthService) {
 
-    //get current user only when auth service tells you that you have it
     $scope.$watch(AuthService.isAuthenticated, function(isAuthenticated) {
       $scope.isAuthenticated = isAuthenticated;
       if ($scope.isAuthenticated) {
-        $scope.user = AuthService.currentUser();
+        $scope.currentUser = AuthService.currentUser();
         getEvents();
       }
     });
+
+    $scope.tab = 1;
 
     var quarterBegins = new Date('2015-09-22');
     var quarterEnds = new Date('2015-12-12');
@@ -71,50 +72,33 @@ angular.module('classbookApp')
       return events;
     }
 
-    if (!$rootScope.classes) {
-      $rootScope.classes = [];
-    }
-    if (!$rootScope.events) {
-      $rootScope.events = [];
-    }
-    if(!$rootScope.eventSources) {
-      $rootScope.eventSources = [$rootScope.events];
-    }
-
-    $scope.classes = $rootScope.classes;
-    $scope.events = $rootScope.events;
-    $scope.eventSources = $rootScope.eventSources;
+    /* event source that contains custom events on the scope */
+    $scope.events = [];
+    $scope.eventSource = {};
 
     // get events for calendar
     function getEvents() {
-      console.log("getEvents");
-      if ($rootScope.classes.length == 0 || $rootScope.events.length == 0) {
-        console.log("Load classes");
-        $scope.user.getEnrolledClassesDetail().then(function(classes) {
-          if (!classes) {
-            throw new Error('The response is NULL ');
-          }
-          $rootScope.classes = classes;
+      console.log("Friend get events");
+      $scope.currentUser.getFriendEnrolledClassesDetail().then(function(classes) {
+        if (!classes) {
+          throw new Error('The response is NULL ');
+        }
+        $scope.classes = classes;
 
-          var events = parseCalendarDetailData(classes);
-          $rootScope.events.splice(0, $rootScope.events.length);
-          $rootScope.events.push.apply($rootScope.events, events);
-        })
-        .catch(function(e) {
-          if (e)
-            console.log(e);
-        });
-      }
+        var events = parseCalendarDetailData(classes);
+        $scope.events.splice(0, $scope.events.length);
+        $scope.events.push.apply($scope.events, events);
+      })
+      .catch(function(e) {
+        if (e)
+          console.log(e);
+      });
     }
 
     $scope.addClass = function(course) {
       var newEvents = parseCalendarDetailData([course]);
-      $rootScope.events.push.apply($rootScope.events, newEvents);
-      $rootScope.needRerender = true;
-      // uiCalendarConfig.calendars['classbookCal1'].fullCalendar('refetchEvents');
+      $scope.events.push.apply($scope.events, newEvents);
     };
-
-    $rootScope.addClass = $scope.addClass;
 
     /* alert on Drop */
      $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view) {
@@ -156,23 +140,11 @@ angular.module('classbookApp')
     };
 
     /* Change View */
-    $scope.renderCalendar = function(calendar) {
-      if($rootScope.needRerender && uiCalendarConfig.calendars[calendar]){
-        console.log("Render is called");
-        $rootScope.needRerender = false;
-        uiCalendarConfig.calendars[calendar].fullCalendar('rerenderEvents');
+    $scope.renderCalender = function(calendar) {
+      if(uiCalendarConfig.calendars[calendar]){
+        uiCalendarConfig.calendars[calendar].fullCalendar('render');
       }
     };
-    $rootScope.renderCalendar = $scope.renderCalendar;
-
-    $scope.getViewName = function(calendar) {
-      var calendar = uiCalendarConfig.calendars['classbookCal1'];
-      if (calendar) {
-        return calendar.fullCalendar('getView').name;
-      } else {
-        return 'none';
-      }
-    }
 
     /* Render Tooltip */
     $scope.eventRender = function(event, element, view) {
@@ -184,6 +156,15 @@ angular.module('classbookApp')
     $scope.viewRender = function(view, element) {
       // $('#calendar').fullCalendar('updateEvent', $scope.events);
     };
+
+    $scope.getViewName = function(calendar) {
+      var calendar = uiCalendarConfig.calendars['classbookCal1'];
+      if (calendar) {
+        return calendar.fullCalendar('getView').name;
+      } else {
+        return 'none';
+      }
+    }
 
     /* config object */
     $scope.uiConfig = {
@@ -206,8 +187,7 @@ angular.module('classbookApp')
     $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    $rootScope.$on('calActive', function(event) {
-      $scope.renderCalendar('classbookCal1');
-    })
+    /* event sources array*/
+    $scope.eventSources = [$scope.events, $scope.eventSource];
   }
 ]);

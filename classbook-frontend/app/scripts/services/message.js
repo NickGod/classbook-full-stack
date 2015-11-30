@@ -7,6 +7,7 @@
  * # Message
  * Factory in the classbookApp.
  */
+
 angular.module('classbookApp')
   .factory('Message', ['SwapRequest', function(SwapRequest) {
     return function(id, user_id, category, context, opts) {
@@ -41,16 +42,16 @@ angular.module('classbookApp')
             self.read = true;
             return resp;
           });
-        },
+        }
 
-        getMessages: function() {
-          if (user_id == null)
-            throw new Error('User ID Null. Cannot get Messages of a null user.');
+        // getMessages: function() {
+        //   if (user_id == null)
+        //     throw new Error('User ID Null. Cannot get Messages of a null user.');
 
-          //not tested yet
-          return $http.get("/api/message/" + user_id + "").then(function(res) {
-            return res;
-          })
+        //   //not tested yet
+        //   return $http.get("/api/message/" + user_id + "").then(function(res) {
+        //     return res;
+        //   })
         }
       };
 
@@ -60,5 +61,4 @@ angular.module('classbookApp')
         }
       }
       return ret;
-    }
   }]);
